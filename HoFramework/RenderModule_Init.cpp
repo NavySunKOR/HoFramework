@@ -8,7 +8,6 @@ using namespace std;
 bool HRenderModule::Initialize(Application* pAppContext)
 {
     // 여기서 생성하는 것들
-    // m_device, m_context, m_swapChain, m_renderTargetView, m_screenViewport, m_rasterizerSate
 
     m_AppContext = pAppContext;
 
@@ -144,8 +143,6 @@ bool HRenderModule::InitSwapChain()
     }
     return true;
 }
-
-
 bool HRenderModule::InitRasterizerState()
 {
     D3D11_RASTERIZER_DESC baseRastDessc;
@@ -167,7 +164,6 @@ bool HRenderModule::InitRasterizerState()
 
     return (m_solidRasterizerState.Get() && m_wireRasterizerState.Get()) ? true : false;
 }
-
 bool HRenderModule::InitRenderTargetView()
 {
     ComPtr<ID3D11Texture2D> backBuffer;
@@ -182,7 +178,6 @@ bool HRenderModule::InitRenderTargetView()
 
     return true;
 }
-
 bool HRenderModule::InitDepthBuffer()
 {
     D3D11_TEXTURE2D_DESC depthStencilBufferDesc;
@@ -215,7 +210,6 @@ bool HRenderModule::InitDepthBuffer()
 
     return true;
 }
-
 bool HRenderModule::InitDepthStencil()
 {
     //// Create depth stencil state
@@ -230,7 +224,6 @@ bool HRenderModule::InitDepthStencil()
     }
     return true;
 }
-
 void HRenderModule::SetViewport()
 {
     ZeroMemory(&m_screenViewport, sizeof(D3D11_VIEWPORT));

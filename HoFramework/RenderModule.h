@@ -53,7 +53,6 @@ private:
 	
 	ComPtr<IDXGISwapChain> m_swapChain; //스왑체인
 
-
 	D3D11_VIEWPORT m_screenViewport; //뷰포트
 	
 	//Rasterizer
