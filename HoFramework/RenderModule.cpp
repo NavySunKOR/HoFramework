@@ -4,18 +4,18 @@
 #include "RenderModule.h"
 #include "Application.h"
 
-void HRenderModule::Run()
+void HBaseRenderModule::Run()
 {
 	Update();
 	Render();
 }
 
-void HRenderModule::Update()
+void HBaseRenderModule::Update()
 {
 
 }
 
-void HRenderModule::Render()
+void HBaseRenderModule::Render()
 {
 
 }

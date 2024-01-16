@@ -20,7 +20,7 @@ private:
 private:
 	//Components
 	HInputModule InputModule;
-	HRenderModule RenderModule;
+	HBaseRenderModule RenderModule;
 	
 public:
 	inline bool IsInitialized() {

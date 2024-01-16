@@ -14,7 +14,7 @@ using std::shared_ptr;
 using std::vector;
 using std::wstring;
 
-class HRenderModule
+class HBaseRenderModule
 {
 #pragma region Init
 public: 

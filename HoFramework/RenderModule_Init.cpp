@@ -5,7 +5,7 @@ using namespace std;
 #pragma comment(lib,"d3d11.lib")
 
 
-bool HRenderModule::Initialize(Application* pAppContext)
+bool HBaseRenderModule::Initialize(Application* pAppContext)
 {
     // 여기서 생성하는 것들
 
@@ -37,7 +37,7 @@ bool HRenderModule::Initialize(Application* pAppContext)
     return true;
 }
 
-bool HRenderModule::InitDeviceAndContext()
+bool HBaseRenderModule::InitDeviceAndContext()
 {
 
     m_DriverType = D3D_DRIVER_TYPE_HARDWARE;
@@ -105,7 +105,7 @@ bool HRenderModule::InitDeviceAndContext()
 
     return true;
 }
-bool HRenderModule::InitSwapChain()
+bool HBaseRenderModule::InitSwapChain()
 {
     DXGI_SWAP_CHAIN_DESC sd;
     ZeroMemory(&sd, sizeof(sd));
@@ -143,7 +143,7 @@ bool HRenderModule::InitSwapChain()
     }
     return true;
 }
-bool HRenderModule::InitRasterizerState()
+bool HBaseRenderModule::InitRasterizerState()
 {
     D3D11_RASTERIZER_DESC baseRastDessc;
     ZeroMemory(&baseRastDessc, sizeof(D3D11_RASTERIZER_DESC)); // Need this
@@ -158,7 +158,7 @@ bool HRenderModule::InitRasterizerState()
     m_device->CreateRasterizerState(&solidRastDessc, m_RasterizerState.GetAddressOf());
     return (m_RasterizerState.Get()) ? true : false;
 }
-bool HRenderModule::InitRenderTargetView()
+bool HBaseRenderModule::InitRenderTargetView()
 {
     ComPtr<ID3D11Texture2D> backBuffer;
     m_swapChain->GetBuffer(0, IID_PPV_ARGS(backBuffer.GetAddressOf()));
@@ -172,7 +172,7 @@ bool HRenderModule::InitRenderTargetView()
 
     return true;
 }
-bool HRenderModule::InitDepthBuffer()
+bool HBaseRenderModule::InitDepthBuffer()
 {
     D3D11_TEXTURE2D_DESC depthStencilBufferDesc;
     depthStencilBufferDesc.Width = m_AppContext->GetScreenWidth();
@@ -204,7 +204,7 @@ bool HRenderModule::InitDepthBuffer()
 
     return true;
 }
-bool HRenderModule::InitDepthStencil()
+bool HBaseRenderModule::InitDepthStencil()
 {
     //// Create depth stencil state
     D3D11_DEPTH_STENCIL_DESC depthStencilDesc;
@@ -218,7 +218,7 @@ bool HRenderModule::InitDepthStencil()
     }
     return true;
 }
-void HRenderModule::SetViewport()
+void HBaseRenderModule::SetViewport()
 {
     ZeroMemory(&m_screenViewport, sizeof(D3D11_VIEWPORT));
     m_screenViewport.TopLeftX = 0;
