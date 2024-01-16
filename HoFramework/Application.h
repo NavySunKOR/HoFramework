@@ -1,6 +1,8 @@
 #pragma once
 #include <windows.h>
 #include "InputModule.h"
+#include "RenderModule.h"
+#include "Define.h"
 
 
 class Application
@@ -9,9 +11,6 @@ public:
 	Application();
 	LRESULT MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-	inline bool IsInitialized() {
-		return m_IsInitialized;
-	};
 	int Run();
 	
 private:
@@ -20,15 +19,25 @@ private:
 
 private:
 	//Components
-
 	HInputModule InputModule;
+	HRenderModule RenderModule;
 	
-	
-	
-	
+public:
+	inline bool IsInitialized() {
+		return m_IsInitialized;
+	};
+private:
 	bool m_IsInitialized = false;
-	HWND m_mainWindow;
+	
+public:
+	int GetScreenWidth() const { return m_screenWidth; };
+	int GetScreenHeight() const { return m_screenHeight; };
+
+	HWND GetMainWindow() const { return m_mainWindow; };
+
+private:
 	int m_screenWidth = 1920;
 	int m_screenHeight = 1080;
+	HWND m_mainWindow;
 
 };

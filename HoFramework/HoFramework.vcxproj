@@ -22,10 +22,14 @@
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="InputModule.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="RenderModule.cpp" />
+    <ClCompile Include="RenderModule_Init.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
+    <ClInclude Include="Define.h" />
     <ClInclude Include="InputModule.h" />
+    <ClInclude Include="RenderModule.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

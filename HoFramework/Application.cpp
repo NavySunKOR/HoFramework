@@ -67,6 +67,9 @@ Application::Application()
 	if (InitWindows() == false)
 		return;
 
+    if (RenderModule.Initialize(this) == false)
+        return;
+
 	m_IsInitialized = true;
 }
 
@@ -114,7 +117,7 @@ int Application::Run()
         }
         else
         {
-
+            RenderModule.Run();
         }
     }
 
