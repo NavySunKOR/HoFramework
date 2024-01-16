@@ -24,10 +24,10 @@
     <ClCompile Include="InputModule.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="RenderModule.cpp">
+    <ClCompile Include="BaseRenderModule.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="RenderModule_Init.cpp">
+    <ClCompile Include="BaseRenderModule_Init.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -38,10 +38,10 @@
     <ClInclude Include="InputModule.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="RenderModule.h">
+    <ClInclude Include="Define.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Define.h">
+    <ClInclude Include="BaseRenderModule.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

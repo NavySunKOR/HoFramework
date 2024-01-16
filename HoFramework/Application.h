@@ -1,7 +1,7 @@
 #pragma once
 #include <windows.h>
 #include "InputModule.h"
-#include "RenderModule.h"
+#include "BaseRenderModule.h"
 #include "Define.h"
 
 

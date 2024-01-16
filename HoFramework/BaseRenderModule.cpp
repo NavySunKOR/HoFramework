@@ -1,7 +1,7 @@
 #include <dxgi.h>    // DXGIFactory
 #include <dxgi1_4.h> // DXGIFactory4
 
-#include "RenderModule.h"
+#include "BaseRenderModule.h"
 #include "Application.h"
 
 void HBaseRenderModule::Run()
