@@ -43,6 +43,26 @@ private:
 
 #pragma region Components
 
+public:
+	inline ID3D11Device* GetDevice() {
+		return m_device.Get();
+	};
+
+	inline ID3D11DeviceContext* GetContext() {
+		return m_context.Get();
+	};
+
+	inline IDXGISwapChain* GetSwapChain() {
+		return m_swapChain.Get();
+	};
+
+	inline ID3D11RenderTargetView* GetRenderTargetView() {
+		return m_renderTargetView.Get();
+	};
+
+	inline D3D11_VIEWPORT GetScreenViewport() {
+		return m_screenViewport;
+	};
 
 private:
 	Application* m_AppContext = nullptr;
@@ -56,13 +76,14 @@ private:
 	D3D11_VIEWPORT m_screenViewport; //뷰포트
 	
 	//Rasterizer
-	ComPtr<ID3D11RasterizerState> m_solidRasterizerState; //래스터라이저
-	ComPtr<ID3D11RasterizerState> m_wireRasterizerState; //와이어 프레임
+	ComPtr<ID3D11RasterizerState> m_RasterizerState; //래스터라이저
 
 	//DepthStencil
 	ComPtr<ID3D11Texture2D> m_depthStencilBuffer;
 	ComPtr<ID3D11DepthStencilView> m_depthStencilView;
 	ComPtr<ID3D11DepthStencilState> m_depthStencilState; //뎁스 스텐실 스테이트
+
+
 
 #pragma endregion
 

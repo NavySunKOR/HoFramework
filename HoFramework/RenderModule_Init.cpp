@@ -152,17 +152,11 @@ bool HRenderModule::InitRasterizerState()
     baseRastDessc.FrontCounterClockwise = false;
     baseRastDessc.DepthClipEnable = true; // <- zNear, zFar 확인에 필요
 
-
-
     D3D11_RASTERIZER_DESC solidRastDessc = baseRastDessc;
     D3D11_RASTERIZER_DESC wireframeRastDesc = baseRastDessc;
 
-    m_device->CreateRasterizerState(&solidRastDessc, m_solidRasterizerState.GetAddressOf());
-
-    wireframeRastDesc.FillMode = D3D11_FILL_MODE::D3D11_FILL_WIREFRAME;
-    m_device->CreateRasterizerState(&wireframeRastDesc, m_wireRasterizerState.GetAddressOf());
-
-    return (m_solidRasterizerState.Get() && m_wireRasterizerState.Get()) ? true : false;
+    m_device->CreateRasterizerState(&solidRastDessc, m_RasterizerState.GetAddressOf());
+    return (m_RasterizerState.Get()) ? true : false;
 }
 bool HRenderModule::InitRenderTargetView()
 {
