@@ -18,7 +18,7 @@ class HBaseRenderModule
 {
 #pragma region Init
 public: 
-	bool Initialize(Application* pAppContext);
+	virtual bool Initialize(Application* pAppContext);
 private:
 	bool InitDeviceAndContext();
 	bool InitSwapChain();
@@ -35,9 +35,9 @@ private:
 public:
 	void Run();
 
-private:
-	void Update();
-	void Render();
+protected:
+	virtual void Update();
+	virtual void Render();
 
 #pragma endregion 
 
@@ -64,11 +64,12 @@ public:
 		return m_screenViewport;
 	};
 
-private:
+protected:
 	Application* m_AppContext = nullptr;
 
 	ComPtr<ID3D11Device> m_device; //디바이스
 	ComPtr<ID3D11DeviceContext> m_context; //컨텍스트 
+
 	ComPtr<ID3D11RenderTargetView> m_renderTargetView; //렌더 타겟 뷰
 	
 	ComPtr<IDXGISwapChain> m_swapChain; //스왑체인

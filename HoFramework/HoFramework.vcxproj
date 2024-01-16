@@ -22,12 +22,14 @@
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="BaseRenderModule.cpp" />
     <ClCompile Include="BaseRenderModule_Init.cpp" />
+    <ClCompile Include="CustomRenderModule.cpp" />
     <ClCompile Include="InputModule.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
     <ClInclude Include="BaseRenderModule.h" />
+    <ClInclude Include="CustomRenderModule.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="InputModule.h" />
   </ItemGroup>
