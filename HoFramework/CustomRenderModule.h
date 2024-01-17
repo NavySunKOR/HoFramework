@@ -49,6 +49,7 @@ protected:
 
 
 	float RoationYValue;
+	float RoationXValue;
 
 	//여기서 까지 하나의 오브젝트
 

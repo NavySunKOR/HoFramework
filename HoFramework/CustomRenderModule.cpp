@@ -7,9 +7,9 @@
 
 void MakeBox(Mesh* InMesh)
 {
-	InMesh->vertices.reserve(4);
+	InMesh->vertices.reserve(24);
 
-	for (int i = 0; i < 4; ++i)
+	for (int i = 0; i < 24; ++i)
 	{
 		Vertex NewVert;
 		NewVert.color = Vector3(1, 0, 0);
@@ -19,12 +19,13 @@ void MakeBox(Mesh* InMesh)
 
 	//왼쪽 아래부터 시계방향
 
+	const float scale = 0.25f;
 
 	//앞면
-	InMesh->vertices[0].position = Vector3(-1.0f, 1.0f, 1.0f);
-	InMesh->vertices[1].position = Vector3(-1.0f, -1.0f, 1.0f);
-	InMesh->vertices[2].position = Vector3(1.0f, -1.0f, 1.0f);
-	InMesh->vertices[3].position = Vector3(1.0f, 1.0f, 1.0f);
+	InMesh->vertices[0].position = Vector3(-1.0f, 1.0f, 1.0f) * scale;
+	InMesh->vertices[1].position = Vector3(-1.0f, -1.0f, 1.0f) * scale;
+	InMesh->vertices[2].position = Vector3(1.0f, -1.0f, 1.0f) * scale;
+	InMesh->vertices[3].position = Vector3(1.0f, 1.0f, 1.0f)* scale;
 
 	InMesh->indices.push_back(0);
 	InMesh->indices.push_back(1);
@@ -35,71 +36,71 @@ void MakeBox(Mesh* InMesh)
 
 
 	////뒷면
-	//InMesh->vertices[4].position = Vector3(-1.f, -1.f, -1.f);
-	//InMesh->vertices[5].position = Vector3(-1.f, 1.f, -1.f);
-	//InMesh->vertices[6].position = Vector3(1.f, 1.f, -1.f);
-	//InMesh->vertices[7].position = Vector3(-1.f, 1.f, -1.f);
+	InMesh->vertices[4].position = Vector3(1.f, -1.f, -1.f) * scale;
+	InMesh->vertices[5].position = Vector3(1.f, 1.f, -1.f) * scale;
+	InMesh->vertices[6].position = Vector3(-1.f, 1.f, -1.f) * scale;
+	InMesh->vertices[7].position = Vector3(-1.f, -1.f, -1.f) * scale;
 
-	//InMesh->indices.push_back(4);
-	//InMesh->indices.push_back(5);
-	//InMesh->indices.push_back(6);
-	//InMesh->indices.push_back(4);
-	//InMesh->indices.push_back(6);
-	//InMesh->indices.push_back(7);
+	InMesh->indices.push_back(4);
+	InMesh->indices.push_back(5);
+	InMesh->indices.push_back(6);
+	InMesh->indices.push_back(4);
+	InMesh->indices.push_back(6);
+	InMesh->indices.push_back(7);
 
 
 	////왼쪽
-	//InMesh->vertices[8].position = Vector3(-1.f, -1.f, -1.f);
-	//InMesh->vertices[9].position = Vector3(-1.f, 1.f, -1.f);
-	//InMesh->vertices[10].position = Vector3(-1.f, 1.f, 1.f);
-	//InMesh->vertices[11].position = Vector3(-1.f, -1.f, 1.f);
+	InMesh->vertices[8].position = Vector3(-1.f, -1.f, -1.f) * scale;
+	InMesh->vertices[9].position = Vector3(-1.f, 1.f, -1.f) * scale;
+	InMesh->vertices[10].position = Vector3(-1.f, 1.f, 1.f) * scale;
+	InMesh->vertices[11].position = Vector3(-1.f, -1.f, 1.f) * scale;
 
-	//InMesh->indices.push_back(8);
-	//InMesh->indices.push_back(9);
-	//InMesh->indices.push_back(10);
-	//InMesh->indices.push_back(8);
-	//InMesh->indices.push_back(10);
-	//InMesh->indices.push_back(11);
+	InMesh->indices.push_back(8);
+	InMesh->indices.push_back(9);
+	InMesh->indices.push_back(10);
+	InMesh->indices.push_back(8);
+	InMesh->indices.push_back(10);
+	InMesh->indices.push_back(11);
 
 	////오른쪽
-	//InMesh->vertices[12].position = Vector3(1.f, -1.f, -1.f);
-	//InMesh->vertices[13].position = Vector3(1.f, 1.f, -1.f);
-	//InMesh->vertices[14].position = Vector3(1.f, 1.f, 1.f);
-	//InMesh->vertices[15].position = Vector3(1.f, -1.f, 1.f);
+	InMesh->vertices[12].position = Vector3(1.f, -1.f, -1.f) * scale;
+	InMesh->vertices[13].position = Vector3(1.f, 1.f, -1.f) * scale;
+	InMesh->vertices[14].position = Vector3(1.f, 1.f, 1.f) * scale;
+	InMesh->vertices[15].position = Vector3(1.f, -1.f, 1.f) * scale;
 
-	//InMesh->indices.push_back(12);
-	//InMesh->indices.push_back(13);
-	//InMesh->indices.push_back(14);
-	//InMesh->indices.push_back(12);
-	//InMesh->indices.push_back(14);
-	//InMesh->indices.push_back(15);
+	InMesh->indices.push_back(12);
+	InMesh->indices.push_back(13);
+	InMesh->indices.push_back(14);
+	InMesh->indices.push_back(12);
+	InMesh->indices.push_back(14);
+	InMesh->indices.push_back(15);
 
 
 	////위
-	//InMesh->vertices[16].position = Vector3(-1.f, 1.f, 1.f);
-	//InMesh->vertices[17].position = Vector3(-1.f, 1.f, -1.f);
-	//InMesh->vertices[18].position = Vector3(1.f, 1.f, -1.f);
-	//InMesh->vertices[19].position = Vector3(1.f, 1.f, 1.f);
+	InMesh->vertices[16].position = Vector3(-1.f, 1.f, 1.f) * scale;
+	InMesh->vertices[17].position = Vector3(-1.f, 1.f, -1.f) * scale;
+	InMesh->vertices[18].position = Vector3(1.f, 1.f, -1.f) * scale;
+	InMesh->vertices[19].position = Vector3(1.f, 1.f, 1.f) * scale;
 
-	//InMesh->indices.push_back(16);
-	//InMesh->indices.push_back(17);
-	//InMesh->indices.push_back(18);
-	//InMesh->indices.push_back(16);
-	//InMesh->indices.push_back(18);
-	//InMesh->indices.push_back(19);
+	InMesh->indices.push_back(16);
+	InMesh->indices.push_back(17);
+	InMesh->indices.push_back(18);
+	InMesh->indices.push_back(16);
+	InMesh->indices.push_back(18);
+	InMesh->indices.push_back(19);
 
-	////아래
-	//InMesh->vertices[20].position = Vector3(-1.f, -1.f, 1.f);
-	//InMesh->vertices[21].position = Vector3(-1.f, -1.f, -1.f);
-	//InMesh->vertices[22].position = Vector3(1.f, -1.f, -1.f);
-	//InMesh->vertices[23].position = Vector3(1.f, -1.f, 1.f);
+	////아래	
+	InMesh->vertices[20].position = Vector3(-1.f, -1.f, 1.f) * scale;
+	InMesh->vertices[21].position = Vector3(-1.f, -1.f, -1.f) * scale;
+	InMesh->vertices[22].position = Vector3(1.f, -1.f, -1.f) * scale ;
+	InMesh->vertices[23].position = Vector3(1.f, -1.f, 1.f) * scale;
 
-	//InMesh->indices.push_back(20);
-	//InMesh->indices.push_back(21);
-	//InMesh->indices.push_back(22);
-	//InMesh->indices.push_back(20);
-	//InMesh->indices.push_back(22);
-	//InMesh->indices.push_back(23);
+	InMesh->indices.push_back(20);
+	InMesh->indices.push_back(21);
+	InMesh->indices.push_back(22);
+	InMesh->indices.push_back(20);
+	InMesh->indices.push_back(22);
+	InMesh->indices.push_back(23);
 
 }
 
@@ -139,8 +140,9 @@ void HCustomRenderModule::Update()
 	HBaseRenderModule::Update();
 	//여기서부터 작성 
 	RoationYValue += 0.01f;
+	RoationXValue += 0.01f;
 
-	m_transformConstData.ModelTransform = (Matrix::CreateScale(1.f) * Matrix::CreateRotationY(RoationYValue)).Transpose();
+	m_transformConstData.ModelTransform = (Matrix::CreateScale(1.f) * Matrix::CreateRotationY(RoationYValue) * Matrix::CreateRotationX(RoationXValue)).Transpose();
 
 	using namespace DirectX;
 	m_transformConstData.ViewTransform = XMMatrixLookAtLH({ 0.0f, 0.0f, -1.0f }, { 0.0f, 0.0f, 1.0f }, { 0.0f, 1.0f, 0.0f });
