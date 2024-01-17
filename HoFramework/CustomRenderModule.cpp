@@ -159,10 +159,10 @@ void HCustomRenderModule::Update()
 {
 	HBaseRenderModule::Update();
 	//여기서부터 작성 
-	RoationYValue += 0.01f;
-	RoationXValue += 0.01f;
+	RotationYValue += 0.01f;
+	RotationXValue += 0.01f;
 
-	m_transformConstData.ModelTransform = (Matrix::CreateScale(0.25f)).Transpose();
+	m_transformConstData.ModelTransform = (Matrix::CreateScale(0.25f) * Matrix::CreateRotationY(RotationYValue) * Matrix::CreateRotationX(RotationXValue)).Transpose();
 
 	using namespace DirectX;
 	m_transformConstData.ViewTransform = XMMatrixLookAtLH({ 0.0f, 0.0f, -1.0f }, { 0.0f, 0.0f, 1.0f }, { 0.0f, 1.0f, 0.0f });

@@ -48,8 +48,8 @@ protected:
 	ComPtr<ID3D11PixelShader> m_pixelShader;
 
 
-	float RoationYValue;
-	float RoationXValue;
+	float RotationYValue;
+	float RotationXValue;
 
 	//여기서 까지 하나의 오브젝트
 
