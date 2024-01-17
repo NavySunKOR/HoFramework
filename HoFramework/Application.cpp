@@ -75,6 +75,12 @@ Application::Application()
 	m_IsInitialized = true;
 }
 
+Application::~Application()
+{
+    delete RenderModule;
+
+}
+
 LRESULT Application::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
     switch (msg) {

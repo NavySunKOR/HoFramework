@@ -8,6 +8,7 @@ class Application
 {
 public:
 	Application();
+	~Application();
 	LRESULT MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 	int Run();
