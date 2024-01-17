@@ -23,6 +23,7 @@
     <ClCompile Include="BaseRenderModule.cpp" />
     <ClCompile Include="BaseRenderModule_Init.cpp" />
     <ClCompile Include="CustomRenderModule.cpp" />
+    <ClCompile Include="CustomRenderModule_Init.cpp" />
     <ClCompile Include="InputModule.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
@@ -32,6 +33,7 @@
     <ClInclude Include="CustomRenderModule.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="InputModule.h" />
+    <ClInclude Include="RenderingLibrary.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
