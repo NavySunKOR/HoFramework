@@ -13,10 +13,7 @@ using DirectX::SimpleMath::Matrix;
 struct Vertex
 {
 	Vector3 position;
-	Vector3 normal;
-	Vector3 tangent;
 	Vector3 color;
-	Vector2 uv;
 };
 
 
