@@ -29,6 +29,7 @@
     <ClCompile Include="InputModule.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="RenderingLibrary.cpp" />
+    <ClCompile Include="RenderingObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -37,6 +38,7 @@
     <ClInclude Include="Define.h" />
     <ClInclude Include="InputModule.h" />
     <ClInclude Include="RenderingLibrary.h" />
+    <ClInclude Include="RenderingObject.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="PixelShader.hlsl">
