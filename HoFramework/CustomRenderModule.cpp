@@ -41,9 +41,11 @@ bool HCustomRenderModule::Initialize(Application* pAppContext)
 	//Transform Constant Buffer
 
 	D3D11_BUFFER_DESC ConstBufferDesc = {};
-	VertexBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-	VertexBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-	VertexBufferDesc.StructureByteStride = 0;
+	ConstBufferDesc.ByteWidth = sizeof(m_transformConstData);
+	ConstBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
+	ConstBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	ConstBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	ConstBufferDesc.StructureByteStride = 0;
 
 	D3D11_SUBRESOURCE_DATA ConstBufferData = {};
 	ConstBufferData.pSysMem = &m_transformConstData;
@@ -69,7 +71,7 @@ bool HCustomRenderModule::Initialize(Application* pAppContext)
 	color.InstanceDataStepRate = 4 * 3;
 
 	vector<D3D11_INPUT_ELEMENT_DESC> inputs = { position,color };
-
+	
 	ComPtr<ID3DBlob> VSBlob;
 	ComPtr<ID3DBlob> VSErrorBlob;
 
@@ -84,10 +86,13 @@ bool HCustomRenderModule::Initialize(Application* pAppContext)
 	ComPtr<ID3DBlob> PSBlob;
 	ComPtr<ID3DBlob> PSErrorBlob;
 
-	HRESULT PShr = D3DCompileFromFile(L"PixelShader.hlsl", 0, 0, "main", "vs_5_0", 0, 0, &PSBlob, &PSErrorBlob);
+	HRESULT PShr = D3DCompileFromFile(L"PixelShader.hlsl", 0, 0, "main", "ps_5_0", 0, 0, &PSBlob, &PSErrorBlob);
 
 	if (FAILED(PShr))
+	{
+		cout << (char*)PSErrorBlob->GetBufferPointer() << endl;
 		return false;
+	}
 
 	m_device->CreatePixelShader(PSBlob->GetBufferPointer(), PSBlob->GetBufferSize(), NULL, m_pixelShader.GetAddressOf());
 
@@ -130,8 +135,7 @@ void HCustomRenderModule::Render()
 
 	float clearColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
 	m_context->ClearRenderTargetView(m_renderTargetView.Get(), clearColor);
-	m_context->ClearDepthStencilView(m_depthStencilView.Get(),
-		D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+	m_context->ClearDepthStencilView(m_depthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 
 
 

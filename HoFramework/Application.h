@@ -1,7 +1,6 @@
 #pragma once
 #include <windows.h>
 #include "InputModule.h"
-#include "BaseRenderModule.h"
 #include "Define.h"
 
 
@@ -20,7 +19,7 @@ private:
 private:
 	//Components
 	HInputModule InputModule;
-	HBaseRenderModule RenderModule;
+	class HBaseRenderModule* RenderModule;
 	
 public:
 	inline bool IsInitialized() {

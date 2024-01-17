@@ -115,8 +115,7 @@ bool HBaseRenderModule::InitSwapChain()
     sd.BufferCount = 2;                                // Double-buffering
     sd.BufferDesc.RefreshRate.Numerator = 60;
     sd.BufferDesc.RefreshRate.Denominator = 1;
-    sd.BufferUsage =
-        DXGI_USAGE_RENDER_TARGET_OUTPUT; // how swap chain is to be used
+    sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT; // how swap chain is to be used
     sd.OutputWindow = m_AppContext->GetMainWindow();      // the window to be used
     sd.Windowed = TRUE;                  // windowed/full-screen mode
     sd.Flags =
@@ -153,17 +152,17 @@ bool HBaseRenderModule::InitRasterizerState()
     baseRastDessc.DepthClipEnable = true; // <- zNear, zFar 확인에 필요
 
     D3D11_RASTERIZER_DESC solidRastDessc = baseRastDessc;
-    D3D11_RASTERIZER_DESC wireframeRastDesc = baseRastDessc;
 
     m_device->CreateRasterizerState(&solidRastDessc, m_RasterizerState.GetAddressOf());
     return (m_RasterizerState.Get()) ? true : false;
 }
 bool HBaseRenderModule::InitRenderTargetView()
 {
-    ComPtr<ID3D11Texture2D> backBuffer;
-    m_swapChain->GetBuffer(0, IID_PPV_ARGS(backBuffer.GetAddressOf()));
+   ID3D11Texture2D* backBuffer;
+    m_swapChain->GetBuffer(0, IID_PPV_ARGS(&backBuffer));
     if (backBuffer) {
-        m_device->CreateRenderTargetView(backBuffer.Get(), NULL, m_renderTargetView.GetAddressOf());
+        m_device->CreateRenderTargetView(backBuffer, NULL, m_renderTargetView.GetAddressOf());
+        backBuffer->Release();
     }
     else {
         std::cout << "CreateRenderTargetView() failed." << std::endl;

@@ -4,10 +4,15 @@
 #include "BaseRenderModule.h"
 
 
-class HCustomRenderModule : HBaseRenderModule
+class HCustomRenderModule : public HBaseRenderModule
 {
 
 public:
+	HCustomRenderModule() : HBaseRenderModule()
+	{
+
+	}
+
 	virtual bool Initialize(Application* pAppContext) override;
 
 private:
