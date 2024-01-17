@@ -18,6 +18,13 @@ public:
 private:
 	void InitSampler();
 
+	void CreateVertexBuffer();
+	void CreateIndexBuffer();
+	void CreateConstantBuffer();
+
+
+	void CreateVertexShader();
+	void CreatePixelShader();
 
 protected:
 	virtual void Update() override;

@@ -21,10 +21,10 @@ void MakeBox(Mesh* InMesh)
 
 
 	//앞면
-	InMesh->vertices[0].position = Vector3(-1.f, -1.f, 0.f);
-	InMesh->vertices[1].position = Vector3(-1.f, 1.f, 0.f);
-	InMesh->vertices[2].position = Vector3(1.f, 1.f, 0.f);
-	InMesh->vertices[3].position = Vector3(-1.f, 1.f, -1.f);
+	InMesh->vertices[0].position = Vector3(-1.0f, 1.0f, 1.0f);
+	InMesh->vertices[1].position = Vector3(-1.0f, -1.0f, 1.0f);
+	InMesh->vertices[2].position = Vector3(1.0f, -1.0f, 1.0f);
+	InMesh->vertices[3].position = Vector3(1.0f, 1.0f, 1.0f);
 
 	InMesh->indices.push_back(0);
 	InMesh->indices.push_back(1);
@@ -118,111 +118,18 @@ bool HCustomRenderModule::Initialize(Application* pAppContext)
 	MakeBox(&m_drawingMesh);
 
     // Vertex Buffer
-	D3D11_BUFFER_DESC VertexBufferDesc = {};
-	VertexBufferDesc.Usage = D3D11_USAGE_IMMUTABLE;
-	VertexBufferDesc.ByteWidth = sizeof(Vertex) * m_drawingMesh.vertices.size();
-	VertexBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	VertexBufferDesc.StructureByteStride = sizeof(Vertex);
-
-	D3D11_SUBRESOURCE_DATA VertexBufferData = {};
-	VertexBufferData.pSysMem = m_drawingMesh.vertices.data();
-
-	m_device->CreateBuffer(&VertexBufferDesc, &VertexBufferData, m_vertexBuffer.GetAddressOf());
-
-	if (m_vertexBuffer.Get() == nullptr)
-	{
-		cout << "No Vertex Buffer!" << endl;
-	}
+	CreateVertexBuffer();
 
 	//Index Buffer
-	D3D11_BUFFER_DESC IndexBufferDesc = {};
-	IndexBufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
-	IndexBufferDesc.ByteWidth = sizeof(uint32_t) * m_drawingMesh.indices.size();
-	IndexBufferDesc.StructureByteStride = sizeof(uint32_t);
-
-	D3D11_SUBRESOURCE_DATA IndexBufferData = {};
-	IndexBufferData.pSysMem = m_drawingMesh.indices.data();
-
-	m_device->CreateBuffer(&IndexBufferDesc, &IndexBufferData, m_indexBuffer.GetAddressOf());
-
-
-	if (m_indexBuffer.Get() == nullptr)
-	{
-		cout << "No Index Buffer!" << endl;
-	}
+	CreateIndexBuffer();
 
 	//Transform Constant Buffer
-
-	D3D11_BUFFER_DESC ConstBufferDesc = {};
-	ConstBufferDesc.ByteWidth = sizeof(m_transformConstData);
-	ConstBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
-	ConstBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-	ConstBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-	ConstBufferDesc.StructureByteStride = 0;
-
-	D3D11_SUBRESOURCE_DATA ConstBufferData = {};
-	ConstBufferData.pSysMem = &m_transformConstData;
-
-	m_device->CreateBuffer(&ConstBufferDesc, &ConstBufferData, m_transformConstBuffer.GetAddressOf());
-
-	if (m_transformConstBuffer.Get() == nullptr)
-	{
-		cout << "No Const Buffer!" << endl;
-	}
+	CreateConstantBuffer();
 
 	//Shaders
-	D3D11_INPUT_ELEMENT_DESC position;
-	D3D11_INPUT_ELEMENT_DESC color;
 
-	position.SemanticName = "POSITION";
-	position.SemanticIndex = 0;
-	position.Format = DXGI_FORMAT_R32G32B32_FLOAT;
-	position.InputSlot = 0;
-	position.AlignedByteOffset = 0;
-	position.InputSlotClass = D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA;
-	position.InstanceDataStepRate = 0;
-
-	color.SemanticName = "COLOR";
-	color.SemanticIndex = 0;
-	color.Format = DXGI_FORMAT_R32G32B32_FLOAT;
-	color.InputSlot = 0;
-	color.AlignedByteOffset = 4 * 3;
-	color.InputSlotClass = D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA;
-	color.InstanceDataStepRate = 0;
-
-	vector<D3D11_INPUT_ELEMENT_DESC> inputs = { position,color };
-	
-	{
-		ComPtr<ID3DBlob> VSBlob;
-		ComPtr<ID3DBlob> VSErrorBlob;
-
-		HRESULT VShr = D3DCompileFromFile(L"VertexShader.hlsl", 0, 0, "main", "vs_5_0", 0, 0, &VSBlob, &VSErrorBlob);
-
-		if (FAILED(VShr))
-		{
-			cout << (char*)VSErrorBlob->GetBufferPointer() << endl;
-			return false;
-		}
-
-		m_device->CreateVertexShader(VSBlob->GetBufferPointer(), VSBlob->GetBufferSize(), NULL, m_vertexShader.GetAddressOf());
-		m_device->CreateInputLayout(inputs.data(), UINT(inputs.size()), VSBlob->GetBufferPointer(), VSBlob->GetBufferSize(), m_vertexInputLayout.GetAddressOf());
-	}
-	
-
-	{
-		ComPtr<ID3DBlob> PSBlob;
-		ComPtr<ID3DBlob> PSErrorBlob;
-
-		HRESULT PShr = D3DCompileFromFile(L"PixelShader.hlsl", 0, 0, "main", "ps_5_0", 0, 0, &PSBlob, &PSErrorBlob);
-
-		if (FAILED(PShr))
-		{
-			cout << (char*)PSErrorBlob->GetBufferPointer() << endl;
-			return false;
-		}
-
-		m_device->CreatePixelShader(PSBlob->GetBufferPointer(), PSBlob->GetBufferSize(), NULL, m_pixelShader.GetAddressOf());
-	}
+	CreateVertexShader();
+	CreatePixelShader();
 
 	return true;
 }
@@ -260,13 +167,9 @@ void HCustomRenderModule::Render()
 	// RS: Rasterizer stage
 	// OM: Output-Merger stage.
 
-
-
 	float clearColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
 	m_context->ClearRenderTargetView(m_renderTargetView.Get(), clearColor);
 	m_context->ClearDepthStencilView(m_depthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
-
-
 
 	// 버텍스/인덱스 버퍼 설정
 	UINT stride = sizeof(Vertex);
