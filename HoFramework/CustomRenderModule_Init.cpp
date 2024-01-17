@@ -1,5 +1,5 @@
 #include "CustomRenderModule.h"
-
+#include "RenderingLibrary.h"
 
 void HCustomRenderModule::InitSampler()
 {
@@ -17,4 +17,30 @@ void HCustomRenderModule::InitSampler()
     m_device->CreateSamplerState(&sampDesc, m_SamplerState.GetAddressOf());
 
     
+}
+
+bool HCustomRenderModule::CreateCube1()
+{
+	HRenderingLibrary::MakeBox(&m_drawingMesh);
+
+	// Vertex Buffer
+	if (!HRenderingLibrary::CreateVertexBuffer(m_device, &m_drawingMesh, m_vertexBuffer))
+		return false;
+
+	//Index Buffer
+	if (!HRenderingLibrary::CreateIndexBuffer(m_device, &m_drawingMesh, m_indexBuffer))
+		return false;
+
+	//Transform Constant Buffer
+	if (!HRenderingLibrary::CreateConstantBuffer(m_device, &m_transformConstData, m_transformConstBuffer))
+		return false;
+
+	//Shaders
+	if (!HRenderingLibrary::CreateVertexShader(m_device, m_vertexShader, m_vertexInputLayout, L"VertexShader.hlsl"))
+		return false;
+
+	if (!HRenderingLibrary::CreatePixelShader(m_device, m_pixelShader, L"PixelShader.hlsl"))
+		return false;
+
+	return true;
 }

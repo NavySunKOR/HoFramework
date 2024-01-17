@@ -39,6 +39,12 @@
     <ClCompile Include="RenderingLibrary.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="CustomRenderModule_Update.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="CustomRenderModule_Render.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">

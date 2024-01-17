@@ -17,15 +17,19 @@ public:
 
 private:
 	void InitSampler();
-	void CreatePixelShader();
+
+	bool CreateCube1();
 
 protected:
 	virtual void Update() override;
 	virtual void Render() override;
 
 protected:
-	void DrawCube1();
-	void DrawCube2();
+	void UpdateCube1();
+	void UpdateCube2();
+
+	void RenderCube1();
+	void RenderCube2();
 
 protected:
 	ComPtr<ID3D11SamplerState> m_SamplerState;

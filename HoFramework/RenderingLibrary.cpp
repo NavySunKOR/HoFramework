@@ -225,7 +225,6 @@ bool HRenderingLibrary::CreateVertexShader(ComPtr<ID3D11Device> pDeviceContext, 
 
 bool HRenderingLibrary::CreatePixelShader(ComPtr<ID3D11Device> pDeviceContext, ComPtr<ID3D11PixelShader>& pPixelShader, LPCWSTR pShaderFileLocation)
 {
-
 	ComPtr<ID3DBlob> PSBlob;
 	ComPtr<ID3DBlob> PSErrorBlob;
 
