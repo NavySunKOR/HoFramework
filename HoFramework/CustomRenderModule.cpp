@@ -162,4 +162,7 @@ void HCustomRenderModule::Render()
 	m_context->OMSetDepthStencilState(m_depthStencilState.Get(), 0);
 
 	m_context->DrawIndexed(m_drawingMesh.indices.size(), 0, 0);
+
+
+	m_swapChain->Present(1, 0);
 }
