@@ -31,6 +31,11 @@ protected:
 	ComPtr<ID3D11Buffer> m_transformConstBuffer;
 	TransformConstantBuffer m_transformConstData;
 
+	ComPtr<ID3D11InputLayout> m_vertexInputLayout;
+	ComPtr<ID3D11VertexShader> m_vertexShader;
+	ComPtr<ID3D11PixelShader> m_pixelShader;
+
+
 	float RoationYValue;
 
 	//여기서 까지 하나의 오브젝트

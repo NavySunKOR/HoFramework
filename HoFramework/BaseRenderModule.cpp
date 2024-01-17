@@ -17,5 +17,10 @@ void HBaseRenderModule::Update()
 
 void HBaseRenderModule::Render()
 {
+    // IA: Input-Assembler stage
+	// VS: Vertex Shader
+	// PS: Pixel Shader
+	// RS: Rasterizer stage
+	// OM: Output-Merger stage
 
 }
