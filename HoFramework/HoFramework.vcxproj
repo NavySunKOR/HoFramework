@@ -26,6 +26,7 @@
     <ClCompile Include="CustomRenderModule_Init.cpp" />
     <ClCompile Include="InputModule.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="RenderingLibrary.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
