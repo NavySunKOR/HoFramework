@@ -14,6 +14,11 @@ struct Vertex
 {
 	Vector3 position;
 	Vector3 color;
+
+	Vertex()
+	{
+		color = Vector3(1.f);
+	}
 };
 
 
