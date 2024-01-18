@@ -1,3 +1,11 @@
+
+cbuffer TextureCoordMove : register(b0)
+{
+    float2 TexCoord;
+};
+
+SamplerState g_sampler : register(s0);
+
 struct PSInput
 {
     float4 Position : SV_POSITION;
@@ -7,5 +15,7 @@ struct PSInput
 
 float4 main(PSInput input) : SV_TARGET
 {
-    return float4(input.Color, 1.f);
+    float3 NewColor = input.Color;
+    NewColor.xy = input.TexCoord + TexCoord;
+    return float4(NewColor, 1.f);
 }

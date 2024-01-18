@@ -164,29 +164,6 @@ bool HRenderingLibrary::CreateVertexBuffer(ComPtr<ID3D11Device> pDeviceContext, 
     return true;
 }
 
-bool HRenderingLibrary::CreateConstantBuffer(ComPtr<ID3D11Device> pDeviceContext, TransformConstantBuffer* pConstantBufferData, ComPtr<ID3D11Buffer> &pConstantBuffer)
-{
-	D3D11_BUFFER_DESC ConstBufferDesc = {};
-	ConstBufferDesc.ByteWidth = sizeof(*pConstantBufferData);
-	ConstBufferDesc.Usage = D3D11_USAGE_DYNAMIC;
-	ConstBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-	ConstBufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-	ConstBufferDesc.StructureByteStride = 0;
-
-	D3D11_SUBRESOURCE_DATA ConstBufferData = {};
-	ConstBufferData.pSysMem = pConstantBufferData;
-
-	pDeviceContext->CreateBuffer(&ConstBufferDesc, &ConstBufferData, pConstantBuffer.GetAddressOf());
-
-	if (pConstantBuffer.Get() == nullptr)
-	{
-		cout << "No Const Buffer!" << endl;
-		return false;
-	}
-
-	return true;
-}
-
 bool HRenderingLibrary::CreateIndexBuffer(ComPtr<ID3D11Device> pDeviceContext, Mesh* pDrawingMesh, ComPtr<ID3D11Buffer> &pIndexBuffer)
 {
 	D3D11_BUFFER_DESC IndexBufferDesc = {};

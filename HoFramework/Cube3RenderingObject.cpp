@@ -13,6 +13,9 @@ void HCube3RenderingObject::Initialize()
 
 	HBaseRenderingObject::Initialize();
 
+	//Pixel Constant Buffer
+	HRenderingLibrary::CreateConstantBuffer<PixelConstBuffer>(device, PixelConstBufferDat, m_PixelConstBuffer);
+
 	//Shaders
 	D3D11_INPUT_ELEMENT_DESC position;
 	D3D11_INPUT_ELEMENT_DESC color;
@@ -46,33 +49,52 @@ void HCube3RenderingObject::Initialize()
 	HRenderingLibrary::CreateVertexShader(device, m_vertexShader, m_vertexInputLayout, L"VertexShader2.hlsl", inputs);
 	HRenderingLibrary::CreatePixelShader(device, m_pixelShader, L"PixelShader2.hlsl");
 
+
 	//그 외에 정의
 	Scale(Vector3(0.025f, 0.025f, 0.025f));
 }
 
 void HCube3RenderingObject::Update()
 {
+	//Rotation
 	RotationYValue += 0.01f;
 	RotationXValue += 0.01f;
-
-	if (MovementScalar >= MaxMovement)
-	{
-		IsRightDriection = false;
-	}
-	else if (MovementScalar <= -MaxMovement)
-	{
-		IsRightDriection = true;
-	}
-
-	if(IsRightDriection)
-		MovementScalar += 0.01f;
-	else
-		MovementScalar -= 0.01f;
-	
-	MovementScalar = std::clamp(MovementScalar, -MaxMovement, MaxMovement);
-
 	Rotate(Vector3(RotationXValue, RotationYValue, 0));
-	Translate(Vector3(0, MovementScalar, 0));
+
+	//Movement 
+
+	//if (MovementScalar >= MaxMovement)
+	//{
+	//	IsRightDriection = false;
+	//}
+	//else if (MovementScalar <= -MaxMovement)
+	//{
+	//	IsRightDriection = true;
+	//}
+
+	//if(IsRightDriection)
+	//	MovementScalar += 0.01f;
+	//else
+	//	MovementScalar -= 0.01f;
+	//
+	//MovementScalar = std::clamp(MovementScalar, -MaxMovement, MaxMovement);
+	//Translate(Vector3(0, MovementScalar, 0));
+
+	//Pixel Constant 
+
+	if (PixelConstBufferDat.TexCoord.x >= 1.f)
+	{
+		IsPixelRightDirection = false;
+	}
+	else if(PixelConstBufferDat.TexCoord.x < 0.f)
+	{
+		IsPixelRightDirection = true;
+	}
+
+	PixelConstBufferDat.TexCoord.x += (IsPixelRightDirection)? 0.01f : -0.01f;
+	PixelConstBufferDat.TexCoord.y += (IsPixelRightDirection)? 0.01f : -0.01f;
+
+	HRenderingLibrary::UpdateConstantBuffer(PixelConstBufferDat, m_PixelConstBuffer, m_ParentRenderModule->GetContext());
 
 	HBaseRenderingObject::Update();
 }
@@ -80,6 +102,9 @@ void HCube3RenderingObject::Update()
 void HCube3RenderingObject::Render()
 {
 	// 버텍스/인덱스 버퍼 설정
+
+	ComPtr<ID3D11DeviceContext>& context = m_ParentRenderModule->GetContext();
+	context->PSSetConstantBuffers(0, 1, m_PixelConstBuffer.GetAddressOf());
 	HBaseRenderingObject::Render();
 
 }

@@ -22,7 +22,6 @@
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="BaseRenderingObject.cpp" />
     <ClCompile Include="BaseRenderModule.cpp" />
-    <ClCompile Include="BaseRenderModule_Init.cpp" />
     <ClCompile Include="Cube1RenderingObject.cpp" />
     <ClCompile Include="Cube2RenderingObject.cpp" />
     <ClCompile Include="Cube3RenderingObject.cpp" />

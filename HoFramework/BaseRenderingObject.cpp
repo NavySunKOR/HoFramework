@@ -15,7 +15,7 @@ void HBaseRenderingObject::Initialize()
 	HRenderingLibrary::CreateIndexBuffer(device, &m_drawingMesh, m_indexBuffer);
 
 	//Transform Constant Buffer
-	HRenderingLibrary::CreateConstantBuffer(device, &m_transformConstData, m_transformConstBuffer);
+	HRenderingLibrary::CreateConstantBuffer<TransformConstantBuffer>(device, m_transformConstData, m_transformConstBuffer);
 
 }
 
@@ -45,11 +45,9 @@ void HBaseRenderingObject::Update()
 	m_transformConstData.ProjectionTransform = m_transformConstData.ProjectionTransform.Transpose();
 
 
-	D3D11_MAPPED_SUBRESOURCE ms;
-	ComPtr<ID3D11DeviceContext>& context = m_ParentRenderModule->GetContext();
-	context->Map(m_transformConstBuffer.Get(), NULL, D3D11_MAP_WRITE_DISCARD, NULL, &ms);
-	memcpy(ms.pData, &m_transformConstData, sizeof(m_transformConstData));
-	context->Unmap(m_transformConstBuffer.Get(), NULL);
+
+
+	HRenderingLibrary::UpdateConstantBuffer(m_transformConstData, m_transformConstBuffer, m_ParentRenderModule->GetContext());
 }
 
 void HBaseRenderingObject::Render()
