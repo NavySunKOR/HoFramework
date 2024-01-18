@@ -3,6 +3,8 @@
 
 #include "BaseRenderModule.h"
 
+class HCube1RenderingObject;
+
 
 class HCustomRenderModule : public HBaseRenderModule
 {
@@ -13,45 +15,25 @@ public:
 
 	}
 
+	~HCustomRenderModule();
+
 	virtual bool Initialize(Application* pAppContext) override;
 
 private:
 	void InitSampler();
-
-	bool CreateCube1();
 
 protected:
 	virtual void Update() override;
 	virtual void Render() override;
 
 protected:
-	void UpdateCube1();
-	void UpdateCube2();
-
-	void RenderCube1();
-	void RenderCube2();
 
 protected:
 	ComPtr<ID3D11SamplerState> m_SamplerState;
 
 protected:
+	HCube1RenderingObject* Cube1 = nullptr;
 
-	//여기서부터
-	Mesh m_drawingMesh;
-	ComPtr<ID3D11Buffer> m_vertexBuffer;
-	ComPtr<ID3D11Buffer> m_indexBuffer;
-	ComPtr<ID3D11Buffer> m_transformConstBuffer;
-	TransformConstantBuffer m_transformConstData;
-
-	ComPtr<ID3D11InputLayout> m_vertexInputLayout;
-	ComPtr<ID3D11VertexShader> m_vertexShader;
-	ComPtr<ID3D11PixelShader> m_pixelShader;
-
-
-	float RotationYValue;
-	float RotationXValue;
-
-	//여기서 까지 하나의 오브젝트
 
 
 

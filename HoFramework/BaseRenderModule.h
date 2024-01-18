@@ -44,23 +44,28 @@ protected:
 #pragma region Components
 
 public:
-	inline ID3D11Device* GetDevice() {
-		return m_device.Get();
+
+	inline Application* GetAppContext() {
+		return m_AppContext;
 	};
 
-	inline ID3D11DeviceContext* GetContext() {
-		return m_context.Get();
+	inline ComPtr<ID3D11Device>& GetDevice() {
+		return m_device;
 	};
 
-	inline IDXGISwapChain* GetSwapChain() {
-		return m_swapChain.Get();
+	inline ComPtr<ID3D11DeviceContext>& GetContext() {
+		return m_context;
 	};
 
-	inline ID3D11RenderTargetView* GetRenderTargetView() {
-		return m_renderTargetView.Get();
+	inline  ComPtr<IDXGISwapChain>& GetSwapChain() {
+		return m_swapChain;
 	};
 
-	inline D3D11_VIEWPORT GetScreenViewport() {
+	inline ComPtr<ID3D11RenderTargetView>& GetRenderTargetView() {
+		return m_renderTargetView;
+	};
+
+	inline D3D11_VIEWPORT& GetScreenViewport() {
 		return m_screenViewport;
 	};
 

@@ -4,13 +4,14 @@
 #include <wrl.h>
 
 using Microsoft::WRL::ComPtr;
+class HBaseRenderModule;
 
-class HRenderingObject
+class HBaseRenderingObject
 {
 public:
-	HRenderingObject(ComPtr<ID3D11Device>& pDxdevice)
+	HBaseRenderingObject(HBaseRenderModule* pRenderModule)
 	{
-		m_device = pDxdevice;
+		m_ParentRenderModule = pRenderModule;
 		Initialize();
 	}
 
@@ -31,7 +32,7 @@ protected:
 	ComPtr<ID3D11VertexShader> m_vertexShader;
 	ComPtr<ID3D11PixelShader> m_pixelShader;
 
-	ComPtr<ID3D11Device> m_device;
+	HBaseRenderModule* m_ParentRenderModule;
 
 
 };

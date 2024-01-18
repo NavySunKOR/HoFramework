@@ -45,7 +45,13 @@
     <ClCompile Include="CustomRenderModule_Render.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="RenderingObject.cpp">
+    <ClCompile Include="BaseRenderingObject.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Cube1RenderingObject.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Cube2RenderingObject.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -68,7 +74,13 @@
     <ClInclude Include="RenderingLibrary.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="RenderingObject.h">
+    <ClInclude Include="BaseRenderingObject.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Cube1RenderingObject.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Cube2RenderingObject.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

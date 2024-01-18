@@ -1,0 +1,1 @@
+#include "Cube2RenderingObject.h"

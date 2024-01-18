@@ -1,4 +1,4 @@
-#include "RenderingObject.h"
+#include "BaseRenderingObject.h"
 
 void HBaseRenderingObject::Initialize()
 {
