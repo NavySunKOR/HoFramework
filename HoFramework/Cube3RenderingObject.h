@@ -21,8 +21,6 @@ private:
 
 	float MaxMovement = 0.1f;
 
-	float ViewAngleInDeg = 70.f;
-
 	bool IsRightDriection = true;
 
 

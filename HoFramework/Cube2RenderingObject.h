@@ -14,9 +14,8 @@ public:
 	virtual void Render() override;
 
 private:
-	float RotationYValue;
-	float RotationXValue;
-	float ViewAngleInDeg = 70.f;
+	float RotationYValue = 0.f;
+	float RotationXValue = 0.f;
 
 
 };

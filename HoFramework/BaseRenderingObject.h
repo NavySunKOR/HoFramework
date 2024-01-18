@@ -19,7 +19,10 @@ public:
 	virtual void Update();
 	virtual void Render();
 
-
+public:
+	void Translate(Vector3 pTranslate);
+	void Rotate(Vector3 pTranslate);
+	void Scale(Vector3 pTranslate);
 
 protected:
 	Mesh m_drawingMesh;
@@ -34,5 +37,10 @@ protected:
 
 	HBaseRenderModule* m_ParentRenderModule;
 
+
+	float ViewAngleInDeg = 70.f;
+	Matrix TranslationMatrix;
+	Matrix ScaleMatrix;
+	Matrix RotationMatrix;
 
 };
