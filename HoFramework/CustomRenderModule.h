@@ -3,10 +3,6 @@
 
 #include "BaseRenderModule.h"
 
-class HCube1RenderingObject;
-class HCube2RenderingObject;
-class HCube3RenderingObject;
-
 
 class HCustomRenderModule : public HBaseRenderModule
 {
@@ -17,7 +13,6 @@ public:
 
 	}
 
-	~HCustomRenderModule();
 
 	virtual bool Initialize(Application* pAppContext) override;
 
@@ -34,10 +29,7 @@ protected:
 	ComPtr<ID3D11SamplerState> m_SamplerState;
 
 protected:
-	HCube1RenderingObject* Cube1 = nullptr;
-	HCube2RenderingObject* Cube2 = nullptr;
-	HCube3RenderingObject* Cube3 = nullptr;
-
+	vector<std::shared_ptr<class HBaseRenderingObject>> RenderingObjects;
 
 
 #pragma region View

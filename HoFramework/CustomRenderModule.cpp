@@ -18,32 +18,29 @@ bool HCustomRenderModule::Initialize(Application* pAppContext)
 	//여기서부터 작성 
     InitSampler();
 
-	Cube1 = new HCube1RenderingObject(this);
-	Cube1->Initialize();
+	RenderingObjects.reserve(3);
+	RenderingObjects.push_back(std::make_shared<HCube1RenderingObject>(this));
+	RenderingObjects.push_back(std::make_shared<HCube2RenderingObject>(this));
+	RenderingObjects.push_back(std::make_shared<HCube3RenderingObject>(this));
 
-	Cube2 = new HCube2RenderingObject(this);
-	Cube2->Initialize();
 
-	Cube3 = new HCube3RenderingObject(this);
-	Cube3->Initialize();
+	for (int i = 0; i < RenderingObjects.size(); ++i)
+	{
+		RenderingObjects[i]->Initialize();
+	}
 
 	return true;
 }
 
-HCustomRenderModule::~HCustomRenderModule()
-{
-	delete Cube1;
-	delete Cube2;
-	delete Cube3;
-}
 
 void HCustomRenderModule::Update()
 {
 	HBaseRenderModule::Update();
 	//여기서부터 작성 
-	Cube1->Update();
-	Cube2->Update();
-	Cube3->Update();
+	for (int i = 0; i < RenderingObjects.size(); ++i)
+	{
+		RenderingObjects[i]->Update();
+	}
 }
 
 void HCustomRenderModule::Render()
@@ -68,10 +65,10 @@ void HCustomRenderModule::Render()
 	m_context->OMSetRenderTargets(1, m_renderTargetView.GetAddressOf(), m_depthStencilView.Get());
 	m_context->OMSetDepthStencilState(m_depthStencilState.Get(), 0);
 
-	Cube1->Render();
-	Cube2->Render();
-	Cube3->Render();
-
+	for (int i = 0; i < RenderingObjects.size(); ++i)
+	{
+		RenderingObjects[i]->Render();
+	}
 	m_swapChain->Present(1, 0);
 
 }
