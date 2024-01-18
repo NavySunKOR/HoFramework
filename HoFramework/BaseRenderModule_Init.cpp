@@ -154,7 +154,16 @@ bool HBaseRenderModule::InitRasterizerState()
     D3D11_RASTERIZER_DESC solidRastDessc = baseRastDessc;
 
     m_device->CreateRasterizerState(&solidRastDessc, m_RasterizerState.GetAddressOf());
-    return (m_RasterizerState.Get()) ? true : false;
+
+    if ((m_RasterizerState.Get()))
+    {
+        m_context->RSSetState(m_RasterizerState.Get());
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 bool HBaseRenderModule::InitRenderTargetView()
 {
@@ -169,6 +178,7 @@ bool HBaseRenderModule::InitRenderTargetView()
         return false;
     }
 
+    m_context->OMSetRenderTargets(1, m_renderTargetView.GetAddressOf(), nullptr);
     return true;
 }
 bool HBaseRenderModule::InitDepthBuffer()
@@ -215,6 +225,10 @@ bool HBaseRenderModule::InitDepthStencil()
         cout << "CreateDepthStencilState() failed." << endl;
         return false;
     }
+
+    //스텐실을 사용한다면 스텐실 버퍼 초기화
+    m_context->OMSetRenderTargets(1, m_renderTargetView.GetAddressOf(), m_depthStencilView.Get());
+    m_context->OMSetDepthStencilState(m_depthStencilState.Get(), 0);
     return true;
 }
 void HBaseRenderModule::SetViewport()
