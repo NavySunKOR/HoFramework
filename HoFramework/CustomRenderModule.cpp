@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "RenderingLibrary.h"
 #include "Cube1RenderingObject.h"
+#include "Cube2RenderingObject.h"
 
 #pragma comment(lib,"d3d11.lib")
 #pragma comment(lib,"d3dcompiler.lib")
@@ -19,12 +20,16 @@ bool HCustomRenderModule::Initialize(Application* pAppContext)
 	Cube1 = new HCube1RenderingObject(this);
 	Cube1->Initialize();
 
+	Cube2 = new HCube2RenderingObject(this);
+	Cube2->Initialize();
+
 	return true;
 }
 
 HCustomRenderModule::~HCustomRenderModule()
 {
-	delete Cube1;
+	//delete Cube1;
+	delete Cube2;
 }
 
 void HCustomRenderModule::Update()
@@ -32,7 +37,7 @@ void HCustomRenderModule::Update()
 	HBaseRenderModule::Update();
 	//여기서부터 작성 
 	Cube1->Update();
-
+	Cube2->Update();
 }
 
 void HCustomRenderModule::Render()
@@ -58,6 +63,8 @@ void HCustomRenderModule::Render()
 	m_context->OMSetDepthStencilState(m_depthStencilState.Get(), 0);
 
 	Cube1->Render();
+	Cube2->Render();
 
 	m_swapChain->Present(1, 0);
+
 }

@@ -28,7 +28,7 @@ void HCube1RenderingObject::Update()
 	RotationYValue += 0.01f;
 	RotationXValue += 0.01f;
 
-	m_transformConstData.ModelTransform = (Matrix::CreateScale(0.25f) * Matrix::CreateRotationY(RotationYValue) * Matrix::CreateRotationX(RotationXValue)).Transpose();
+	m_transformConstData.ModelTransform = (Matrix::CreateScale(0.1f) * Matrix::CreateRotationY(RotationYValue) * Matrix::CreateRotationX(RotationXValue)).Transpose();
 
 	using namespace DirectX;
 	m_transformConstData.ViewTransform = XMMatrixLookAtLH({ 0.0f, 0.0f, -1.0f }, { 0.0f, 0.0f, 1.0f }, { 0.0f, 1.0f, 0.0f });
