@@ -53,7 +53,8 @@ void HCube3RenderingObject::Initialize()
 	HRenderingLibrary::CreateVertexShader(device, m_vertexShader, m_vertexInputLayout, L"VertexShader2.hlsl", inputs);
 	HRenderingLibrary::CreatePixelShader(device, m_pixelShader, L"PixelShader2.hlsl");
 
-
+	//그 외에 정의
+	Scale(Vector3(0.025f, 0.025f, 0.025f));
 }
 
 void HCube3RenderingObject::Update()
@@ -79,7 +80,6 @@ void HCube3RenderingObject::Update()
 
 	Rotate(Vector3(RotationXValue, RotationYValue, 0));
 	Translate(Vector3(0, MovementScalar, 0));
-	Scale(Vector3(0.025f, 0.025f, 0.025f));
 
 	HBaseRenderingObject::Update();
 }
