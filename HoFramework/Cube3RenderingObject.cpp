@@ -50,7 +50,6 @@ void HCube3RenderingObject::Initialize()
 	texCoord.InstanceDataStepRate = 0;
 
 	vector<D3D11_INPUT_ELEMENT_DESC> inputs = { position ,color,texCoord };
-
 	HRenderingLibrary::CreateVertexShader(device, m_vertexShader, m_vertexInputLayout, L"VertexShader2.hlsl", inputs);
 	HRenderingLibrary::CreatePixelShader(device, m_pixelShader, L"PixelShader2.hlsl");
 
