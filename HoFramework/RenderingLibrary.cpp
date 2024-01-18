@@ -1,6 +1,11 @@
 
 #include "RenderingLibrary.h"
 
+#include <string.h>
+
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
+
 void HRenderingLibrary::MakeBox(Mesh* InMesh)
 {
 	InMesh->vertices.reserve(24);
@@ -191,7 +196,7 @@ bool HRenderingLibrary::CreateVertexShader(ComPtr<ID3D11Device> pDeviceContext, 
 	ComPtr<ID3DBlob> VSBlob;
 	ComPtr<ID3DBlob> VSErrorBlob;
 
-	HRESULT VShr = D3DCompileFromFile(pShaderFileLocation, 0, 0, "main", "vs_5_0", 0, 0, &VSBlob, &VSErrorBlob);
+	HRESULT VShr = D3DCompileFromFile(pShaderFileLocation, 0, 0, "main", "vs_5_0", D3DCOMPILE_DEBUG, 0, &VSBlob, &VSErrorBlob);
 
 	if (FAILED(VShr))
 	{
@@ -210,7 +215,7 @@ bool HRenderingLibrary::CreatePixelShader(ComPtr<ID3D11Device> pDeviceContext, C
 	ComPtr<ID3DBlob> PSBlob;
 	ComPtr<ID3DBlob> PSErrorBlob;
 
-	HRESULT PShr = D3DCompileFromFile(pShaderFileLocation, 0, 0, "main", "ps_5_0", 0, 0, &PSBlob, &PSErrorBlob);
+	HRESULT PShr = D3DCompileFromFile(pShaderFileLocation, 0, 0, "main", "ps_5_0", D3DCOMPILE_DEBUG, 0, &PSBlob, &PSErrorBlob);
 
 	if (FAILED(PShr))
 	{
@@ -220,4 +225,41 @@ bool HRenderingLibrary::CreatePixelShader(ComPtr<ID3D11Device> pDeviceContext, C
 
 	pDeviceContext->CreatePixelShader(PSBlob->GetBufferPointer(), PSBlob->GetBufferSize(), NULL, pPixelShader.GetAddressOf());
 	return true;
+}
+
+bool HRenderingLibrary::CreateTexture(ComPtr<ID3D11Device> pDeviceContext, string pTextureFileLocation, ComPtr<ID3D11Texture2D>& OutTexture, ComPtr<ID3D11ShaderResourceView>& OutResourceView)
+{
+	int width, height, channels;
+	unsigned char* img = stbi_load(pTextureFileLocation.c_str(), &width, &height, &channels,0);
+
+	if (img == nullptr)
+	{
+		cout << "Image Doesn't exist!" << endl;
+		return false;
+	}
+
+	std::vector<uint8_t> colors;
+
+	colors.resize(size_t(width * height * channels));
+
+	memcpy(colors.data(), img, colors.size() * sizeof(uint8_t));
+
+	D3D11_TEXTURE2D_DESC txtDesc = {};
+	txtDesc.Width = width;
+	txtDesc.Height = height;
+	txtDesc.MipLevels = txtDesc.ArraySize = 1;
+	txtDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	txtDesc.SampleDesc.Count = 1;
+	txtDesc.Usage = D3D11_USAGE_IMMUTABLE;
+	txtDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+
+	// Fill in the subresource data.
+	D3D11_SUBRESOURCE_DATA InitData;
+	InitData.pSysMem = colors.data();
+	InitData.SysMemPitch = txtDesc.Width * sizeof(uint8_t) * channels;
+
+	pDeviceContext->CreateTexture2D(&txtDesc, &InitData, OutTexture.GetAddressOf());
+	pDeviceContext->CreateShaderResourceView(OutTexture.Get(), nullptr,	OutResourceView.GetAddressOf());
+
+	return (OutTexture.Get() && OutResourceView.Get());
 }

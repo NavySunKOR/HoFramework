@@ -4,6 +4,7 @@
 #include "Cube1RenderingObject.h"
 #include "Cube2RenderingObject.h"
 #include "Cube3RenderingObject.h"
+#include "Cube4RenderingObject.h"
 
 #pragma comment(lib,"d3d11.lib")
 #pragma comment(lib,"d3dcompiler.lib")
@@ -16,10 +17,11 @@ bool HCustomRenderModule::Initialize(Application* pAppContext)
 	}
 
 	//TODO: 에디터처럼 만들려면 나중에 이걸 외부에서 추가 할 수 있도록 변경 필요.
-	RenderingObjects.reserve(3);
+	RenderingObjects.reserve(4);
 	RenderingObjects.push_back(std::make_shared<HCube1RenderingObject>(this));
 	RenderingObjects.push_back(std::make_shared<HCube2RenderingObject>(this));
 	RenderingObjects.push_back(std::make_shared<HCube3RenderingObject>(this));
+	RenderingObjects.push_back(std::make_shared<HCube4RenderingObject>(this));
 
 
 	for (size_t i = 0; i < RenderingObjects.size(); ++i)

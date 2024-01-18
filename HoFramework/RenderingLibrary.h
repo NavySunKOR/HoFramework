@@ -57,4 +57,6 @@ public:
 		memcpy(ms.pData, &pConstantBufferData, sizeof(pConstantBufferData));
 		pContext->Unmap(pBuffer.Get(), NULL);
 	}
+
+	static bool CreateTexture(ComPtr<ID3D11Device> pDeviceContext, string pTextureFileLocation, ComPtr<ID3D11Texture2D>& OutTexture, ComPtr<ID3D11ShaderResourceView>& OutResourceView);
 };

@@ -2,12 +2,14 @@
 #include <windows.h>
 #include "InputModule.h"
 #include "Define.h"
+#include "CustomRenderModule.h"
 
 
 class Application
 {
 public:
 	Application();
+	~Application() {};
 	LRESULT MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 	int Run();
@@ -19,7 +21,7 @@ private:
 private:
 	//Components
 	HInputModule InputModule;
-	std::shared_ptr<class HBaseRenderModule> RenderModule = nullptr;
+	std::shared_ptr<HBaseRenderModule> RenderModule = nullptr;
 	
 public:
 	inline bool IsInitialized() {

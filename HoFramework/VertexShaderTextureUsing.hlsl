@@ -1,4 +1,3 @@
-
 cbuffer TransformConstBuffer : register(b0)
 {
     matrix ModelTransform;
@@ -20,6 +19,7 @@ struct PSInput
     float2 TexCoord : TEXCOORD;
 };
 
+
 PSInput main(VSInput Input)
 {
     PSInput Output;
@@ -30,7 +30,7 @@ PSInput main(VSInput Input)
     
     Output.Position = Position;
     Output.Color = Input.Color;
-
+    Output.TexCoord = Input.TexCoord;
     
     return Output;
 }

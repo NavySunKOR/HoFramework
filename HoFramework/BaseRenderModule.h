@@ -82,6 +82,11 @@ public:
 		return m_FOVInDeg;
 	};
 
+	inline ComPtr<ID3D11SamplerState>& GetSampler()
+	{
+		return m_SamplerState;
+	}
+
 protected:
 	Application* m_AppContext = nullptr;
 

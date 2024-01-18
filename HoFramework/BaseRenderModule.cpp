@@ -54,7 +54,6 @@ bool HBaseRenderModule::InitSampler()
 
     // Create the Sample State
     m_device->CreateSamplerState(&sampDesc, m_SamplerState.GetAddressOf());
-
     return (m_SamplerState.Get()) ? true : false;
 }
 
