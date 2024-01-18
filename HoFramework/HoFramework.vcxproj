@@ -27,9 +27,6 @@
     <ClCompile Include="Cube2RenderingObject.cpp" />
     <ClCompile Include="Cube3RenderingObject.cpp" />
     <ClCompile Include="CustomRenderModule.cpp" />
-    <ClCompile Include="CustomRenderModule_Init.cpp" />
-    <ClCompile Include="CustomRenderModule_Render.cpp" />
-    <ClCompile Include="CustomRenderModule_Update.cpp" />
     <ClCompile Include="InputModule.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="RenderingLibrary.cpp" />

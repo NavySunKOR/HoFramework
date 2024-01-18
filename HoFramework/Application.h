@@ -8,7 +8,6 @@ class Application
 {
 public:
 	Application();
-	~Application();
 	LRESULT MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 	int Run();
@@ -20,7 +19,7 @@ private:
 private:
 	//Components
 	HInputModule InputModule;
-	class HBaseRenderModule* RenderModule;
+	std::shared_ptr<class HBaseRenderModule> RenderModule = nullptr;
 	
 public:
 	inline bool IsInitialized() {

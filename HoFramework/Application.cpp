@@ -68,17 +68,11 @@ Application::Application()
 	if (InitWindows() == false)
 		return;
 
-    RenderModule = new HCustomRenderModule();
+    RenderModule = std::make_shared<HCustomRenderModule>();
     if (RenderModule->Initialize(this) == false)
         return;
 
 	m_IsInitialized = true;
-}
-
-Application::~Application()
-{
-    delete RenderModule;
-
 }
 
 LRESULT Application::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)

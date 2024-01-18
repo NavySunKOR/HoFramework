@@ -34,11 +34,15 @@ private:
 
 #pragma region Loop
 public:
-	void Run();
+	void Run()
+	{
+		Update();
+		Render();
+	};
 
 protected:
-	virtual void Update();
-	virtual void Render();
+	virtual void Update() {};
+	virtual void Render() {};
 
 #pragma endregion 
 
