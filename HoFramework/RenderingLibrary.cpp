@@ -21,6 +21,11 @@ void HRenderingLibrary::MakeBox(Mesh* InMesh)
 	InMesh->vertices[1].color = Vector3(0, 0, 0);
 	InMesh->vertices[2].color = Vector3(1.f, 0, 0);
 	InMesh->vertices[3].color = Vector3(1.f, 1.f, 0);
+	InMesh->vertices[0].texCoord = Vector2(0, 1.f);
+	InMesh->vertices[1].texCoord = Vector2(0, 0);
+	InMesh->vertices[2].texCoord = Vector2(1.f, 0);
+	InMesh->vertices[3].texCoord = Vector2(1.f, 1.f);
+
 
 	InMesh->indices.push_back(0);
 	InMesh->indices.push_back(1);
@@ -39,6 +44,10 @@ void HRenderingLibrary::MakeBox(Mesh* InMesh)
 	InMesh->vertices[5].color = Vector3(0, 0, 0);
 	InMesh->vertices[6].color = Vector3(1.f, 0, 0);
 	InMesh->vertices[7].color = Vector3(1.f, 1.f, 0);
+	InMesh->vertices[4].texCoord = Vector2(0, 1.f);
+	InMesh->vertices[5].texCoord = Vector2(0, 0);
+	InMesh->vertices[6].texCoord = Vector2(1.f, 0);
+	InMesh->vertices[7].texCoord = Vector2(1.f, 1.f);
 
 	InMesh->indices.push_back(4);
 	InMesh->indices.push_back(5);
@@ -57,6 +66,10 @@ void HRenderingLibrary::MakeBox(Mesh* InMesh)
 	InMesh->vertices[9].color = Vector3(0, 0, 0);
 	InMesh->vertices[10].color = Vector3(1.f, 0, 0);
 	InMesh->vertices[11].color = Vector3(1.f, 1.f, 0);
+	InMesh->vertices[8].texCoord = Vector2(0, 1.f);
+	InMesh->vertices[9].texCoord = Vector2(0, 0);
+	InMesh->vertices[10].texCoord = Vector2(1.f, 0);
+	InMesh->vertices[11].texCoord = Vector2(1.f, 1.f);
 
 	InMesh->indices.push_back(8);
 	InMesh->indices.push_back(9);
@@ -74,6 +87,10 @@ void HRenderingLibrary::MakeBox(Mesh* InMesh)
 	InMesh->vertices[13].color = Vector3(0, 0, 0);
 	InMesh->vertices[14].color = Vector3(1.f, 0, 0);
 	InMesh->vertices[15].color = Vector3(1.f, 1.f, 0);
+	InMesh->vertices[12].texCoord = Vector2(0, 1.f);
+	InMesh->vertices[13].texCoord = Vector2(0, 0);
+	InMesh->vertices[14].texCoord = Vector2(1.f, 0);
+	InMesh->vertices[15].texCoord = Vector2(1.f, 1.f);
 
 	InMesh->indices.push_back(12);
 	InMesh->indices.push_back(13);
@@ -92,6 +109,10 @@ void HRenderingLibrary::MakeBox(Mesh* InMesh)
 	InMesh->vertices[17].color = Vector3(0, 0, 0);
 	InMesh->vertices[18].color = Vector3(1.f, 0, 0);
 	InMesh->vertices[19].color = Vector3(1.f, 1.f, 0);
+	InMesh->vertices[16].texCoord = Vector2(0, 1.f);
+	InMesh->vertices[17].texCoord = Vector2(0, 0);
+	InMesh->vertices[18].texCoord = Vector2(1.f, 0);
+	InMesh->vertices[19].texCoord = Vector2(1.f, 1.f);
 
 	InMesh->indices.push_back(16);
 	InMesh->indices.push_back(17);
@@ -109,6 +130,10 @@ void HRenderingLibrary::MakeBox(Mesh* InMesh)
 	InMesh->vertices[21].color = Vector3(0, 0, 0);
 	InMesh->vertices[22].color = Vector3(1.f, 0, 0);
 	InMesh->vertices[23].color = Vector3(1.f, 1.f, 0);
+	InMesh->vertices[20].texCoord = Vector2(0, 1.f);
+	InMesh->vertices[21].texCoord = Vector2(0, 0);
+	InMesh->vertices[22].texCoord = Vector2(1.f, 0);
+	InMesh->vertices[23].texCoord = Vector2(1.f, 1.f);
 
 	InMesh->indices.push_back(20);
 	InMesh->indices.push_back(21);
@@ -187,6 +212,7 @@ bool HRenderingLibrary::CreateVertexShader(ComPtr<ID3D11Device> pDeviceContext, 
 {
 	D3D11_INPUT_ELEMENT_DESC position;
 	D3D11_INPUT_ELEMENT_DESC color;
+	D3D11_INPUT_ELEMENT_DESC texCoord;
 
 	position.SemanticName = "POSITION";
 	position.SemanticIndex = 0;
@@ -204,7 +230,15 @@ bool HRenderingLibrary::CreateVertexShader(ComPtr<ID3D11Device> pDeviceContext, 
 	color.InputSlotClass = D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA;
 	color.InstanceDataStepRate = 0;
 
-	vector<D3D11_INPUT_ELEMENT_DESC> inputs = { position,color };
+	texCoord.SemanticName = "TEXCOORD";
+	texCoord.SemanticIndex = 0;
+	texCoord.Format = DXGI_FORMAT_R32G32_FLOAT;
+	texCoord.InputSlot = 0;
+	texCoord.AlignedByteOffset = 4 * 3 +  4 * 3;
+	texCoord.InputSlotClass = D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA;
+	texCoord.InstanceDataStepRate = 0;
+
+	vector<D3D11_INPUT_ELEMENT_DESC> inputs = { position,color,texCoord };
 
 	ComPtr<ID3DBlob> VSBlob;
 	ComPtr<ID3DBlob> VSErrorBlob;

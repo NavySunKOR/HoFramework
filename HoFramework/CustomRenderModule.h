@@ -5,6 +5,7 @@
 
 class HCube1RenderingObject;
 class HCube2RenderingObject;
+class HCube3RenderingObject;
 
 
 class HCustomRenderModule : public HBaseRenderModule
@@ -35,7 +36,7 @@ protected:
 protected:
 	HCube1RenderingObject* Cube1 = nullptr;
 	HCube2RenderingObject* Cube2 = nullptr;
-
+	HCube3RenderingObject* Cube3 = nullptr;
 
 
 
