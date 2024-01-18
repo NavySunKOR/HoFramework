@@ -5,18 +5,12 @@
 
 void HCube1RenderingObject::Initialize()
 {
+
 	ComPtr<ID3D11Device>& device = m_ParentRenderModule->GetDevice();
 
 	HRenderingLibrary::MakeBox(&m_drawingMesh);
 
-	// Vertex Buffer
-	HRenderingLibrary::CreateVertexBuffer(device, &m_drawingMesh, m_vertexBuffer);
-
-	//Index Buffer
-	HRenderingLibrary::CreateIndexBuffer(device, &m_drawingMesh, m_indexBuffer);
-
-	//Transform Constant Buffer
-	HRenderingLibrary::CreateConstantBuffer(device, &m_transformConstData, m_transformConstBuffer);
+	HBaseRenderingObject::Initialize();
 
 	//Shaders
 	D3D11_INPUT_ELEMENT_DESC position;
@@ -51,7 +45,6 @@ void HCube1RenderingObject::Initialize()
 
 	HRenderingLibrary::CreateVertexShader(device, m_vertexShader, m_vertexInputLayout, L"VertexShader.hlsl", inputs);
 	HRenderingLibrary::CreatePixelShader(device, m_pixelShader, L"PixelShader.hlsl");
-
 
 	//그 외에 정의
 	Translate(Vector3(-1.f, 0, 0));

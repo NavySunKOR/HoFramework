@@ -32,6 +32,8 @@ private:
 public:
 	int GetScreenWidth() const { return m_screenWidth; };
 	int GetScreenHeight() const { return m_screenHeight; };
+	bool IsHorizontalView() const { return m_screenWidth > m_screenHeight; };
+	float GetAspectRatio() const { return  (float)m_screenWidth / m_screenHeight; };
 
 	HWND GetMainWindow() const { return m_mainWindow; };
 

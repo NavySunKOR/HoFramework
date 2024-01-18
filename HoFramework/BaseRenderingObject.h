@@ -12,7 +12,6 @@ public:
 	HBaseRenderingObject(HBaseRenderModule* pRenderModule)
 	{
 		m_ParentRenderModule = pRenderModule;
-		Initialize();
 	}
 
 	virtual void Initialize();
@@ -38,7 +37,11 @@ protected:
 	HBaseRenderModule* m_ParentRenderModule;
 
 
-	float ViewAngleInDeg = 70.f;
+	//오브젝트 별 FOV 설정(FPS게임에서 건 카메라 같은 역할)
+	bool m_IsUsingCustomView = false;
+	bool m_CustomIsPerspective = true;
+	float m_CustomFOVInDeg = 70.f;
+
 	Matrix TranslationMatrix;
 	Matrix ScaleMatrix;
 	Matrix RotationMatrix;

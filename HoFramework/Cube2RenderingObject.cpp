@@ -9,14 +9,7 @@ void HCube2RenderingObject::Initialize()
 
 	HRenderingLibrary::MakeBox(&m_drawingMesh);
 
-	// Vertex Buffer
-	HRenderingLibrary::CreateVertexBuffer(device, &m_drawingMesh, m_vertexBuffer);
-
-	//Index Buffer
-	HRenderingLibrary::CreateIndexBuffer(device, &m_drawingMesh, m_indexBuffer);
-
-	//Transform Constant Buffer
-	HRenderingLibrary::CreateConstantBuffer(device, &m_transformConstData, m_transformConstBuffer);
+	HBaseRenderingObject::Initialize();
 
 	//Shaders
 	D3D11_INPUT_ELEMENT_DESC position;

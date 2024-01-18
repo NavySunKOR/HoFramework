@@ -1,24 +1,49 @@
 #include "BaseRenderingObject.h"
 #include "Application.h"
 #include "BaseRenderModule.h"
+#include "RenderingLibrary.h"
 
 void HBaseRenderingObject::Initialize()
 {
+
+	ComPtr<ID3D11Device>& device = m_ParentRenderModule->GetDevice();
+
+	// Vertex Buffer
+	HRenderingLibrary::CreateVertexBuffer(device, &m_drawingMesh, m_vertexBuffer);
+
+	//Index Buffer
+	HRenderingLibrary::CreateIndexBuffer(device, &m_drawingMesh, m_indexBuffer);
+
+	//Transform Constant Buffer
+	HRenderingLibrary::CreateConstantBuffer(device, &m_transformConstData, m_transformConstBuffer);
 
 }
 
 void HBaseRenderingObject::Update()
 {
+	using namespace DirectX;
+
 	m_transformConstData.ModelTransform = (ScaleMatrix * RotationMatrix * TranslationMatrix).Transpose();
 
-	using namespace DirectX;
 	m_transformConstData.ViewTransform = XMMatrixLookAtLH({ 0.0f, 0.0f, -1.0f }, { 0.0f, 0.0f, 1.0f }, { 0.0f, 1.0f, 0.0f });
 	m_transformConstData.ViewTransform = m_transformConstData.ViewTransform.Transpose();
 
-	const float fovAngle = ViewAngleInDeg * (XM_PI / 180.f);
+
+	bool isPerspective = (m_IsUsingCustomView) ? m_CustomIsPerspective : m_ParentRenderModule->IsPerspective();
 	Application* appContext = m_ParentRenderModule->GetAppContext();
-	m_transformConstData.ProjectionTransform = XMMatrixPerspectiveFovLH(fovAngle, (float)appContext->GetScreenWidth() / appContext->GetScreenHeight(), 0.01f, 100.0f);
+
+	if (isPerspective)
+	{
+		const float usingFOVAngle = (m_IsUsingCustomView) ? m_CustomFOVInDeg : m_ParentRenderModule->GetFOVInDeg() *(XM_PI / 180.f);
+		m_transformConstData.ProjectionTransform = XMMatrixPerspectiveFovLH(usingFOVAngle, appContext->GetAspectRatio(), 0.01f, 100.0f);
+	}
+	else
+	{
+		m_transformConstData.ProjectionTransform = XMMatrixOrthographicLH(appContext->GetAspectRatio(),0.f, 0.01f, 100.0f);
+	}
+
 	m_transformConstData.ProjectionTransform = m_transformConstData.ProjectionTransform.Transpose();
+
 
 	D3D11_MAPPED_SUBRESOURCE ms;
 	ComPtr<ID3D11DeviceContext>& context = m_ParentRenderModule->GetContext();

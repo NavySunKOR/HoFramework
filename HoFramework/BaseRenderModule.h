@@ -26,6 +26,7 @@ private:
 	bool InitRenderTargetView();
 	bool InitDepthBuffer();
 	bool InitDepthStencil();
+	bool InitSampler();
 
 	void SetViewport();
 
@@ -69,6 +70,14 @@ public:
 		return m_screenViewport;
 	};
 
+	inline bool IsPerspective() {
+		return m_IsPersepective;
+	};
+
+	inline float GetFOVInDeg() {
+		return m_FOVInDeg;
+	};
+
 protected:
 	Application* m_AppContext = nullptr;
 
@@ -89,7 +98,11 @@ protected:
 	ComPtr<ID3D11DepthStencilView> m_depthStencilView;
 	ComPtr<ID3D11DepthStencilState> m_depthStencilState; //뎁스 스텐실 스테이트
 
+	//Sampler
+	ComPtr<ID3D11SamplerState> m_SamplerState;
 
+	//RenderingObjects
+	vector<std::shared_ptr<class HBaseRenderingObject>> RenderingObjects;
 
 #pragma endregion
 
@@ -105,6 +118,13 @@ private:
 		D3D_FEATURE_LEVEL_9_3 };
 
 	D3D_FEATURE_LEVEL m_UsingFeatureLevel;
+
+	
+	//View 관련
+	bool m_IsPersepective = true;
+	float m_FOVInDeg = 70.f;
+
+
 
 #pragma endregion
 
