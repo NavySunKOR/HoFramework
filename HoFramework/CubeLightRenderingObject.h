@@ -4,8 +4,16 @@
 
 struct PSConstantBuffer
 {
+
+	//32
 	Light UsingLight;
+
+	//12
 	Vector3 UsingViewPosition;
+	
+	float Dummy;
+
+	//
 	Material UsingMat;
 };
 

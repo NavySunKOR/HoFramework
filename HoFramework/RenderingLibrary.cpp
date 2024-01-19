@@ -30,6 +30,10 @@ void HRenderingLibrary::MakeBox(Mesh* InMesh)
 	InMesh->vertices[1].texCoord = Vector2(0, 0);
 	InMesh->vertices[2].texCoord = Vector2(1.f, 0);
 	InMesh->vertices[3].texCoord = Vector2(1.f, 1.f);
+	InMesh->vertices[0].normal = Vector3(0, 0, -1.f);
+	InMesh->vertices[1].normal = Vector3(0, 0, -1.f);
+	InMesh->vertices[2].normal = Vector3(0, 0, -1.f);
+	InMesh->vertices[3].normal = Vector3(0, 0, -1.f);
 
 
 	InMesh->indices.push_back(0);
@@ -53,6 +57,10 @@ void HRenderingLibrary::MakeBox(Mesh* InMesh)
 	InMesh->vertices[5].texCoord = Vector2(0, 0);
 	InMesh->vertices[6].texCoord = Vector2(1.f, 0);
 	InMesh->vertices[7].texCoord = Vector2(1.f, 1.f);
+	InMesh->vertices[4].normal = Vector3(0, 0, 1.f);
+	InMesh->vertices[5].normal = Vector3(0, 0, 1.f);
+	InMesh->vertices[6].normal = Vector3(0, 0, 1.f);
+	InMesh->vertices[7].normal = Vector3(0, 0, 1.f);
 
 	InMesh->indices.push_back(4);
 	InMesh->indices.push_back(5);
@@ -75,6 +83,10 @@ void HRenderingLibrary::MakeBox(Mesh* InMesh)
 	InMesh->vertices[9].texCoord = Vector2(0, 0);
 	InMesh->vertices[10].texCoord = Vector2(1.f, 0);
 	InMesh->vertices[11].texCoord = Vector2(1.f, 1.f);
+	InMesh->vertices[8].normal = Vector3(-1.f, 0, 0);
+	InMesh->vertices[9].normal = Vector3(-1.f, 0, 0);
+	InMesh->vertices[10].normal = Vector3(-1.f, 0, 0);
+	InMesh->vertices[11].normal = Vector3(-1.f, 0, 0);
 
 	InMesh->indices.push_back(8);
 	InMesh->indices.push_back(9);
@@ -96,6 +108,10 @@ void HRenderingLibrary::MakeBox(Mesh* InMesh)
 	InMesh->vertices[13].texCoord = Vector2(0, 0);
 	InMesh->vertices[14].texCoord = Vector2(1.f, 0);
 	InMesh->vertices[15].texCoord = Vector2(1.f, 1.f);
+	InMesh->vertices[12].normal = Vector3(1.f, 0, 0);
+	InMesh->vertices[13].normal = Vector3(1.f, 0, 0);
+	InMesh->vertices[14].normal = Vector3(1.f, 0, 0);
+	InMesh->vertices[15].normal = Vector3(1.f, 0, 0);
 
 	InMesh->indices.push_back(12);
 	InMesh->indices.push_back(13);
@@ -118,6 +134,10 @@ void HRenderingLibrary::MakeBox(Mesh* InMesh)
 	InMesh->vertices[17].texCoord = Vector2(0, 0);
 	InMesh->vertices[18].texCoord = Vector2(1.f, 0);
 	InMesh->vertices[19].texCoord = Vector2(1.f, 1.f);
+	InMesh->vertices[16].normal = Vector3(0, 1.f, 0);
+	InMesh->vertices[17].normal = Vector3(0, 1.f, 0);
+	InMesh->vertices[18].normal = Vector3(0, 1.f, 0);
+	InMesh->vertices[19].normal = Vector3(0, 1.f, 0);
 
 	InMesh->indices.push_back(16);
 	InMesh->indices.push_back(17);
@@ -139,25 +159,29 @@ void HRenderingLibrary::MakeBox(Mesh* InMesh)
 	InMesh->vertices[21].texCoord = Vector2(0, 0);
 	InMesh->vertices[22].texCoord = Vector2(1.f, 0);
 	InMesh->vertices[23].texCoord = Vector2(1.f, 1.f);
+	InMesh->vertices[20].normal = Vector3(0, -1.f, 0);
+	InMesh->vertices[21].normal = Vector3(0, -1.f, 0);
+	InMesh->vertices[22].normal = Vector3(0, -1.f, 0);
+	InMesh->vertices[23].normal = Vector3(0, -1.f, 0);
 
 	//이 메쉬의 중심점
 
-	Vector3 center = Vector3(0.f);
+	//Vector3 center = Vector3(0.f);
 
-	for (int i = 0 ; i < InMesh->vertices.size() ;++i)
-	{
-		center += InMesh->vertices[i].position;
-	}
+	//for (int i = 0 ; i < InMesh->vertices.size() ;++i)
+	//{
+	//	center += InMesh->vertices[i].position;
+	//}
 
-	center /= InMesh->vertices.size();
+	//center /= InMesh->vertices.size();
 
 
-	//메쉬 to 버텍스가 노말
-	for (int i = 0; i < InMesh->vertices.size(); ++i)
-	{
-		InMesh->vertices[i].normal = (InMesh->vertices[i].position - center);
-		InMesh->vertices[i].normal.Normalize();
-	}
+	////메쉬 to 버텍스가 노말
+	//for (int i = 0; i < InMesh->vertices.size(); ++i)
+	//{
+	//	InMesh->vertices[i].normal = (InMesh->vertices[i].position - center);
+	//	InMesh->vertices[i].normal.Normalize();
+	//}
 
 	InMesh->indices.push_back(20);
 	InMesh->indices.push_back(21);

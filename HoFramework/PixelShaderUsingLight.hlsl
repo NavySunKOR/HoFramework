@@ -8,6 +8,7 @@ cbuffer PixelCalculateBuffer : register(b0)
 {
     Light UsingLight; // 30byte
     float3 ViewPosition; //12byte
+    float Dummy; // 4byte
     Material UsingMat; //48Byte
     
 };
@@ -23,18 +24,12 @@ struct PSInput
 
 float4 main(PSInput input) : SV_TARGET
 {
+    float3 toViewDirection = normalize(ViewPosition - input.WorldPosition);
     float4 textureColor = (input.TexCoord.x < 0.3f) ? g_texture0.Sample(g_sampler, input.TexCoord) : g_texture1.Sample(g_sampler, input.TexCoord + float2(0.5, 0));
     
-    Material NewMat = UsingMat;
-    NewMat.diffuse = textureColor.xyz;
-    NewMat.ambient = textureColor.xyz;
-    
-    float3 toViewDirection = normalize(ViewPosition - input.WorldPosition);
-    float4 FinalColor = float4(ComputeDirectionalLight(UsingLight, toViewDirection, input.Normal, NewMat), 1.f);
+    float4 LightColor = float4(ComputeDirectionalLight(UsingLight, toViewDirection, input.Normal, UsingMat), 1.f);
     
     
-    
-    
-    return FinalColor;
+    return LightColor * textureColor;
 
 }

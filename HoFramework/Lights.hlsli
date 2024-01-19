@@ -14,18 +14,19 @@ struct Light
 
 float3 BlinnPhongModel(float3 pLightDir,float3 pToViewDirection, float3 pNormalVector, float pLightIntensity , Material pMat)
 {
-    float halfWay = (pToViewDirection + pLightDir) / 2.f;
+    float3 halfWay = normalize(pToViewDirection + pLightDir);
     float hdotN = dot(halfWay, pNormalVector);
+    float specular = pMat.specular * pow(max(hdotN, 0.f), pMat.shiness);
     
-    return pMat.ambient + (pMat.diffuse * pMat.specular) * pLightIntensity;
-    
+    return pMat.ambient + (pMat.diffuse + specular) * pLightIntensity;
 }
 
 float3 ComputeDirectionalLight(Light pLight, float3 pToViewDirection, float3 pNormalVector, Material pMat)
 {
-    float3 AppliedLightDirection = -pLight.LightDir;
-    float AppliedIntensity = pLight.LightIntensity * dot(AppliedLightDirection, pNormalVector);
-    return BlinnPhongModel(AppliedLightDirection, pToViewDirection, pNormalVector, AppliedIntensity, pMat);
+    float3 LightVec = -pLight.LightDir;
+    float AppliedIntensity = pLight.LightIntensity * max(dot(LightVec, pNormalVector), 0.f);
+    return BlinnPhongModel(LightVec, pToViewDirection, pNormalVector, AppliedIntensity, pMat);
+
 }
 
 

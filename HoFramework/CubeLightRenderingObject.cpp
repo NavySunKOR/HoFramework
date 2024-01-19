@@ -69,14 +69,14 @@ void HCubeLightRenderingObject::Initialize()
 	
 
 	//픽셀 콘스턴트 
-	m_PSConstBufferData.UsingLight.LightDir = Vector3(0.f, 0.f, 1.f);
+	m_PSConstBufferData.UsingLight.LightDir = Vector3(0.f, -1.f, 0.f);
 	m_PSConstBufferData.UsingLight.LightIntensity = 1.f;
-	m_PSConstBufferData.UsingLight.LightPos = Vector3(0.f,0.f,-2.f);
+	m_PSConstBufferData.UsingLight.LightPos = Vector3(0.f,0.f,1.f);
 
-	m_PSConstBufferData.UsingMat.ambient = Vector3(1.f, 0.f, 0.f);
-	m_PSConstBufferData.UsingMat.diffuse = Vector3(1.f, 0.f, 1.f);
-	m_PSConstBufferData.UsingMat.roughness = 5.f;
-	m_PSConstBufferData.UsingMat.specular = Vector3(5.f);
+	m_PSConstBufferData.UsingMat.ambient = Vector3(0.3f, 0.3f, 0.3f);
+	m_PSConstBufferData.UsingMat.diffuse = Vector3(0.5f, 0.5f, 0.5f);
+	m_PSConstBufferData.UsingMat.shiness = 1.f;
+	m_PSConstBufferData.UsingMat.specular = Vector3(1.f);
 
 	
 	HRenderingLibrary::CreateConstantBuffer<PSConstantBuffer>(device, m_PSConstBufferData, m_PSConstBuffer);
@@ -84,8 +84,8 @@ void HCubeLightRenderingObject::Initialize()
 	
 
 	//그 외에 정의
-	Scale(Vector3(0.1f, 0.1f, 0.1f));
-	Translate(Vector3(0.1f, 0.1f, 1.f));
+	Scale(Vector3(0.5f, 0.5f, 0.5f));
+	Translate(Vector3(0.f, -0.3f, 1.f));
 }
 
 void HCubeLightRenderingObject::Update()
@@ -93,7 +93,7 @@ void HCubeLightRenderingObject::Update()
 	//Rotation
 	RotationYValue += 0.01f;
 	RotationXValue += 0.01f;
-	Rotate(Vector3(RotationXValue, RotationYValue, 0));
+	Rotate(Vector3(RotationXValue, RotationYValue,0.f));
 
 	HBaseRenderingObject::Update();
 
