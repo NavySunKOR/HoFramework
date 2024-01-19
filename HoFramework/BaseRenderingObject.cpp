@@ -29,6 +29,10 @@ void HBaseRenderingObject::Update()
 	m_transformConstData.InverseTransform = m_transformConstData.InverseTransform.Transpose().Invert();
 
 
+	m_transformConstData.ViewTransform = XMMatrixLookAtLH({ 0.0f, 0.0f, -1.0f }, { 0.0f, 0.0f, 1.0f }, { 0.0f, 1.0f, 0.0f });
+	m_transformConstData.ViewTransform = m_transformConstData.ViewTransform.Transpose();
+
+	HRenderingLibrary::UpdateConstantBuffer(m_transformConstData, m_transformConstBuffer, m_ParentRenderModule->GetContext());
 
 	bool isPerspective = (m_IsUsingCustomView) ? m_CustomIsPerspective : m_ParentRenderModule->IsPerspective();
 	Application* appContext = m_ParentRenderModule->GetAppContext();
@@ -44,7 +48,6 @@ void HBaseRenderingObject::Update()
 	}
 
 	m_transformConstData.ProjectionTransform = m_transformConstData.ProjectionTransform.Transpose();
-
 
 
 

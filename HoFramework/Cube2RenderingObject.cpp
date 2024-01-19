@@ -60,13 +60,6 @@ void HCube2RenderingObject::Update()
 	//여기까지 유저 정의 입력
 	HBaseRenderingObject::Update();
 
-
-	using namespace DirectX;
-
-	m_transformConstData.ViewTransform = XMMatrixLookAtLH({ 0.0f, 0.0f, -1.0f }, { 0.0f, 0.0f, 1.0f }, { 0.0f, 1.0f, 0.0f });
-	m_transformConstData.ViewTransform = m_transformConstData.ViewTransform.Transpose();
-
-	HRenderingLibrary::UpdateConstantBuffer(m_transformConstData, m_transformConstBuffer, m_ParentRenderModule->GetContext());
 }
 
 void HCube2RenderingObject::Render()
