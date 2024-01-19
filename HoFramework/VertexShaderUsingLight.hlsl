@@ -16,7 +16,8 @@ struct VSInput
 
 struct PSInput
 {
-    float4 Position : SV_POSITION;
+    float4 ScreenPosition : SV_POSITION;
+    float3 WorldPosition : POSITION;
     float3 Color : COLOR;
     float2 TexCoord : TEXCOORD;
     float3 Normal : NORMAL;
@@ -27,11 +28,14 @@ PSInput main(VSInput Input)
 {
     PSInput Output;
     float4 Position = float4(Input.Position, 1.f);
+    
     Position = mul(Position, ModelTransform);
+    Output.WorldPosition = Position.xyz;
+    
     Position = mul(Position, ViewTransform);
     Position = mul(Position, ProjectionTransform);
+    Output.ScreenPosition = Position;
     
-    Output.Position = Position;
     Output.Color = Input.Color;
     Output.TexCoord = Input.TexCoord;
     Output.Normal = normalize(mul(float4(Input.Normal, 0), InverseTransform));

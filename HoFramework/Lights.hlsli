@@ -25,7 +25,7 @@ float3 ComputeDirectionalLight(Light pLight, float3 pToViewDirection, float3 pNo
 {
     float3 AppliedLightDirection = pLight.LightDir;
     float AppliedIntensity = pLight.LightIntensity *  dot(pLight.LightDir, pNormalVector);
-    return BlinnPhongModel(AppliedLightDirection,pToViewDirection,pNormalVector,AppliedIntensity,pMat);
+    return BlinnPhongModel(AppliedLightDirection, pToViewDirection, pNormalVector, AppliedIntensity, pMat);
 }
 
 

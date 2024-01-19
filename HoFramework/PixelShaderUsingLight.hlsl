@@ -7,17 +7,18 @@ SamplerState g_sampler : register(s0);
 cbuffer PixelCalculateBuffer : register(b0)
 {
     Light UsingLight; // 30byte
-    float3 toViewDirection; //12byte
+    float3 ViewPosition; //12byte
     Material UsingMat; //48Byte
     
 };
 
 struct PSInput
 {
-    float4 Position : SV_POSITION;
+    float4 ScreenPosition : SV_POSITION;
+    float3 WorldPosition : POSITION;
     float3 Color : COLOR;
-    float3 Normal : WORLD;
     float2 TexCoord : TEXCOORD;
+    float3 Normal : NORMAL;
 };
 
 float4 main(PSInput input) : SV_TARGET
@@ -28,6 +29,7 @@ float4 main(PSInput input) : SV_TARGET
     NewMat.diffuse = textureColor.xyz;
     NewMat.ambient = textureColor.xyz;
     
+    float3 toViewDirection = normalize(ViewPosition - input.WorldPosition.xyz);
     float4 FinalColor = float4(ComputeDirectionalLight(UsingLight, toViewDirection, input.Normal, NewMat), 1.f);
     return FinalColor;
 

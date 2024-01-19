@@ -24,8 +24,9 @@ void HBaseRenderingObject::Update()
 	using namespace DirectX;
 
 	m_transformConstData.ModelTransform = (ScaleMatrix * RotationMatrix * TranslationMatrix).Transpose();
-
-	m_transformConstData.InverseTransform = m_transformConstData.ModelTransform.Transpose().Invert();
+	m_transformConstData.InverseTransform = m_transformConstData.ModelTransform;
+	m_transformConstData.InverseTransform.Translation(Vector3(0.0f));
+	m_transformConstData.InverseTransform = m_transformConstData.InverseTransform.Transpose().Invert();
 
 	m_transformConstData.ViewTransform = XMMatrixLookAtLH({ 0.0f, 0.0f, -1.0f }, { 0.0f, 0.0f, 1.0f }, { 0.0f, 1.0f, 0.0f });
 	m_transformConstData.ViewTransform = m_transformConstData.ViewTransform.Transpose();

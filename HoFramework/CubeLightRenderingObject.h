@@ -5,7 +5,7 @@
 struct PSConstantBuffer
 {
 	Light UsingLight;
-	Vector3 UsingViewDirection;
+	Vector3 UsingViewPosition;
 	Material UsingMat;
 };
 

@@ -66,6 +66,7 @@ void HCubeLightRenderingObject::Initialize()
 
 	m_PSConstBufferData.UsingMat.roughness = 1.f;
 	m_PSConstBufferData.UsingMat.specular = Vector3(1.f);
+
 	
 	HRenderingLibrary::CreateConstantBuffer<PSConstantBuffer>(device, m_PSConstBufferData, m_PSConstBuffer);
 	
@@ -82,7 +83,10 @@ void HCubeLightRenderingObject::Update()
 	RotationXValue += 0.01f;
 	Rotate(Vector3(RotationXValue, RotationYValue, 0));
 
+
 	HBaseRenderingObject::Update();
+
+	m_PSConstBufferData.UsingViewPosition = Vector3::Transform(Vector3(0.f,0.f,-1.f), m_transformConstData.ViewTransform.Transpose().Invert());
 }
 
 void HCubeLightRenderingObject::Render()
