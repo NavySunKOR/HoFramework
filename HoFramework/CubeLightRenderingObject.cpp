@@ -73,7 +73,7 @@ void HCubeLightRenderingObject::Initialize()
 
 	//그 외에 정의
 	Scale(Vector3(0.1f, 0.1f, 0.1f));
-	//Translate(Vector3(0.1f, 0.1f, 0));
+	Translate(Vector3(0.1f, 0.1f, 1.f));
 }
 
 void HCubeLightRenderingObject::Update()
@@ -86,7 +86,19 @@ void HCubeLightRenderingObject::Update()
 
 	HBaseRenderingObject::Update();
 
-	m_PSConstBufferData.UsingViewPosition = Vector3::Transform(Vector3(0.f,0.f,-1.f), m_transformConstData.ViewTransform.Transpose().Invert());
+
+	using namespace DirectX;
+	m_transformConstData.ViewTransform = XMMatrixLookAtLH({ 0.0f, 0.0f, -1.0f }, { 0.0f, 0.0f, 1.0f }, { 0.0f, 1.0f, 0.0f });
+	m_PSConstBufferData.UsingViewPosition = Vector3::Transform({ 0.0f, 0.0f, -1.0f }, m_transformConstData.ViewTransform.Invert());
+	m_transformConstData.ViewTransform = m_transformConstData.ViewTransform.Transpose();
+	HRenderingLibrary::UpdateConstantBuffer(m_transformConstData, m_transformConstBuffer, m_ParentRenderModule->GetContext());
+	HRenderingLibrary::UpdateConstantBuffer(m_PSConstBufferData, m_PSConstBuffer, m_ParentRenderModule->GetContext());
+
+	//using namespace DirectX;
+	//m_transformConstData.ViewTransform = Matrix::CreateTranslation(0.0f, 0.0f, 2.0f);
+	//m_PSConstBufferData.UsingViewPosition = Vector3::Transform(Vector3(0.f), m_transformConstData.ViewTransform.Invert());
+	//m_transformConstData.ViewTransform = m_transformConstData.ViewTransform.Transpose();
+	//HRenderingLibrary::UpdateConstantBuffer(m_transformConstData, m_transformConstBuffer, m_ParentRenderModule->GetContext());
 }
 
 void HCubeLightRenderingObject::Render()

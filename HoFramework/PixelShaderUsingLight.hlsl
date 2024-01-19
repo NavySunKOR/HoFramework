@@ -31,6 +31,6 @@ float4 main(PSInput input) : SV_TARGET
     
     float3 toViewDirection = normalize(ViewPosition - input.WorldPosition.xyz);
     float4 FinalColor = float4(ComputeDirectionalLight(UsingLight, toViewDirection, input.Normal, NewMat), 1.f);
-    return FinalColor;
+    return textureColor;
 
 }
