@@ -17,6 +17,7 @@ void HCubeLightRenderingObject::Initialize()
 	D3D11_INPUT_ELEMENT_DESC position;
 	D3D11_INPUT_ELEMENT_DESC color;
 	D3D11_INPUT_ELEMENT_DESC texCoord;
+	D3D11_INPUT_ELEMENT_DESC normal;
 
 	position.SemanticName = "POSITION";
 	position.SemanticIndex = 0;
@@ -42,7 +43,15 @@ void HCubeLightRenderingObject::Initialize()
 	texCoord.InputSlotClass = D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA;
 	texCoord.InstanceDataStepRate = 0;
 
-	vector<D3D11_INPUT_ELEMENT_DESC> inputs = { position ,color,texCoord };
+	normal.SemanticName = "NORMAL";
+	normal.SemanticIndex = 0;
+	normal.Format = DXGI_FORMAT_R32G32B32_FLOAT;
+	normal.InputSlot = 0;
+	normal.AlignedByteOffset = 4 * 3 + 4 * 3 + 4 *2;
+	normal.InputSlotClass = D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA;
+	normal.InstanceDataStepRate = 0;
+
+	vector<D3D11_INPUT_ELEMENT_DESC> inputs = { position ,color,texCoord , normal};
 	HRenderingLibrary::CreateVertexShader(device, m_vertexShader, m_vertexInputLayout, L"VertexShaderUsingLight.hlsl", inputs);
 	HRenderingLibrary::CreatePixelShader(device, m_pixelShader, L"PixelShaderUsingLight.hlsl");
 
@@ -86,6 +95,7 @@ void HCubeLightRenderingObject::Update()
 	HBaseRenderingObject::Update();
 
 	m_PSConstBufferData.UsingViewPosition = Vector3::Transform(Vector3(0.f,0.f,-1.f), m_transformConstData.ViewTransform.Transpose().Invert());
+
 	HRenderingLibrary::UpdateConstantBuffer(m_transformConstData, m_transformConstBuffer, m_ParentRenderModule->GetContext());
 	HRenderingLibrary::UpdateConstantBuffer(m_PSConstBufferData, m_PSConstBuffer, m_ParentRenderModule->GetContext());
 }
