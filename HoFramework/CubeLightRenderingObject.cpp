@@ -69,15 +69,18 @@ void HCubeLightRenderingObject::Initialize()
 	
 
 	//픽셀 콘스턴트 
-	m_PSConstBufferData.UsingLight.LightDir = Vector3(1.f, -1.f, 0);
-	m_PSConstBufferData.UsingLight.LightIntensity = 5.f;
-	m_PSConstBufferData.UsingLight.LightPos = Vector3(2.f,2.f,0);
+	m_PSConstBufferData.UsingLight.LightDir = Vector3(0.f, 0.f, 1.f);
+	m_PSConstBufferData.UsingLight.LightIntensity = 1.f;
+	m_PSConstBufferData.UsingLight.LightPos = Vector3(0.f,0.f,-2.f);
 
-	m_PSConstBufferData.UsingMat.roughness = 1.f;
-	m_PSConstBufferData.UsingMat.specular = Vector3(1.f);
+	m_PSConstBufferData.UsingMat.ambient = Vector3(1.f, 0.f, 0.f);
+	m_PSConstBufferData.UsingMat.diffuse = Vector3(1.f, 0.f, 1.f);
+	m_PSConstBufferData.UsingMat.roughness = 5.f;
+	m_PSConstBufferData.UsingMat.specular = Vector3(5.f);
 
 	
 	HRenderingLibrary::CreateConstantBuffer<PSConstantBuffer>(device, m_PSConstBufferData, m_PSConstBuffer);
+	HRenderingLibrary::UpdateConstantBuffer(m_PSConstBufferData, m_PSConstBuffer, m_ParentRenderModule->GetContext());
 	
 
 	//그 외에 정의
@@ -95,8 +98,6 @@ void HCubeLightRenderingObject::Update()
 	HBaseRenderingObject::Update();
 
 	m_PSConstBufferData.UsingViewPosition = Vector3::Transform(Vector3(0.f,0.f,-1.f), m_transformConstData.ViewTransform.Transpose().Invert());
-
-	HRenderingLibrary::UpdateConstantBuffer(m_transformConstData, m_transformConstBuffer, m_ParentRenderModule->GetContext());
 	HRenderingLibrary::UpdateConstantBuffer(m_PSConstBufferData, m_PSConstBuffer, m_ParentRenderModule->GetContext());
 }
 

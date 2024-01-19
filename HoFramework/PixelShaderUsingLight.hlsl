@@ -23,14 +23,18 @@ struct PSInput
 
 float4 main(PSInput input) : SV_TARGET
 {
-    float4 textureColor = (input.TexCoord.x < 0.5f) ? g_texture0.Sample(g_sampler, input.TexCoord) : g_texture1.Sample(g_sampler, input.TexCoord + float2(0.5, 0));
+    float4 textureColor = (input.TexCoord.x < 0.3f) ? g_texture0.Sample(g_sampler, input.TexCoord) : g_texture1.Sample(g_sampler, input.TexCoord + float2(0.5, 0));
     
     Material NewMat = UsingMat;
     NewMat.diffuse = textureColor.xyz;
     NewMat.ambient = textureColor.xyz;
     
-    float3 toViewDirection = normalize(ViewPosition - input.WorldPosition.xyz);
+    float3 toViewDirection = normalize(ViewPosition - input.WorldPosition);
     float4 FinalColor = float4(ComputeDirectionalLight(UsingLight, toViewDirection, input.Normal, NewMat), 1.f);
-    return textureColor;
+    
+    
+    
+    
+    return FinalColor;
 
 }
