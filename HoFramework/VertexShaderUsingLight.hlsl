@@ -11,6 +11,7 @@ struct VSInput
     float3 Position : POSITION;
     float3 Color : COLOR;
     float2 TexCoord : TEXCOORD;
+    float3 Normal : NORMAL;
 };
 
 struct PSInput
@@ -18,6 +19,7 @@ struct PSInput
     float4 Position : SV_POSITION;
     float3 Color : COLOR;
     float2 TexCoord : TEXCOORD;
+    float3 Normal : NORMAL;
 };
 
 
@@ -30,8 +32,9 @@ PSInput main(VSInput Input)
     Position = mul(Position, ProjectionTransform);
     
     Output.Position = Position;
-    Output.Color = float3(Input.TexCoord, 1.f);
+    Output.Color = Input.Color;
     Output.TexCoord = Input.TexCoord;
-    
+    Output.Normal = normalize(mul(float4(Input.Normal, 0), InverseTransform));
+   
     return Output;
 }

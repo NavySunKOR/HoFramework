@@ -1,11 +1,11 @@
-#include "Cube4RenderingObject.h"
+#include "CubeLightRenderingObject.h"
 #include "RenderingLibrary.h"
 #include "BaseRenderModule.h"
 #include "Application.h"
 #include <algorithm>
 
 
-void HCube4RenderingObject::Initialize()
+void HCubeLightRenderingObject::Initialize()
 {
 	ComPtr<ID3D11Device>& device = m_ParentRenderModule->GetDevice();
 
@@ -17,7 +17,6 @@ void HCube4RenderingObject::Initialize()
 	D3D11_INPUT_ELEMENT_DESC position;
 	D3D11_INPUT_ELEMENT_DESC color;
 	D3D11_INPUT_ELEMENT_DESC texCoord;
-	D3D11_INPUT_ELEMENT_DESC normal;
 
 	position.SemanticName = "POSITION";
 	position.SemanticIndex = 0;
@@ -43,17 +42,9 @@ void HCube4RenderingObject::Initialize()
 	texCoord.InputSlotClass = D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA;
 	texCoord.InstanceDataStepRate = 0;
 
-	normal.SemanticName = "NORMAL";
-	normal.SemanticIndex = 0;
-	normal.Format = DXGI_FORMAT_R32G32B32_FLOAT;
-	normal.InputSlot = 0;
-	normal.AlignedByteOffset = 4 * 3 + 4 * 3 + 4 * 2;
-	normal.InputSlotClass = D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA;
-	normal.InstanceDataStepRate = 0;
-
-	vector<D3D11_INPUT_ELEMENT_DESC> inputs = { position ,color,texCoord,normal};
-	HRenderingLibrary::CreateVertexShader(device, m_vertexShader, m_vertexInputLayout, L"VertexShaderTextureUsing.hlsl", inputs);
-	HRenderingLibrary::CreatePixelShader(device, m_pixelShader, L"PixelShaderTextureUsing.hlsl");
+	vector<D3D11_INPUT_ELEMENT_DESC> inputs = { position ,color,texCoord };
+	HRenderingLibrary::CreateVertexShader(device, m_vertexShader, m_vertexInputLayout, L"VertexShaderUsingLight.hlsl", inputs);
+	HRenderingLibrary::CreatePixelShader(device, m_pixelShader, L"PixelShaderUsingLight.hlsl");
 
 	if (HRenderingLibrary::CreateTexture(device, string("./SampleTexture/wall.jpg"), m_Texture1, m_Texture1ResourceView) == false)
 	{
@@ -65,12 +56,26 @@ void HCube4RenderingObject::Initialize()
 	}
 
 
+	HRenderingLibrary::CreateConstantBuffer<TransformConstantBuffer>(device, m_transformConstData, m_transformConstBuffer);
+	
+
+	//픽셀 콘스턴트 
+	m_PSConstBufferData.UsingLight.LightDir = Vector3(1.f, -1.f, 0);
+	m_PSConstBufferData.UsingLight.LightIntensity = 5.f;
+	m_PSConstBufferData.UsingLight.LightPos = Vector3(2.f,2.f,0);
+
+	m_PSConstBufferData.UsingMat.roughness = 1.f;
+	m_PSConstBufferData.UsingMat.specular = Vector3(1.f);
+	
+	HRenderingLibrary::CreateConstantBuffer<PSConstantBuffer>(device, m_PSConstBufferData, m_PSConstBuffer);
+	
+
 	//그 외에 정의
-	Scale(Vector3(0.025f, 0.025f, 0.025f));
-	Translate(Vector3(0.1f,0.1f, 0));
+	Scale(Vector3(0.1f, 0.1f, 0.1f));
+	//Translate(Vector3(0.1f, 0.1f, 0));
 }
 
-void HCube4RenderingObject::Update()
+void HCubeLightRenderingObject::Update()
 {
 	//Rotation
 	RotationYValue += 0.01f;
@@ -80,7 +85,7 @@ void HCube4RenderingObject::Update()
 	HBaseRenderingObject::Update();
 }
 
-void HCube4RenderingObject::Render()
+void HCubeLightRenderingObject::Render()
 {
 	// 버텍스/인덱스 버퍼 설정
 
@@ -89,5 +94,7 @@ void HCube4RenderingObject::Render()
 											   m_Texture2ResourceView.Get() };
 	context->PSSetShaderResources(0, 2, pixelResources);
 	context->PSSetSamplers(0, 1, m_ParentRenderModule->GetSampler().GetAddressOf());
+	context->PSSetConstantBuffers(0, 1, m_PSConstBuffer.GetAddressOf());
+
 	HBaseRenderingObject::Render();
 }

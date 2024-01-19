@@ -5,6 +5,7 @@
 #include "Cube2RenderingObject.h"
 #include "Cube3RenderingObject.h"
 #include "Cube4RenderingObject.h"
+#include "CubeLightRenderingObject.h"
 
 #pragma comment(lib,"d3d11.lib")
 #pragma comment(lib,"d3dcompiler.lib")
@@ -22,6 +23,8 @@ bool HCustomRenderModule::Initialize(Application* pAppContext)
 	RenderingObjects.push_back(std::make_shared<HCube2RenderingObject>(this));
 	RenderingObjects.push_back(std::make_shared<HCube3RenderingObject>(this));
 	RenderingObjects.push_back(std::make_shared<HCube4RenderingObject>(this));
+
+	//RenderingObjects.push_back(std::make_shared<HCubeLightRenderingObject>(this));
 
 
 	for (size_t i = 0; i < RenderingObjects.size(); ++i)

@@ -1,6 +1,7 @@
 cbuffer TransformConstBuffer : register(b0)
 {
     matrix ModelTransform;
+    matrix InverseTransform;
     matrix ViewTransform;
     matrix ProjectionTransform;
 }
@@ -10,6 +11,7 @@ struct VSInput
     float3 Position : POSITION;
     float3 Color : COLOR;
     float2 TexCoord : TEXCOORD;
+    float3 Normal : NORMAL;
 };
 
 struct PSInput

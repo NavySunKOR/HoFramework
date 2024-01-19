@@ -22,7 +22,7 @@ public:
 	{
 		if (sizeof(pConstantBufferData) % 16 != 0)
 		{
-			cout << "Const buffer must be size of 16byte!!" << endl;
+			cout << "Const buffer must be size of 16byte!! : " << sizeof(pConstantBufferData) << endl;
 			return false;
 		}
 

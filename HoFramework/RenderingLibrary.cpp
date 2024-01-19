@@ -140,6 +140,25 @@ void HRenderingLibrary::MakeBox(Mesh* InMesh)
 	InMesh->vertices[22].texCoord = Vector2(1.f, 0);
 	InMesh->vertices[23].texCoord = Vector2(1.f, 1.f);
 
+	//이 메쉬의 중심점
+
+	Vector3 center = Vector3(0.f);
+
+	for (int i = 0 ; i < InMesh->vertices.size() ;++i)
+	{
+		center += InMesh->vertices[i].position;
+	}
+
+	center /= InMesh->vertices.size();
+
+
+	//메쉬 to 버텍스가 노말
+	for (int i = 0; i < InMesh->vertices.size(); ++i)
+	{
+		InMesh->vertices[i].normal = (InMesh->vertices[i].position - center);
+		InMesh->vertices[i].normal.Normalize();
+	}
+
 	InMesh->indices.push_back(20);
 	InMesh->indices.push_back(21);
 	InMesh->indices.push_back(22);
@@ -196,7 +215,7 @@ bool HRenderingLibrary::CreateVertexShader(ComPtr<ID3D11Device> pDeviceContext, 
 	ComPtr<ID3DBlob> VSBlob;
 	ComPtr<ID3DBlob> VSErrorBlob;
 
-	HRESULT VShr = D3DCompileFromFile(pShaderFileLocation, 0, 0, "main", "vs_5_0", D3DCOMPILE_DEBUG, 0, &VSBlob, &VSErrorBlob);
+	HRESULT VShr = D3DCompileFromFile(pShaderFileLocation, 0, D3D_COMPILE_STANDARD_FILE_INCLUDE, "main", "vs_5_0", D3DCOMPILE_DEBUG, 0, &VSBlob, &VSErrorBlob);
 
 	if (FAILED(VShr))
 	{
@@ -215,7 +234,7 @@ bool HRenderingLibrary::CreatePixelShader(ComPtr<ID3D11Device> pDeviceContext, C
 	ComPtr<ID3DBlob> PSBlob;
 	ComPtr<ID3DBlob> PSErrorBlob;
 
-	HRESULT PShr = D3DCompileFromFile(pShaderFileLocation, 0, 0, "main", "ps_5_0", D3DCOMPILE_DEBUG, 0, &PSBlob, &PSErrorBlob);
+	HRESULT PShr = D3DCompileFromFile(pShaderFileLocation, 0, D3D_COMPILE_STANDARD_FILE_INCLUDE, "main", "ps_5_0", D3DCOMPILE_DEBUG, 0, &PSBlob, &PSErrorBlob);
 
 	if (FAILED(PShr))
 	{
