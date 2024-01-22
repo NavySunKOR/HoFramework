@@ -97,7 +97,7 @@ void HCubeLightRenderingObject::Update()
 
 	HBaseRenderingObject::Update();
 
-	m_PSConstBufferData.UsingViewPosition = Vector3::Transform(Vector3(0.f,0.f,-1.f), m_transformConstData.ViewTransform.Transpose().Invert());
+	m_PSConstBufferData.UsingViewPosition = Vector3::Transform(Vector3(0.f,0.f,0.f), m_transformConstData.ViewTransform.Transpose().Invert());
 	HRenderingLibrary::UpdateConstantBuffer(m_PSConstBufferData, m_PSConstBuffer, m_ParentRenderModule->GetContext());
 }
 
