@@ -23,13 +23,14 @@ void HBaseRenderingObject::Update()
 {
 	using namespace DirectX;
 
-	m_transformConstData.ModelTransform = (ScaleMatrix * RotationMatrix * TranslationMatrix).Transpose();
+	m_transformConstData.ModelTransform = (ScaleMatrix * RotationMatrix * TranslationMatrix);
+	m_transformConstData.ModelTransform = m_transformConstData.ModelTransform.Transpose();
 	m_transformConstData.InverseTransform = m_transformConstData.ModelTransform;
 	m_transformConstData.InverseTransform.Translation(Vector3(0.0f));
 	m_transformConstData.InverseTransform = m_transformConstData.InverseTransform.Transpose().Invert();
 
 
-	m_transformConstData.ViewTransform = Matrix::CreateFromYawPitchRoll(m_ParentRenderModule->GetGlobalCameraRotation()) * Matrix::CreateTranslation(-m_ParentRenderModule->GetGlobalCameraPosition());
+	m_transformConstData.ViewTransform = Matrix::CreateRotationY(m_ParentRenderModule->GetGlobalCameraRotation().y)  * Matrix::CreateTranslation(m_ParentRenderModule->GetGlobalCameraPosition());
 	m_transformConstData.ViewTransform = m_transformConstData.ViewTransform.Transpose();
 
 	HRenderingLibrary::UpdateConstantBuffer(m_transformConstData, m_transformConstBuffer, m_ParentRenderModule->GetContext());

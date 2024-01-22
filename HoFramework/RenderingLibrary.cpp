@@ -17,23 +17,23 @@ void HRenderingLibrary::MakeBox(Mesh* InMesh)
 
 	//왼쪽 아래부터 시계방향
 
-	//앞면
-	InMesh->vertices[0].position = Vector3(-1.0f, 1.0f, 1.0f);
-	InMesh->vertices[1].position = Vector3(-1.0f, -1.0f, 1.0f);
-	InMesh->vertices[2].position = Vector3(1.0f, -1.0f, 1.0f);
-	InMesh->vertices[3].position = Vector3(1.0f, 1.0f, 1.0f);
-	InMesh->vertices[0].color = Vector3(0, 1.f, 0);
-	InMesh->vertices[1].color = Vector3(0, 0, 0);
-	InMesh->vertices[2].color = Vector3(1.f, 0, 0);
-	InMesh->vertices[3].color = Vector3(1.f, 1.f, 0);
-	InMesh->vertices[0].texCoord = Vector2(0, 1.f);
-	InMesh->vertices[1].texCoord = Vector2(0, 0);
-	InMesh->vertices[2].texCoord = Vector2(1.f, 0);
-	InMesh->vertices[3].texCoord = Vector2(1.f, 1.f);
-	InMesh->vertices[0].normal = Vector3(0, 0, -1.f);
-	InMesh->vertices[1].normal = Vector3(0, 0, -1.f);
-	InMesh->vertices[2].normal = Vector3(0, 0, -1.f);
-	InMesh->vertices[3].normal = Vector3(0, 0, -1.f);
+	//윗면
+	InMesh->vertices[0].position = Vector3(-1.0f, 1.0f, -1.0f);
+	InMesh->vertices[1].position = Vector3(-1.0f, 1.0f, 1.0f);
+	InMesh->vertices[2].position = Vector3(1.0f, 1.0f, 1.0f);
+	InMesh->vertices[3].position = Vector3(1.0f, 1.0f, -1.0f);
+	InMesh->vertices[0].color = Vector3(0.0f, 0.0f, 0.0f);
+	InMesh->vertices[1].color = Vector3(0.0f, 0.0f, 0.0f);
+	InMesh->vertices[2].color = Vector3(0.0f, 0.0f, 0.0f);
+	InMesh->vertices[3].color = Vector3(0.0f, 0.0f, 0.0f);
+	InMesh->vertices[0].texCoord = Vector2(0.0f, 0.0f);
+	InMesh->vertices[1].texCoord = Vector2(1.0f, 0.0f);
+	InMesh->vertices[2].texCoord = Vector2(1.0f, 1.0f);
+	InMesh->vertices[3].texCoord = Vector2(0.0f, 1.0f);
+	InMesh->vertices[0].normal = Vector3(0.0f, 1.f, 0.0f);
+	InMesh->vertices[1].normal = Vector3(0.0f, 1.f, 0.0f);
+	InMesh->vertices[2].normal = Vector3(0.0f, 1.f, 0.0f);
+	InMesh->vertices[3].normal = Vector3(0.0f, 1.f, 0.0f);
 
 
 	InMesh->indices.push_back(0);
@@ -44,23 +44,23 @@ void HRenderingLibrary::MakeBox(Mesh* InMesh)
 	InMesh->indices.push_back(3);
 
 
-	////뒷면
-	InMesh->vertices[4].position = Vector3(1.f, -1.f, -1.f);
-	InMesh->vertices[5].position = Vector3(1.f, 1.f, -1.f);
-	InMesh->vertices[6].position = Vector3(-1.f, 1.f, -1.f);
-	InMesh->vertices[7].position = Vector3(-1.f, -1.f, -1.f);
-	InMesh->vertices[4].color = Vector3(0, 1.f, 0);
+	//아랫면
+	InMesh->vertices[4].position = Vector3(-1.0f, -1.0f, -1.0f);
+	InMesh->vertices[5].position = Vector3(1.0f, -1.0f, -1.0f);
+	InMesh->vertices[6].position = Vector3(1.0f, -1.0f, 1.0f);
+	InMesh->vertices[7].position = Vector3(-1.0f, -1.0f, 1.0f);
+	InMesh->vertices[4].color = Vector3(0, 0, 0);
 	InMesh->vertices[5].color = Vector3(0, 0, 0);
-	InMesh->vertices[6].color = Vector3(1.f, 0, 0);
-	InMesh->vertices[7].color = Vector3(1.f, 1.f, 0);
-	InMesh->vertices[4].texCoord = Vector2(0, 1.f);
-	InMesh->vertices[5].texCoord = Vector2(0, 0);
-	InMesh->vertices[6].texCoord = Vector2(1.f, 0);
-	InMesh->vertices[7].texCoord = Vector2(1.f, 1.f);
-	InMesh->vertices[4].normal = Vector3(0, 0, 1.f);
-	InMesh->vertices[5].normal = Vector3(0, 0, 1.f);
-	InMesh->vertices[6].normal = Vector3(0, 0, 1.f);
-	InMesh->vertices[7].normal = Vector3(0, 0, 1.f);
+	InMesh->vertices[6].color = Vector3(0, 0, 0);
+	InMesh->vertices[7].color = Vector3(0, 0, 0);
+	InMesh->vertices[4].texCoord = Vector2(0.0f, 0.0f);
+	InMesh->vertices[5].texCoord = Vector2(1.0f, 0.0f);
+	InMesh->vertices[6].texCoord = Vector2(1.0f, 1.0f);
+	InMesh->vertices[7].texCoord = Vector2(0.0f, 1.0f);
+	InMesh->vertices[4].normal = Vector3(0.0f, -1.0f, 0.0f);
+	InMesh->vertices[5].normal = Vector3(0.0f, -1.0f, 0.0f);
+	InMesh->vertices[6].normal = Vector3(0.0f, -1.0f, 0.0f);
+	InMesh->vertices[7].normal = Vector3(0.0f, -1.0f, 0.0f);
 
 	InMesh->indices.push_back(4);
 	InMesh->indices.push_back(5);
@@ -70,23 +70,23 @@ void HRenderingLibrary::MakeBox(Mesh* InMesh)
 	InMesh->indices.push_back(7);
 
 
-	////왼쪽
-	InMesh->vertices[8].position = Vector3(-1.f, -1.f, -1.f);
-	InMesh->vertices[9].position = Vector3(-1.f, 1.f, -1.f);
-	InMesh->vertices[10].position = Vector3(-1.f, 1.f, 1.f);
-	InMesh->vertices[11].position = Vector3(-1.f, -1.f, 1.f);
-	InMesh->vertices[8].color = Vector3(0, 1.f, 0);
+	// 앞면
+	InMesh->vertices[8].position = Vector3(-1.0f, -1.0f, -1.0f);
+	InMesh->vertices[9].position = Vector3(-1.0f, 1.0f, -1.0f);
+	InMesh->vertices[10].position = Vector3(1.0f, 1.0f, -1.0f);
+	InMesh->vertices[11].position = Vector3(1.0f, -1.0f, -1.0f);
+	InMesh->vertices[8].color = Vector3(0, 0, 0);
 	InMesh->vertices[9].color = Vector3(0, 0, 0);
-	InMesh->vertices[10].color = Vector3(1.f, 0, 0);
-	InMesh->vertices[11].color = Vector3(1.f, 1.f, 0);
-	InMesh->vertices[8].texCoord = Vector2(0, 1.f);
-	InMesh->vertices[9].texCoord = Vector2(0, 0);
-	InMesh->vertices[10].texCoord = Vector2(1.f, 0);
-	InMesh->vertices[11].texCoord = Vector2(1.f, 1.f);
-	InMesh->vertices[8].normal = Vector3(-1.f, 0, 0);
-	InMesh->vertices[9].normal = Vector3(-1.f, 0, 0);
-	InMesh->vertices[10].normal = Vector3(-1.f, 0, 0);
-	InMesh->vertices[11].normal = Vector3(-1.f, 0, 0);
+	InMesh->vertices[10].color = Vector3(0, 0, 0);
+	InMesh->vertices[11].color = Vector3(0, 0, 0);
+	InMesh->vertices[8].texCoord = Vector2(0.0f, 0.0f);
+	InMesh->vertices[9].texCoord = Vector2(1.0f, 0.0f);
+	InMesh->vertices[10].texCoord = Vector2(1.0f, 1.0f);
+	InMesh->vertices[11].texCoord = Vector2(0.0f, 1.0f);
+	InMesh->vertices[8].normal = Vector3(0.0f, 0.0f, -1.0f);
+	InMesh->vertices[9].normal = Vector3(0.0f, 0.0f, -1.0f);
+	InMesh->vertices[10].normal = Vector3(0.0f, 0.0f, -1.0f);
+	InMesh->vertices[11].normal = Vector3(0.0f, 0.0f, -1.0f);
 
 	InMesh->indices.push_back(8);
 	InMesh->indices.push_back(9);
@@ -95,23 +95,23 @@ void HRenderingLibrary::MakeBox(Mesh* InMesh)
 	InMesh->indices.push_back(10);
 	InMesh->indices.push_back(11);
 
-	////오른쪽
-	InMesh->vertices[12].position = Vector3(1.f, -1.f, -1.f);
-	InMesh->vertices[13].position = Vector3(1.f, 1.f, -1.f);
-	InMesh->vertices[14].position = Vector3(1.f, 1.f, 1.f);
-	InMesh->vertices[15].position = Vector3(1.f, -1.f, 1.f);
-	InMesh->vertices[12].color = Vector3(0, 1.f, 0);
+	// 뒷면
+	InMesh->vertices[12].position = Vector3(-1.0f, -1.0f, 1.0f);
+	InMesh->vertices[13].position = Vector3(1.0f, -1.0f, 1.0f);
+	InMesh->vertices[14].position = Vector3(1.0f, 1.0f, 1.0f);
+	InMesh->vertices[15].position = Vector3(-1.0f, 1.0f, 1.0f);
+	InMesh->vertices[12].color = Vector3(0, 0, 0);
 	InMesh->vertices[13].color = Vector3(0, 0, 0);
-	InMesh->vertices[14].color = Vector3(1.f, 0, 0);
-	InMesh->vertices[15].color = Vector3(1.f, 1.f, 0);
-	InMesh->vertices[12].texCoord = Vector2(0, 1.f);
-	InMesh->vertices[13].texCoord = Vector2(0, 0);
-	InMesh->vertices[14].texCoord = Vector2(1.f, 0);
-	InMesh->vertices[15].texCoord = Vector2(1.f, 1.f);
-	InMesh->vertices[12].normal = Vector3(1.f, 0, 0);
-	InMesh->vertices[13].normal = Vector3(1.f, 0, 0);
-	InMesh->vertices[14].normal = Vector3(1.f, 0, 0);
-	InMesh->vertices[15].normal = Vector3(1.f, 0, 0);
+	InMesh->vertices[14].color = Vector3(0, 0, 0);
+	InMesh->vertices[15].color = Vector3(0, 0, 0);
+	InMesh->vertices[12].texCoord = Vector2(0.0f, 0.0f);
+	InMesh->vertices[13].texCoord = Vector2(1.0f, 0.0f);
+	InMesh->vertices[14].texCoord = Vector2(1.0f, 1.0f);
+	InMesh->vertices[15].texCoord = Vector2(0.0f, 1.0f);
+	InMesh->vertices[12].normal = Vector3(0.0f, 0.0f, 1.0f);
+	InMesh->vertices[13].normal = Vector3(0.0f, 0.0f, 1.0f);
+	InMesh->vertices[14].normal = Vector3(0.0f, 0.0f, 1.0f);
+	InMesh->vertices[15].normal = Vector3(0.0f, 0.0f, 1.0f);
 
 	InMesh->indices.push_back(12);
 	InMesh->indices.push_back(13);
@@ -121,23 +121,23 @@ void HRenderingLibrary::MakeBox(Mesh* InMesh)
 	InMesh->indices.push_back(15);
 
 
-	////위
-	InMesh->vertices[16].position = Vector3(-1.f, 1.f, 1.f);
-	InMesh->vertices[17].position = Vector3(-1.f, 1.f, -1.f);
-	InMesh->vertices[18].position = Vector3(1.f, 1.f, -1.f);
-	InMesh->vertices[19].position = Vector3(1.f, 1.f, 1.f);
-	InMesh->vertices[16].color = Vector3(0, 1.f, 0);
+	////왼쪽
+	InMesh->vertices[16].position = Vector3(-1.0f, -1.0f, 1.0f);
+	InMesh->vertices[17].position = Vector3(-1.0f, 1.0f, 1.0f);
+	InMesh->vertices[18].position = Vector3(-1.0f, 1.0f, -1.0f);
+	InMesh->vertices[19].position = Vector3(-1.0f, -1.0f, -1.0f);
+	InMesh->vertices[16].color = Vector3(0, 0, 0);
 	InMesh->vertices[17].color = Vector3(0, 0, 0);
-	InMesh->vertices[18].color = Vector3(1.f, 0, 0);
-	InMesh->vertices[19].color = Vector3(1.f, 1.f, 0);
-	InMesh->vertices[16].texCoord = Vector2(0, 1.f);
-	InMesh->vertices[17].texCoord = Vector2(0, 0);
-	InMesh->vertices[18].texCoord = Vector2(1.f, 0);
-	InMesh->vertices[19].texCoord = Vector2(1.f, 1.f);
-	InMesh->vertices[16].normal = Vector3(0, 1.f, 0);
-	InMesh->vertices[17].normal = Vector3(0, 1.f, 0);
-	InMesh->vertices[18].normal = Vector3(0, 1.f, 0);
-	InMesh->vertices[19].normal = Vector3(0, 1.f, 0);
+	InMesh->vertices[18].color = Vector3(0, 0, 0);
+	InMesh->vertices[19].color = Vector3(0, 0, 0);
+	InMesh->vertices[16].texCoord = Vector2(0.0f, 0.0f);
+	InMesh->vertices[17].texCoord = Vector2(1.0f, 0.0f);
+	InMesh->vertices[18].texCoord = Vector2(1.0f, 1.0f);
+	InMesh->vertices[19].texCoord = Vector2(0.0f, 1.0f);
+	InMesh->vertices[16].normal = Vector3(-1.0f, 0.0f, 0.0f);
+	InMesh->vertices[17].normal = Vector3(-1.0f, 0.0f, 0.0f);
+	InMesh->vertices[18].normal = Vector3(-1.0f, 0.0f, 0.0f);
+	InMesh->vertices[19].normal = Vector3(-1.0f, 0.0f, 0.0f);
 
 	InMesh->indices.push_back(16);
 	InMesh->indices.push_back(17);
@@ -146,23 +146,23 @@ void HRenderingLibrary::MakeBox(Mesh* InMesh)
 	InMesh->indices.push_back(18);
 	InMesh->indices.push_back(19);
 
-	////아래	
-	InMesh->vertices[20].position = Vector3(-1.f, -1.f, 1.f);
-	InMesh->vertices[21].position = Vector3(-1.f, -1.f, -1.f);
-	InMesh->vertices[22].position = Vector3(1.f, -1.f, -1.f);
-	InMesh->vertices[23].position = Vector3(1.f, -1.f, 1.f);
-	InMesh->vertices[20].color = Vector3(0, 1.f, 0);
+	////오른쪽	
+	InMesh->vertices[20].position = Vector3(1.0f, -1.0f, 1.0f);
+	InMesh->vertices[21].position = Vector3(1.0f, -1.0f, -1.0f);
+	InMesh->vertices[22].position = Vector3(1.0f, 1.0f, -1.0f);
+	InMesh->vertices[23].position = Vector3(1.0f, 1.0f, 1.0f);
+	InMesh->vertices[20].color = Vector3(0, 0, 0);
 	InMesh->vertices[21].color = Vector3(0, 0, 0);
-	InMesh->vertices[22].color = Vector3(1.f, 0, 0);
-	InMesh->vertices[23].color = Vector3(1.f, 1.f, 0);
-	InMesh->vertices[20].texCoord = Vector2(0, 1.f);
-	InMesh->vertices[21].texCoord = Vector2(0, 0);
-	InMesh->vertices[22].texCoord = Vector2(1.f, 0);
-	InMesh->vertices[23].texCoord = Vector2(1.f, 1.f);
-	InMesh->vertices[20].normal = Vector3(0, -1.f, 0);
-	InMesh->vertices[21].normal = Vector3(0, -1.f, 0);
-	InMesh->vertices[22].normal = Vector3(0, -1.f, 0);
-	InMesh->vertices[23].normal = Vector3(0, -1.f, 0);
+	InMesh->vertices[22].color = Vector3(0, 0, 0);
+	InMesh->vertices[23].color = Vector3(0, 0, 0);
+	InMesh->vertices[20].texCoord = Vector2(0.0f, 0.0f);
+	InMesh->vertices[21].texCoord = Vector2(1.0f, 0.0f);
+	InMesh->vertices[22].texCoord = Vector2(1.0f, 1.0f);
+	InMesh->vertices[23].texCoord = Vector2(0.0f, 1.0f);
+	InMesh->vertices[20].normal = Vector3(1.0f, 0.0f, 0.0f);
+	InMesh->vertices[21].normal = Vector3(1.0f, 0.0f, 0.0f);
+	InMesh->vertices[22].normal = Vector3(1.0f, 0.0f, 0.0f);
+	InMesh->vertices[23].normal = Vector3(1.0f, 0.0f, 0.0f);
 
 	//이 메쉬의 중심점
 
@@ -239,7 +239,7 @@ bool HRenderingLibrary::CreateVertexShader(ComPtr<ID3D11Device> pDeviceContext, 
 	ComPtr<ID3DBlob> VSBlob;
 	ComPtr<ID3DBlob> VSErrorBlob;
 
-	HRESULT VShr = D3DCompileFromFile(pShaderFileLocation, 0, D3D_COMPILE_STANDARD_FILE_INCLUDE, "main", "vs_5_0", D3DCOMPILE_DEBUG, 0, &VSBlob, &VSErrorBlob);
+	HRESULT VShr = D3DCompileFromFile(pShaderFileLocation, 0, D3D_COMPILE_STANDARD_FILE_INCLUDE, "main", "vs_5_0", D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, 0, &VSBlob, &VSErrorBlob);
 
 	if (FAILED(VShr))
 	{
@@ -258,7 +258,7 @@ bool HRenderingLibrary::CreatePixelShader(ComPtr<ID3D11Device> pDeviceContext, C
 	ComPtr<ID3DBlob> PSBlob;
 	ComPtr<ID3DBlob> PSErrorBlob;
 
-	HRESULT PShr = D3DCompileFromFile(pShaderFileLocation, 0, D3D_COMPILE_STANDARD_FILE_INCLUDE, "main", "ps_5_0", D3DCOMPILE_DEBUG, 0, &PSBlob, &PSErrorBlob);
+	HRESULT PShr = D3DCompileFromFile(pShaderFileLocation, 0, D3D_COMPILE_STANDARD_FILE_INCLUDE, "main", "ps_5_0", D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, 0, &PSBlob, &PSErrorBlob);
 
 	if (FAILED(PShr))
 	{

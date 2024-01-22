@@ -25,8 +25,10 @@ float3 ComputeDirectionalLight(Light pLight, float3 pToViewDirection, float3 pNo
 {
     float3 LightVec = -pLight.LightDir;
     float AppliedIntensity = pLight.LightIntensity * max(dot(LightVec, pNormalVector), 0.f);
-    return BlinnPhongModel(LightVec, pToViewDirection, pNormalVector, AppliedIntensity, pMat);
-
+    printf("LightVec : %f ", LightVec.x);
+    //return BlinnPhongModel(LightVec, pToViewDirection, pNormalVector, AppliedIntensity, pMat);
+    return dot(LightVec, pNormalVector);
+    
 }
 
 

@@ -29,6 +29,8 @@ public:
 	virtual void Update() override;
 	virtual void Render() override;
 
+	float RotationYValue = 0.f;
+	float RotationXValue = 0.f;
 private:
 	ComPtr<ID3D11Texture2D> m_Texture1;
 	ComPtr<ID3D11ShaderResourceView> m_Texture1ResourceView;
@@ -40,7 +42,5 @@ private:
 	PSConstantBuffer m_PSConstBufferData;
 
 
-	float RotationYValue = 0.f;
-	float RotationXValue = 0.f;
 
 };

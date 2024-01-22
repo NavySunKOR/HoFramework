@@ -69,9 +69,9 @@ void HCubeLightRenderingObject::Initialize()
 	
 
 	//픽셀 콘스턴트 
-	m_PSConstBufferData.UsingLight.LightDir = Vector3(0.f, -1.f, 0.f);
+	m_PSConstBufferData.UsingLight.LightDir = Vector3(0.f, 0.f, 1.f);
 	m_PSConstBufferData.UsingLight.LightIntensity = 1.f;
-	m_PSConstBufferData.UsingLight.LightPos = Vector3(0.f,0.f,1.f);
+	m_PSConstBufferData.UsingLight.LightPos = Vector3(0.f,0.f,-2.f);
 
 	m_PSConstBufferData.UsingMat.ambient = Vector3(0.3f, 0.3f, 0.3f);
 	m_PSConstBufferData.UsingMat.diffuse = Vector3(0.5f, 0.5f, 0.5f);
@@ -91,8 +91,8 @@ void HCubeLightRenderingObject::Initialize()
 void HCubeLightRenderingObject::Update()
 {
 	//Rotation
-	RotationYValue += 0.01f;
-	RotationXValue += 0.01f;
+	//RotationYValue += 0.01f;
+	//RotationXValue += 0.01f;
 	Rotate(Vector3(RotationXValue, RotationYValue,0.f));
 
 	HBaseRenderingObject::Update();

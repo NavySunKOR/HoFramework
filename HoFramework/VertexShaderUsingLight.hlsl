@@ -38,7 +38,8 @@ PSInput main(VSInput Input)
     
     Output.Color = Input.Color;
     Output.TexCoord = Input.TexCoord;
-    Output.Normal = normalize(mul(float4(Input.Normal, 0), InverseTransform));
-   
+    Output.Normal = mul(float4(Input.Normal, 0), InverseTransform).xyz;
+    Output.Normal = normalize(Output.Normal);
+    
     return Output;
 }

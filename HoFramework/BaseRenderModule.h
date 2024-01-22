@@ -154,7 +154,7 @@ private:
 	bool m_IsPersepective = true;
 	float m_FOVInDeg = 70.f;
 
-	Vector3 GlobalCameraPosition = Vector3(0.f, 0.f, -1.f);
+	Vector3 GlobalCameraPosition = Vector3(0.f, 0.f, 2.f);
 	Vector3 GlobalCameraRotation = Vector3(0.f, 0.f, 0.f);
 	Vector3 GlobalCameraForward = Vector3(0.f, 0.f, 1.f);
 

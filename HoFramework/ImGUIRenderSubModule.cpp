@@ -1,6 +1,7 @@
 #include "ImGUIRenderSubModule.h"
 #include "BaseRenderModule.h"
 #include "Application.h"
+#include "CubeLightRenderingObject.h"
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd,
 	UINT msg,
@@ -64,8 +65,10 @@ void HImGUIRenderSubModule::Render()
 		1000.0f / ImGui::GetIO().Framerate,
 		ImGui::GetIO().Framerate);
 
-	ImGui::SliderFloat3("translation", &m_ParentRenderModule->GetGlobalCameraPosition().x, -1.f, 1.f);
-	ImGui::SliderFloat3("rotation", &m_ParentRenderModule->GetGlobalCameraRotation().x,-180.f * 3.141592/180.f, 180.f * 3.141592 / 180.f);
+	//ImGui::SliderFloat3("translation", &m_ParentRenderModule->GetGlobalCameraPosition().x, -1.f, 1.f);
+	//ImGui::SliderFloat3("rotation", &m_ParentRenderModule->GetGlobalCameraRotation().x,-180.f * 3.141592/180.f, 180.f * 3.141592 / 180.f);
+	ImGui::SliderFloat("x rot", &((HCubeLightRenderingObject*)(m_ParentRenderModule->GetRenderingObjects()[0].get()))->RotationXValue,-3.141592, 3.141592);
+	ImGui::SliderFloat("y rot", &((HCubeLightRenderingObject*)(m_ParentRenderModule->GetRenderingObjects()[0].get()))->RotationYValue, -3.141592, 3.141592);
 
 	ImGui::End();
 	ImGui::Render();
