@@ -32,6 +32,6 @@ float4 main(PSInput input) : SV_TARGET
     float4 LightColor = float4(ComputeDirectionalLight(UsingLight, toViewDirection, input.Normal , UsingMat),  1.f);
     
     
-    return LightColor;
+    return LightColor * textureColor;
 
 }

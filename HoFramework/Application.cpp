@@ -86,6 +86,8 @@ LRESULT Application::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
     case WM_SIZE:
             m_screenWidth = int(LOWORD(lParam));
             m_screenHeight = int(HIWORD(lParam));
+            if(RenderModule)
+            RenderModule->ResizeWindow();
         break;
     case WM_SYSCOMMAND:
         if ((wParam & 0xfff0) == SC_KEYMENU) 

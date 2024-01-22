@@ -136,6 +136,11 @@ protected:
 
 #pragma endregion
 
+#pragma region Functions
+public:
+	void ResizeWindow();
+
+#pragma endregion
 
 #pragma region Properties
 private:
@@ -148,6 +153,8 @@ private:
 		D3D_FEATURE_LEVEL_9_3 };
 
 	D3D_FEATURE_LEVEL m_UsingFeatureLevel;
+
+	bool m_IsInitialized = false;
 
 	
 	//View ฐüทร

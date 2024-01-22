@@ -38,6 +38,8 @@ bool HBaseRenderModule::Initialize(Application* pAppContext)
 
     SetViewport();
 
+    m_IsInitialized = true;
+
     return true;
 }
 
@@ -192,7 +194,6 @@ bool HBaseRenderModule::InitRenderTargetView()
     m_swapChain->GetBuffer(0, IID_PPV_ARGS(&backBuffer));
     if (backBuffer) {
         m_device->CreateRenderTargetView(backBuffer, NULL, m_renderTargetView.GetAddressOf());
-        backBuffer->Release();
     }
     else {
         std::cout << "CreateRenderTargetView() failed." << std::endl;
@@ -263,4 +264,18 @@ void HBaseRenderModule::SetViewport()
     m_screenViewport.MaxDepth = 1.0f; // Note: important for depth buffering
 
     m_context->RSSetViewports(1, &m_screenViewport);
+}
+
+void HBaseRenderModule::ResizeWindow()
+{
+    if (m_swapChain)
+    { 
+        m_renderTargetView.Reset();
+       m_swapChain->ResizeBuffers(0, m_AppContext->GetScreenWidth(), m_AppContext->GetScreenHeight(), DXGI_FORMAT_UNKNOWN, 0);
+        InitRenderTargetView();
+        InitDepthBuffer();
+        InitDepthStencil();
+        SetViewport();
+    }
+
 }
