@@ -28,6 +28,7 @@ private:
 	bool InitDepthStencil();
 	bool InitSampler();
 
+
 	void SetViewport();
 
 #pragma endregion

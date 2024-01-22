@@ -76,6 +76,12 @@ Application::Application()
 
 LRESULT Application::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+
+    for (int i = 0; i < OnMessageProc.size(); ++i)
+    {
+        OnMessageProc[i](hwnd, msg, wParam, lParam);
+    }
+
     switch (msg) {
     case WM_SIZE:
             m_screenWidth = int(LOWORD(lParam));

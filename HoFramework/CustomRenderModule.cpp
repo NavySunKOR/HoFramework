@@ -32,6 +32,9 @@ bool HCustomRenderModule::Initialize(Application* pAppContext)
 		RenderingObjects[i]->Initialize();
 	}
 
+	if (!GUIRenderSubModule.Initialize(this))
+		return true;
+
 	return true;
 }
 
@@ -44,6 +47,7 @@ void HCustomRenderModule::Update()
 	{
 		RenderingObjects[i]->Update();
 	}
+	GUIRenderSubModule.Update();
 }
 
 void HCustomRenderModule::Render()
@@ -64,6 +68,8 @@ void HCustomRenderModule::Render()
 	{
 		RenderingObjects[i]->Render();
 	}
+
+	GUIRenderSubModule.Render();
 	m_swapChain->Present(1, 0);
 
 }

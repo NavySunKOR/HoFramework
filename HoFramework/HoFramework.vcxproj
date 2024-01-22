@@ -28,6 +28,7 @@
     <ClCompile Include="Cube4RenderingObject.cpp" />
     <ClCompile Include="CubeLightRenderingObject.cpp" />
     <ClCompile Include="CustomRenderModule.cpp" />
+    <ClCompile Include="ImGUIRenderSubModule.cpp" />
     <ClCompile Include="InputModule.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="RenderingLibrary.cpp" />
@@ -43,6 +44,7 @@
     <ClInclude Include="CubeLightRenderingObject.h" />
     <ClInclude Include="CustomRenderModule.h" />
     <ClInclude Include="Define.h" />
+    <ClInclude Include="ImGUIRenderSubModule.h" />
     <ClInclude Include="InputModule.h" />
     <ClInclude Include="RenderingLibrary.h" />
   </ItemGroup>

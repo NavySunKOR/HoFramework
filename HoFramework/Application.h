@@ -3,7 +3,8 @@
 #include "InputModule.h"
 #include "Define.h"
 #include "CustomRenderModule.h"
-
+#include <vector>
+#include <functional>
 
 class Application
 {
@@ -14,6 +15,8 @@ public:
 
 	int Run();
 	
+	vector<std::function<LRESULT(HWND, UINT , WPARAM , LPARAM)>> OnMessageProc;
+
 private:
 	bool InitWindows();
 
