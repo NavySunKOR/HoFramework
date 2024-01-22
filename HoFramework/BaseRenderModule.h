@@ -88,6 +88,26 @@ public:
 		return m_SamplerState;
 	}
 
+	inline vector<std::shared_ptr<class HBaseRenderingObject>>& GetRenderingObjects()
+	{
+		return RenderingObjects;
+	}
+
+	inline Vector3& GetGlobalCameraPosition()
+	{
+		return GlobalCameraPosition;
+	}
+
+	inline Vector3& GetGlobalCameraRotation()
+	{
+		return GlobalCameraRotation;
+	}
+
+	inline Vector3& GetGlobalCameraForward()
+	{
+		return GlobalCameraForward;
+	}
+
 protected:
 	Application* m_AppContext = nullptr;
 
@@ -134,7 +154,9 @@ private:
 	bool m_IsPersepective = true;
 	float m_FOVInDeg = 70.f;
 
-
+	Vector3 GlobalCameraPosition = Vector3(0.f, 0.f, -1.f);
+	Vector3 GlobalCameraRotation = Vector3(0.f, 0.f, 0.f);
+	Vector3 GlobalCameraForward = Vector3(0.f, 0.f, 1.f);
 
 #pragma endregion
 
