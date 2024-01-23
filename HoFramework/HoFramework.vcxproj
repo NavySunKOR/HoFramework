@@ -27,6 +27,7 @@
     <ClCompile Include="Cube3RenderingObject.cpp" />
     <ClCompile Include="Cube4RenderingObject.cpp" />
     <ClCompile Include="CubeLightRenderingObject.cpp" />
+    <ClCompile Include="CubeNormalRenderingObject.cpp" />
     <ClCompile Include="CustomRenderModule.cpp" />
     <ClCompile Include="ImGUIRenderSubModule.cpp" />
     <ClCompile Include="InputModule.cpp" />
@@ -42,6 +43,7 @@
     <ClInclude Include="Cube3RenderingObject.h" />
     <ClInclude Include="Cube4RenderingObject.h" />
     <ClInclude Include="CubeLightRenderingObject.h" />
+    <ClInclude Include="CubeNormalRenderingObject.h" />
     <ClInclude Include="CustomRenderModule.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="ImGUIRenderSubModule.h" />
@@ -60,6 +62,13 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="PixelShaderNormal.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="PixelShaderTextureUsing.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
@@ -87,6 +96,13 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
+    <FxCompile Include="VertexShaderNormal.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+    </FxCompile>
     <FxCompile Include="VertexShaderTextureUsing.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
@@ -104,6 +120,8 @@
   <ItemGroup>
     <None Include="Core.hlsli" />
     <None Include="Lights.hlsli" />
+    <None Include="PixelCore.hlsli" />
+    <None Include="VertexCore.hlsli" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

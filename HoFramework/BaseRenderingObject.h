@@ -23,6 +23,8 @@ public:
 	void Rotate(Vector3 pTranslate);
 	void Scale(Vector3 pTranslate);
 
+	inline Mesh* GetDrawingMesh() { return &m_drawingMesh; };
+	inline TransformConstantBuffer* GetTransformConstBuffer(){return &m_transformConstData;}
 protected:
 	Mesh m_drawingMesh;
 	ComPtr<ID3D11Buffer> m_vertexBuffer;

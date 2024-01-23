@@ -19,3 +19,22 @@ struct Material
 	//4 <-마지막은 데이터가 들어가지 않아서 구색만 맞춘것.
     float dummy3;
 };
+
+
+
+struct VSInput
+{
+    float3 Position : POSITION;
+    float3 Color : COLOR;
+    float2 TexCoord : TEXCOORD;
+    float3 Normal : NORMAL;
+};
+
+struct PSInput
+{
+    float4 ScreenPosition : SV_POSITION;
+    float3 WorldPosition : POSITION;
+    float3 Color : COLOR;
+    float2 TexCoord : TEXCOORD;
+    float3 Normal : NORMAL;
+};

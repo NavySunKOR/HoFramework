@@ -54,6 +54,9 @@
     <ClCompile Include="ImGUIRenderSubModule.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="CubeNormalRenderingObject.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -95,6 +98,9 @@
     <ClInclude Include="ImGUIRenderSubModule.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="CubeNormalRenderingObject.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="VertexShader.hlsl" />
@@ -105,9 +111,13 @@
     <FxCompile Include="PixelShaderTextureUsing.hlsl" />
     <FxCompile Include="VertexShaderUsingLight.hlsl" />
     <FxCompile Include="PixelShaderUsingLight.hlsl" />
+    <FxCompile Include="VertexShaderNormal.hlsl" />
+    <FxCompile Include="PixelShaderNormal.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Lights.hlsli" />
     <None Include="Core.hlsli" />
+    <None Include="VertexCore.hlsli" />
+    <None Include="PixelCore.hlsli" />
   </ItemGroup>
 </Project>

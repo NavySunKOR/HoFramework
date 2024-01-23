@@ -86,6 +86,7 @@ void HCubeLightRenderingObject::Initialize()
 	//그 외에 정의
 	Scale(Vector3(0.5f, 0.5f, 0.5f));
 	Translate(Vector3(0.f, -0.3f, 1.f));
+
 }
 
 void HCubeLightRenderingObject::Update()
@@ -99,11 +100,14 @@ void HCubeLightRenderingObject::Update()
 
 	m_PSConstBufferData.UsingViewPosition = Vector3::Transform(Vector3(0.f,0.f,0.f), m_transformConstData.ViewTransform.Transpose().Invert());
 	HRenderingLibrary::UpdateConstantBuffer(m_PSConstBufferData, m_PSConstBuffer, m_ParentRenderModule->GetContext());
+
 }
 
 void HCubeLightRenderingObject::Render()
 {
 	// 버텍스/인덱스 버퍼 설정
+
+	HBaseRenderingObject::Render();
 
 	ComPtr<ID3D11DeviceContext>& context = m_ParentRenderModule->GetContext();
 	ID3D11ShaderResourceView* pixelResources[2] = { m_Texture1ResourceView.Get(),
@@ -111,6 +115,4 @@ void HCubeLightRenderingObject::Render()
 	context->PSSetShaderResources(0, 2, pixelResources);
 	context->PSSetSamplers(0, 1, m_ParentRenderModule->GetSampler().GetAddressOf());
 	context->PSSetConstantBuffers(0, 1, m_PSConstBuffer.GetAddressOf());
-
-	HBaseRenderingObject::Render();
 }

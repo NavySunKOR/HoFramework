@@ -17,6 +17,7 @@ struct PSConstantBuffer
 	Material UsingMat;
 };
 
+
 class HCubeLightRenderingObject : public HBaseRenderingObject
 {
 public:
@@ -40,7 +41,4 @@ private:
 
 	ComPtr<ID3D11Buffer> m_PSConstBuffer;
 	PSConstantBuffer m_PSConstBufferData;
-
-
-
 };

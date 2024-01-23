@@ -191,6 +191,26 @@ void HRenderingLibrary::MakeBox(Mesh* InMesh)
 	InMesh->indices.push_back(23);
 }
 
+void HRenderingLibrary::MakeBoxNormal(Mesh* InBoxMesh, Mesh* OutNormalMesh)
+{
+	OutNormalMesh->vertices.reserve(InBoxMesh->vertices.size() * 2);
+	OutNormalMesh->indices.reserve(InBoxMesh->indices.size() / 2);
+
+	for (int i = 0; i < InBoxMesh->vertices.size(); ++i)
+	{
+		Vertex NewVertex = InBoxMesh->vertices[i];
+		NewVertex.texCoord.x = 0;
+		NewVertex.texCoord.y = 0;
+		OutNormalMesh->vertices.push_back(NewVertex);
+		NewVertex.texCoord.x = 1;
+		NewVertex.texCoord.y = 1;
+		OutNormalMesh->vertices.push_back(NewVertex);
+
+		OutNormalMesh->indices.push_back(2 * i);
+		OutNormalMesh->indices.push_back(2 * i + 1);
+	}
+}
+
 bool HRenderingLibrary::CreateVertexBuffer(ComPtr<ID3D11Device> pDeviceContext, Mesh* pDrawingMesh, ComPtr<ID3D11Buffer> &pVertexBuffer)
 {
     D3D11_BUFFER_DESC VertexBufferDesc = {};

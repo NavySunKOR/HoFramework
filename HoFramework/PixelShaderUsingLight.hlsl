@@ -1,26 +1,9 @@
-#include "Lights.hlsli"
+#include "PixelCore.hlsli"
 
 Texture2D g_texture0 : register(t0);
 Texture2D g_texture1 : register(t1);
 SamplerState g_sampler : register(s0);
 
-cbuffer PixelCalculateBuffer : register(b0)
-{
-    Light UsingLight; // 30byte
-    float3 ViewPosition; //12byte
-    float Dummy; // 4byte
-    Material UsingMat; //48Byte
-    
-};
-
-struct PSInput
-{
-    float4 ScreenPosition : SV_POSITION;
-    float3 WorldPosition : POSITION;
-    float3 Color : COLOR;
-    float2 TexCoord : TEXCOORD;
-    float3 Normal : NORMAL;
-};
 
 float4 main(PSInput input) : SV_TARGET
 {

@@ -67,8 +67,8 @@ void HImGUIRenderSubModule::Render()
 
 	//ImGui::SliderFloat3("translation", &m_ParentRenderModule->GetGlobalCameraPosition().x, -1.f, 1.f);
 	//ImGui::SliderFloat3("rotation", &m_ParentRenderModule->GetGlobalCameraRotation().x,-180.f * 3.141592/180.f, 180.f * 3.141592 / 180.f);
-	ImGui::SliderFloat("x rot", &((HCubeLightRenderingObject*)(m_ParentRenderModule->GetRenderingObjects()[0].get()))->RotationXValue,-3.141592, 3.141592);
-	ImGui::SliderFloat("y rot", &((HCubeLightRenderingObject*)(m_ParentRenderModule->GetRenderingObjects()[0].get()))->RotationYValue, -3.141592, 3.141592);
+	ImGui::SliderFloat("x rot", &((HCubeLightRenderingObject*)(m_ParentRenderModule->GetRenderingObjects()[0].get()))->RotationXValue,-3.141592f, 3.141592f);
+	ImGui::SliderFloat("y rot", &((HCubeLightRenderingObject*)(m_ParentRenderModule->GetRenderingObjects()[0].get()))->RotationYValue, -3.141592f, 3.141592f);
 
 
 	ImGui::Checkbox("Wireframe", &m_ParentRenderModule->GetIsWireframe());
