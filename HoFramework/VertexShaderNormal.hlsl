@@ -10,8 +10,9 @@ PSInput main(VSInput Input)
     
     float t = Input.TexCoord.x;
     
+    //¿©±â°¡ ÇÙ½É
     Position = mul(Position, ModelTransform);
-    Position.xyz += Output.Normal * t * 1.f;
+    Position.xyz += Output.Normal * t * 0.1f; 
     Output.WorldPosition = Position.xyz;
     
     Position = mul(Position, ViewTransform);
@@ -19,7 +20,6 @@ PSInput main(VSInput Input)
     Output.ScreenPosition = Position;
     
     Output.TexCoord = Input.TexCoord;
-    Output.Color = float3(1, 0, 0) * t + float3(1, 0, 1) * (1 - t);
-    
+    Output.Color = float3(1, 0, 0) * t + float3(1, 1, 0) * (1 - t);
     return Output;
 }

@@ -6,6 +6,7 @@
 using Microsoft::WRL::ComPtr;
 class HBaseRenderModule;
 
+
 class HBaseRenderingObject
 {
 public:
@@ -47,5 +48,7 @@ protected:
 	Matrix TranslationMatrix;
 	Matrix ScaleMatrix;
 	Matrix RotationMatrix;
+
+	D3D11_PRIMITIVE_TOPOLOGY PrimitiveTopology;
 
 };

@@ -17,6 +17,8 @@ void HBaseRenderingObject::Initialize()
 	//Transform Constant Buffer
 	HRenderingLibrary::CreateConstantBuffer<TransformConstantBuffer>(device, m_transformConstData, m_transformConstBuffer);
 
+	PrimitiveTopology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+
 }
 
 void HBaseRenderingObject::Update()
@@ -63,7 +65,7 @@ void HBaseRenderingObject::Render()
 	context->IASetInputLayout(m_vertexInputLayout.Get());
 	context->IASetVertexBuffers(0, 1, m_vertexBuffer.GetAddressOf(), &stride, &offset);
 	context->IASetIndexBuffer(m_indexBuffer.Get(), DXGI_FORMAT_R16_UINT, 0);
-	context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	context->IASetPrimitiveTopology(PrimitiveTopology);
 
 	// 어떤 쉐이더를 사용할지 설정
 	context->VSSetShader(m_vertexShader.Get(), 0, 0);

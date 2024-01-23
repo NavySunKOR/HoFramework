@@ -58,6 +58,9 @@ void HCubeNormalRenderingObject::Initialize()
 	Scale(Vector3(0.5f, 0.5f, 0.5f));
 	Translate(Vector3(0.f, -0.3f, 1.f));
 
+
+	PrimitiveTopology = D3D11_PRIMITIVE_TOPOLOGY_LINELIST;
+
 }
 
 void HCubeNormalRenderingObject::Update()
@@ -69,6 +72,4 @@ void HCubeNormalRenderingObject::Update()
 void HCubeNormalRenderingObject::Render()
 {
 	HBaseRenderingObject::Render();
-	ComPtr<ID3D11DeviceContext>& context = m_ParentRenderModule->GetContext();
-	context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
 }
