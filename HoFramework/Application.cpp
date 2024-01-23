@@ -84,8 +84,9 @@ LRESULT Application::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
     switch (msg) {
     case WM_SIZE:
-            m_screenWidth = int(LOWORD(lParam));
-            m_screenHeight = int(HIWORD(lParam));
+            m_screenWidth = (UINT)(LOWORD(lParam));
+            m_screenHeight = (UINT)(HIWORD(lParam));
+
             if(RenderModule)
             RenderModule->ResizeWindow();
         break;

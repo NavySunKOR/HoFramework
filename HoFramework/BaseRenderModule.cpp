@@ -190,6 +190,11 @@ bool HBaseRenderModule::InitRasterizerState()
 }
 bool HBaseRenderModule::InitRenderTargetView()
 {
+
+    //초기화
+    if(m_renderTargetView)
+        m_renderTargetView.Reset();
+
     ID3D11Texture2D* backBuffer;
     m_swapChain->GetBuffer(0, IID_PPV_ARGS(&backBuffer));
     if (backBuffer) {
@@ -200,7 +205,6 @@ bool HBaseRenderModule::InitRenderTargetView()
         return false;
     }
 
-    m_context->OMSetRenderTargets(1, m_renderTargetView.GetAddressOf(), nullptr);
     return true;
 }
 bool HBaseRenderModule::InitDepthBuffer()
@@ -237,6 +241,10 @@ bool HBaseRenderModule::InitDepthBuffer()
 }
 bool HBaseRenderModule::InitDepthStencil()
 {
+    ///다시 호출 될 일이 있으므로 여기서 리셋한다.
+    if (m_depthStencilState)
+        m_depthStencilState.Reset();
+
     //// Create depth stencil state
     D3D11_DEPTH_STENCIL_DESC depthStencilDesc;
     ZeroMemory(&depthStencilDesc, sizeof(D3D11_DEPTH_STENCIL_DESC));
@@ -249,8 +257,8 @@ bool HBaseRenderModule::InitDepthStencil()
     }
 
     //스텐실을 사용한다면 스텐실 버퍼 초기화
-    m_context->OMSetRenderTargets(1, m_renderTargetView.GetAddressOf(), m_depthStencilView.Get());
     m_context->OMSetDepthStencilState(m_depthStencilState.Get(), 0);
+ 
     return true;
 }
 void HBaseRenderModule::SetViewport()
@@ -264,14 +272,18 @@ void HBaseRenderModule::SetViewport()
     m_screenViewport.MaxDepth = 1.0f; // Note: important for depth buffering
 
     m_context->RSSetViewports(1, &m_screenViewport);
+    if(m_depthStencilView)
+        m_context->OMSetRenderTargets(1, m_renderTargetView.GetAddressOf(), m_depthStencilView.Get());
+    else
+        m_context->OMSetRenderTargets(1, m_renderTargetView.GetAddressOf(), nullptr);
+
 }
 
 void HBaseRenderModule::ResizeWindow()
 {
     if (m_swapChain)
-    { 
-        m_renderTargetView.Reset();
-       m_swapChain->ResizeBuffers(0, m_AppContext->GetScreenWidth(), m_AppContext->GetScreenHeight(), DXGI_FORMAT_UNKNOWN, 0);
+    {
+        m_swapChain->ResizeBuffers(0, m_AppContext->GetScreenWidth(), m_AppContext->GetScreenHeight(), DXGI_FORMAT_UNKNOWN, 0);
         InitRenderTargetView();
         InitDepthBuffer();
         InitDepthStencil();

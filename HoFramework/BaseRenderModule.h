@@ -43,7 +43,13 @@ public:
 
 protected:
 	virtual void Update() {};
-	virtual void Render() {};
+	virtual void Render() {
+		
+	float clearColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
+	m_context->ClearRenderTargetView(m_renderTargetView.Get(), clearColor);
+	m_context->ClearDepthStencilView(m_depthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+
+	};
 
 #pragma endregion 
 
