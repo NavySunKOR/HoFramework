@@ -42,14 +42,8 @@ public:
 	};
 
 protected:
-	virtual void Update() {};
-	virtual void Render() {
-		
-	float clearColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
-	m_context->ClearRenderTargetView(m_renderTargetView.Get(), clearColor);
-	m_context->ClearDepthStencilView(m_depthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
-
-	};
+	virtual void Update();
+	virtual void Render();
 
 #pragma endregion 
 
@@ -114,6 +108,11 @@ public:
 		return GlobalCameraForward;
 	}
 
+	inline bool& GetIsWireframe()
+	{
+		return m_CurrentIsWireframe;
+	}
+
 protected:
 	Application* m_AppContext = nullptr;
 
@@ -170,6 +169,11 @@ private:
 	Vector3 GlobalCameraPosition = Vector3(0.f, 0.f, 2.f);
 	Vector3 GlobalCameraRotation = Vector3(0.f, 0.f, 0.f);
 	Vector3 GlobalCameraForward = Vector3(0.f, 0.f, 1.f);
+
+
+	//Wireframe°ü·Ã
+	bool m_PrevIsWireframe = false;
+	bool m_CurrentIsWireframe = false;
 
 #pragma endregion
 

@@ -70,6 +70,9 @@ void HImGUIRenderSubModule::Render()
 	ImGui::SliderFloat("x rot", &((HCubeLightRenderingObject*)(m_ParentRenderModule->GetRenderingObjects()[0].get()))->RotationXValue,-3.141592, 3.141592);
 	ImGui::SliderFloat("y rot", &((HCubeLightRenderingObject*)(m_ParentRenderModule->GetRenderingObjects()[0].get()))->RotationYValue, -3.141592, 3.141592);
 
+
+	ImGui::Checkbox("Wireframe", &m_ParentRenderModule->GetIsWireframe());
+
 	ImGui::End();
 	ImGui::Render();
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());

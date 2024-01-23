@@ -43,6 +43,21 @@ bool HBaseRenderModule::Initialize(Application* pAppContext)
     return true;
 }
 
+void HBaseRenderModule::Update() {
+    if (m_PrevIsWireframe != m_CurrentIsWireframe)
+    {
+        m_PrevIsWireframe = m_CurrentIsWireframe;
+        InitRasterizerState();
+    }
+
+};
+void HBaseRenderModule::Render() {
+
+    float clearColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
+    m_context->ClearRenderTargetView(m_renderTargetView.Get(), clearColor);
+    m_context->ClearDepthStencilView(m_depthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+};
+
 bool HBaseRenderModule::InitSampler()
 {
     D3D11_SAMPLER_DESC sampDesc;
@@ -169,7 +184,7 @@ bool HBaseRenderModule::InitRasterizerState()
 {
     D3D11_RASTERIZER_DESC baseRastDessc;
     ZeroMemory(&baseRastDessc, sizeof(D3D11_RASTERIZER_DESC)); // Need this
-    baseRastDessc.FillMode = D3D11_FILL_MODE::D3D11_FILL_SOLID;
+    baseRastDessc.FillMode = (m_CurrentIsWireframe)? D3D11_FILL_MODE::D3D11_FILL_WIREFRAME : D3D11_FILL_MODE::D3D11_FILL_SOLID;
     baseRastDessc.CullMode = D3D11_CULL_MODE::D3D11_CULL_NONE;
     baseRastDessc.FrontCounterClockwise = false;
     baseRastDessc.DepthClipEnable = true; // <- zNear, zFar 확인에 필요
