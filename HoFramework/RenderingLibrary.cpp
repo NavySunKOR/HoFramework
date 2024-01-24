@@ -282,6 +282,57 @@ bool HRenderingLibrary::CreateVertexBuffer(ComPtr<ID3D11Device> pDeviceContext, 
     return true;
 }
 
+vector<D3D11_INPUT_ELEMENT_DESC> HRenderingLibrary::GetVSInputLayout()
+{
+	vector<D3D11_INPUT_ELEMENT_DESC> Result;
+
+	Result.reserve(4);
+
+	D3D11_INPUT_ELEMENT_DESC position;
+	D3D11_INPUT_ELEMENT_DESC color;
+	D3D11_INPUT_ELEMENT_DESC texCoord;
+	D3D11_INPUT_ELEMENT_DESC normal;
+
+	position.SemanticName = "POSITION";
+	position.SemanticIndex = 0;
+	position.Format = DXGI_FORMAT_R32G32B32_FLOAT;
+	position.InputSlot = 0;
+	position.AlignedByteOffset = 0;
+	position.InputSlotClass = D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA;
+	position.InstanceDataStepRate = 0;
+
+	color.SemanticName = "COLOR";
+	color.SemanticIndex = 0;
+	color.Format = DXGI_FORMAT_R32G32B32_FLOAT;
+	color.InputSlot = 0;
+	color.AlignedByteOffset = 4 * 3;
+	color.InputSlotClass = D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA;
+	color.InstanceDataStepRate = 0;
+
+	texCoord.SemanticName = "TEXCOORD";
+	texCoord.SemanticIndex = 0;
+	texCoord.Format = DXGI_FORMAT_R32G32_FLOAT;
+	texCoord.InputSlot = 0;
+	texCoord.AlignedByteOffset = 4 * 3 + 4 * 3;
+	texCoord.InputSlotClass = D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA;
+	texCoord.InstanceDataStepRate = 0;
+
+	normal.SemanticName = "NORMAL";
+	normal.SemanticIndex = 0;
+	normal.Format = DXGI_FORMAT_R32G32B32_FLOAT;
+	normal.InputSlot = 0;
+	normal.AlignedByteOffset = 4 * 3 + 4 * 3 + 4 * 2;
+	normal.InputSlotClass = D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA;
+	normal.InstanceDataStepRate = 0;
+
+	Result.push_back(position);
+	Result.push_back(color);
+	Result.push_back(texCoord);
+	Result.push_back(normal);
+
+	return Result;
+}
+
 bool HRenderingLibrary::CreateIndexBuffer(ComPtr<ID3D11Device> pDeviceContext, Mesh* pDrawingMesh, ComPtr<ID3D11Buffer> &pIndexBuffer)
 {
 	D3D11_BUFFER_DESC IndexBufferDesc = {};

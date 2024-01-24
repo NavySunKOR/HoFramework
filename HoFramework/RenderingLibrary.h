@@ -20,6 +20,7 @@ public:
 	static void MakeSphere(Mesh* InBoxMesh);
 	static bool CreateIndexBuffer(ComPtr<ID3D11Device> pDeviceContext, Mesh* pDrawingMesh, ComPtr<ID3D11Buffer>& pIndexBuffer);
 	static bool CreateVertexBuffer(ComPtr<ID3D11Device> pDeviceContext, Mesh* pDrawingMesh, ComPtr<ID3D11Buffer>& pVertexBuffer);
+	static vector<D3D11_INPUT_ELEMENT_DESC> GetVSInputLayout();
 
 	template<typename T_BUFFERTYPE>
 	static bool CreateConstantBuffer(ComPtr<ID3D11Device> pDeviceContext, T_BUFFERTYPE& pConstantBufferData, ComPtr<ID3D11Buffer>& pConstantBuffer)
