@@ -29,6 +29,7 @@
     <ClCompile Include="CubeLightRenderingObject.cpp" />
     <ClCompile Include="CubeNormalRenderingObject.cpp" />
     <ClCompile Include="CustomRenderModule.cpp" />
+    <ClCompile Include="GridRenderingObject.cpp" />
     <ClCompile Include="ImGUIRenderSubModule.cpp" />
     <ClCompile Include="InputModule.cpp" />
     <ClCompile Include="main.cpp" />
@@ -46,6 +47,7 @@
     <ClInclude Include="CubeNormalRenderingObject.h" />
     <ClInclude Include="CustomRenderModule.h" />
     <ClInclude Include="Define.h" />
+    <ClInclude Include="GridRenderingObject.h" />
     <ClInclude Include="ImGUIRenderSubModule.h" />
     <ClInclude Include="InputModule.h" />
     <ClInclude Include="RenderingLibrary.h" />
@@ -60,6 +62,12 @@
     <FxCompile Include="PixelShader2.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="PixelShaderGridDraw.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
     </FxCompile>

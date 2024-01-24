@@ -211,6 +211,56 @@ void HRenderingLibrary::MakeBoxNormal(Mesh* InBoxMesh, Mesh* OutNormalMesh)
 	}
 }
 
+void HRenderingLibrary::MakeGrid(Mesh* InBoxMesh, int InHorizontalGridCnt, int InVerticalGridCnt, int InGridSize)
+{
+	InBoxMesh->vertices.reserve(InVerticalGridCnt * InHorizontalGridCnt * 4);
+	InBoxMesh->indices.reserve(InVerticalGridCnt * InHorizontalGridCnt * 6);
+	//노멀은 일단 -1로 설정
+
+
+	//Left Down 방식으로 그리기
+	float VerticalAcc = 0.f;
+	for (int y = 0; y <= InVerticalGridCnt; ++y)
+	{
+		for (int x = 0; x <= InHorizontalGridCnt; ++x)
+		{
+			Vertex NewVert1;
+			NewVert1.position = Vector3(x * InGridSize, VerticalAcc, 0);
+			NewVert1.normal = Vector3(0, 0, -1.f);
+			NewVert1.texCoord = Vector2((float)x / InHorizontalGridCnt, (float)y / InVerticalGridCnt);
+			InBoxMesh->vertices.push_back(NewVert1);
+		}
+		//다음 y좌표로 넘어감
+		VerticalAcc -= InGridSize;
+	}
+
+	for (int y = 0; y < InVerticalGridCnt; ++y)
+	{
+		const int startPoint = (y * (InHorizontalGridCnt + 1));
+		for (int x = 0; x < InHorizontalGridCnt; ++x)
+		{
+			InBoxMesh->indices.push_back(startPoint + x);
+			InBoxMesh->indices.push_back(startPoint + (x + 1) );
+			InBoxMesh->indices.push_back(startPoint + x + (InHorizontalGridCnt + 1));
+
+			InBoxMesh->indices.push_back(startPoint + x + (InHorizontalGridCnt + 1));
+			InBoxMesh->indices.push_back(startPoint + (x + 1));
+			InBoxMesh->indices.push_back(startPoint + (x + 1) + (InHorizontalGridCnt + 1) );
+		}
+	}
+
+}
+
+void HRenderingLibrary::MakeCylinder(Mesh* InBoxMesh)
+{
+
+}
+
+void HRenderingLibrary::MakeSphere(Mesh* InBoxMesh)
+{
+
+}
+
 bool HRenderingLibrary::CreateVertexBuffer(ComPtr<ID3D11Device> pDeviceContext, Mesh* pDrawingMesh, ComPtr<ID3D11Buffer> &pVertexBuffer)
 {
     D3D11_BUFFER_DESC VertexBufferDesc = {};
@@ -272,6 +322,7 @@ bool HRenderingLibrary::CreateVertexShader(ComPtr<ID3D11Device> pDeviceContext, 
 
 	return true;
 }
+
 
 bool HRenderingLibrary::CreatePixelShader(ComPtr<ID3D11Device> pDeviceContext, ComPtr<ID3D11PixelShader>& pPixelShader, LPCWSTR pShaderFileLocation)
 {

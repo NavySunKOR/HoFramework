@@ -15,6 +15,9 @@ class HRenderingLibrary
 public:
 	static void MakeBox(Mesh* InMesh);
 	static void MakeBoxNormal(Mesh* InBoxMesh , Mesh* OutNormalMesh);
+	static void MakeGrid(Mesh* InBoxMesh,int InHorizontalGridCnt, int InVerticalGridCnt,int InGridSize);
+	static void MakeCylinder(Mesh* InBoxMesh);
+	static void MakeSphere(Mesh* InBoxMesh);
 	static bool CreateIndexBuffer(ComPtr<ID3D11Device> pDeviceContext, Mesh* pDrawingMesh, ComPtr<ID3D11Buffer>& pIndexBuffer);
 	static bool CreateVertexBuffer(ComPtr<ID3D11Device> pDeviceContext, Mesh* pDrawingMesh, ComPtr<ID3D11Buffer>& pVertexBuffer);
 

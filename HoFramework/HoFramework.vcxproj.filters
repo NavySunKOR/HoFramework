@@ -57,6 +57,9 @@
     <ClCompile Include="CubeNormalRenderingObject.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="GridRenderingObject.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -101,6 +104,9 @@
     <ClInclude Include="CubeNormalRenderingObject.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="GridRenderingObject.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="VertexShader.hlsl" />
@@ -113,6 +119,7 @@
     <FxCompile Include="PixelShaderUsingLight.hlsl" />
     <FxCompile Include="VertexShaderNormal.hlsl" />
     <FxCompile Include="PixelShaderNormal.hlsl" />
+    <FxCompile Include="PixelShaderGridDraw.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Lights.hlsli" />
