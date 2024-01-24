@@ -4,6 +4,7 @@
 #include "CubeLightRenderingObject.h"
 #include "CubeNormalRenderingObject.h"
 #include "GridRenderingObject.h"
+#include "CylinderRenderingObject.h"
 
 #pragma comment(lib,"d3d11.lib")
 #pragma comment(lib,"d3dcompiler.lib")
@@ -17,9 +18,10 @@ bool HCustomRenderModule::Initialize(Application* pAppContext)
 
 	//TODO: 에디터처럼 만들려면 나중에 이걸 외부에서 추가 할 수 있도록 변경 필요.
 	RenderingObjects.reserve(1);
-	RenderingObjects.push_back(std::make_shared<HCubeLightRenderingObject>(this));
+	//RenderingObjects.push_back(std::make_shared<HCubeLightRenderingObject>(this));
 	//RenderingObjects.push_back(std::make_shared<HCubeNormalRenderingObject>(this));
 	//RenderingObjects.push_back(std::make_shared<HGridRenderingObject>(this));
+	RenderingObjects.push_back(std::make_shared<HCylinderRenderingObject>(this));
 
 
 	for (size_t i = 0; i < RenderingObjects.size(); ++i)

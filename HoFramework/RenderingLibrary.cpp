@@ -261,7 +261,7 @@ void HRenderingLibrary::MakeCylinder(Mesh* InBoxMesh, float InRadius, int InRadi
 	InBoxMesh->vertices.reserve(size_t((InRadialSliceCount + 1) * 2));
 	InBoxMesh->indices.reserve(size_t((InRadialSliceCount + 1) * 6));
 
-	float AngleInRad = (XM_2PI / 360.f) / InRadialSliceCount;
+	float AngleInRad = XM_2PI / InRadialSliceCount;
 	float ExtentHeight = InCylinderHeight / 2.f;
 
 	//중심은 0,0,0이라고 가정
@@ -269,7 +269,7 @@ void HRenderingLibrary::MakeCylinder(Mesh* InBoxMesh, float InRadius, int InRadi
 	for (int x = 0; x <= InRadialSliceCount; ++x)
 	{
 		Vertex NewVert;
-		NewVert.position = Vector3(InRadius  * cos(AngleInRad), ExtentHeight, InRadius  * sin(AngleInRad));
+		NewVert.position = Vector3(InRadius  * cos(AngleInRad * x), ExtentHeight, InRadius  * sin(AngleInRad * x));
 		NewVert.texCoord = Vector2(float(x) / InRadialSliceCount, 0);
 		NewVert.normal = (NewVert.position - Vector3(0.f));
 		NewVert.normal.Normalize();
@@ -281,7 +281,7 @@ void HRenderingLibrary::MakeCylinder(Mesh* InBoxMesh, float InRadius, int InRadi
 	for (int x = 0; x <= InRadialSliceCount; ++x)
 	{
 		Vertex NewVert;
-		NewVert.position = Vector3(InRadius * cos(AngleInRad), -ExtentHeight, InRadius * sin(AngleInRad));
+		NewVert.position = Vector3(InRadius * cos(AngleInRad * x), -ExtentHeight, InRadius * sin(AngleInRad * x));
 		NewVert.texCoord = Vector2(float(x) / InRadialSliceCount, 1.f);
 		NewVert.normal = (NewVert.position - Vector3(0.f));
 		NewVert.normal.Normalize();
