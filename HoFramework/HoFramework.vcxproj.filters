@@ -36,18 +36,6 @@
     <ClCompile Include="BaseRenderingObject.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Cube1RenderingObject.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Cube2RenderingObject.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Cube3RenderingObject.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Cube4RenderingObject.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="CubeLightRenderingObject.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -83,18 +71,6 @@
     <ClInclude Include="BaseRenderingObject.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Cube1RenderingObject.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Cube2RenderingObject.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Cube3RenderingObject.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Cube4RenderingObject.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="CubeLightRenderingObject.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -109,15 +85,8 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="VertexShader.hlsl" />
-    <FxCompile Include="PixelShader.hlsl" />
-    <FxCompile Include="VertexShader2.hlsl" />
-    <FxCompile Include="PixelShader2.hlsl" />
-    <FxCompile Include="VertexShaderTextureUsing.hlsl" />
-    <FxCompile Include="PixelShaderTextureUsing.hlsl" />
     <FxCompile Include="VertexShaderUsingLight.hlsl" />
     <FxCompile Include="PixelShaderUsingLight.hlsl" />
-    <FxCompile Include="VertexShaderNormal.hlsl" />
     <FxCompile Include="PixelShaderNormal.hlsl" />
     <FxCompile Include="PixelShaderGridDraw.hlsl" />
     <FxCompile Include="VertexShaderGridWave.hlsl" />
