@@ -1,5 +1,13 @@
 #include "../Cores/Core.hlsli"
 
+cbuffer PixelCalculateBuffer : register(b0)
+{
+    Light UsingLight; // 30byte
+    float3 ViewPosition; //12byte
+    float PixelCalculateBufferDummy; // 4byte
+    Material UsingMat; //48Byte
+};
+
 Texture2D g_texture0 : register(t0);
 Texture2D g_texture1 : register(t1);
 SamplerState g_sampler : register(s0);
