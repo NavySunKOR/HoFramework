@@ -66,12 +66,3 @@ struct PSInput
     float2 TexCoord : TEXCOORD;
     float3 Normal : NORMAL;
 };
-
-
-cbuffer TransformConstBuffer : register(b0)
-{
-    matrix ModelTransform;
-    matrix InverseTransform;
-    matrix ViewTransform;
-    matrix ProjectionTransform;
-}

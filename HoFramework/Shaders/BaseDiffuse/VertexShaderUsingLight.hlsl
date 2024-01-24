@@ -1,4 +1,5 @@
 #include "../Cores/Core.hlsli"
+#include "../Cores/VSHeader.hlsli"
 
 PSInput main(VSInput Input)
 {
