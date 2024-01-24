@@ -120,6 +120,7 @@
     <FxCompile Include="VertexShaderNormal.hlsl" />
     <FxCompile Include="PixelShaderNormal.hlsl" />
     <FxCompile Include="PixelShaderGridDraw.hlsl" />
+    <FxCompile Include="VertexShaderGridWave.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Lights.hlsli" />
