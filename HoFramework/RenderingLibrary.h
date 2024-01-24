@@ -16,7 +16,8 @@ public:
 	static void MakeBox(Mesh* InMesh);
 	static void MakeBoxNormal(Mesh* InBoxMesh , Mesh* OutNormalMesh);
 	static void MakeGrid(Mesh* InBoxMesh,int InHorizontalGridCnt, int InVerticalGridCnt,int InGridSize);
-	static void MakeCylinder(Mesh* InBoxMesh);
+	//InRadius - 원통의 반지름 , InRadialSliceCount 원통을 세로로 쪼개짐 갯수 , InCylinderVerticalStackCount 원통의 길이
+	static void MakeCylinder(Mesh* InBoxMesh, float InRadius, int InRadialSliceCount, float InCylinderHeight);
 	static void MakeSphere(Mesh* InBoxMesh);
 	static bool CreateIndexBuffer(ComPtr<ID3D11Device> pDeviceContext, Mesh* pDrawingMesh, ComPtr<ID3D11Buffer>& pIndexBuffer);
 	static bool CreateVertexBuffer(ComPtr<ID3D11Device> pDeviceContext, Mesh* pDrawingMesh, ComPtr<ID3D11Buffer>& pVertexBuffer);

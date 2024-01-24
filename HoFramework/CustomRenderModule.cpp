@@ -17,7 +17,7 @@ bool HCustomRenderModule::Initialize(Application* pAppContext)
 
 	//TODO: 에디터처럼 만들려면 나중에 이걸 외부에서 추가 할 수 있도록 변경 필요.
 	RenderingObjects.reserve(1);
-	//RenderingObjects.push_back(std::make_shared<HCubeLightRenderingObject>(this));
+	RenderingObjects.push_back(std::make_shared<HCubeLightRenderingObject>(this));
 	//RenderingObjects.push_back(std::make_shared<HCubeNormalRenderingObject>(this));
 	//RenderingObjects.push_back(std::make_shared<HGridRenderingObject>(this));
 

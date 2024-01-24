@@ -1,10 +1,10 @@
-#include "../Cores/VertexCore.hlsli"
+#include "../Cores/Core.hlsli"
 
 
 cbuffer VSTimeBuffer : register(b1)
 {
     float elapsedTime;
-    float3 Dummy;
+    float3 DummyVSTimeBuffer1;
 }
 
 PSInput main(VSInput Input)

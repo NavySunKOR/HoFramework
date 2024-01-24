@@ -1,6 +1,4 @@
 #include "CubeNormalRenderingObject.h"
-#include "RenderingLibrary.h"
-#include "BaseRenderModule.h"
 
 void HCubeNormalRenderingObject::Initialize()
 {

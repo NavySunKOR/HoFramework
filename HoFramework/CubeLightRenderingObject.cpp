@@ -1,6 +1,4 @@
 #include "CubeLightRenderingObject.h"
-#include "RenderingLibrary.h"
-#include "BaseRenderModule.h"
 #include "Application.h"
 #include <algorithm>
 
@@ -26,10 +24,6 @@ void HCubeLightRenderingObject::Initialize()
 	{
 		cout << "crate doesn't exist! " << endl;
 	}
-
-
-	HRenderingLibrary::CreateConstantBuffer<TransformConstantBuffer>(device, m_transformConstData, m_transformConstBuffer);
-	
 
 	//픽셀 콘스턴트 
 	m_PSConstBufferData.UsingLight.LightDir = Vector3(0.f, 0.f, 1.f);

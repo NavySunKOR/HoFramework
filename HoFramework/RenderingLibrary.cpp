@@ -5,6 +5,10 @@
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
+#include <directxtk/SimpleMath.h>
+
+using namespace DirectX;
+using namespace DirectX::SimpleMath;
 
 void HRenderingLibrary::MakeBox(Mesh* InMesh)
 {
@@ -251,8 +255,53 @@ void HRenderingLibrary::MakeGrid(Mesh* InBoxMesh, int InHorizontalGridCnt, int I
 
 }
 
-void HRenderingLibrary::MakeCylinder(Mesh* InBoxMesh)
+void HRenderingLibrary::MakeCylinder(Mesh* InBoxMesh, float InRadius, int InRadialSliceCount, float InCylinderHeight)
 {
+
+	InBoxMesh->vertices.reserve(size_t((InRadialSliceCount + 1) * 2));
+	InBoxMesh->indices.reserve(size_t((InRadialSliceCount + 1) * 6));
+
+	float AngleInRad = (XM_2PI / 360.f) / InRadialSliceCount;
+	float ExtentHeight = InCylinderHeight / 2.f;
+
+	//중심은 0,0,0이라고 가정
+	//윗면
+	for (int x = 0; x <= InRadialSliceCount; ++x)
+	{
+		Vertex NewVert;
+		NewVert.position = Vector3(InRadius  * cos(AngleInRad), ExtentHeight, InRadius  * sin(AngleInRad));
+		NewVert.texCoord = Vector2(float(x) / InRadialSliceCount, 0);
+		NewVert.normal = (NewVert.position - Vector3(0.f));
+		NewVert.normal.Normalize();
+
+		InBoxMesh->vertices.push_back(NewVert);
+	}
+
+	//아랫면
+	for (int x = 0; x <= InRadialSliceCount; ++x)
+	{
+		Vertex NewVert;
+		NewVert.position = Vector3(InRadius * cos(AngleInRad), -ExtentHeight, InRadius * sin(AngleInRad));
+		NewVert.texCoord = Vector2(float(x) / InRadialSliceCount, 1.f);
+		NewVert.normal = (NewVert.position - Vector3(0.f));
+		NewVert.normal.Normalize();
+		InBoxMesh->vertices.push_back(NewVert);
+	}
+
+
+	//인다이스
+	for (int i = 0; i < InRadialSliceCount; ++i)
+	{
+		InBoxMesh->indices.push_back(i);
+		InBoxMesh->indices.push_back(i + 1);
+		InBoxMesh->indices.push_back(i + (InRadialSliceCount + 1));
+
+		InBoxMesh->indices.push_back(i + (InRadialSliceCount + 1));
+		InBoxMesh->indices.push_back(i + 1);
+		InBoxMesh->indices.push_back((i + 1) + (InRadialSliceCount + 1));
+	}
+
+
 
 }
 

@@ -2,6 +2,8 @@
 #include "Define.h"
 #include <d3d11.h>
 #include <wrl.h>
+#include "BaseRenderModule.h"
+#include "RenderingLibrary.h"
 
 using Microsoft::WRL::ComPtr;
 class HBaseRenderModule;

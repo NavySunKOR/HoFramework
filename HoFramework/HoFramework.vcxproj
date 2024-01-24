@@ -25,6 +25,7 @@
     <ClCompile Include="CubeLightRenderingObject.cpp" />
     <ClCompile Include="CubeNormalRenderingObject.cpp" />
     <ClCompile Include="CustomRenderModule.cpp" />
+    <ClCompile Include="CylinderRenderingObject.cpp" />
     <ClCompile Include="GridRenderingObject.cpp" />
     <ClCompile Include="ImGUIRenderSubModule.cpp" />
     <ClCompile Include="InputModule.cpp" />
@@ -38,6 +39,7 @@
     <ClInclude Include="CubeLightRenderingObject.h" />
     <ClInclude Include="CubeNormalRenderingObject.h" />
     <ClInclude Include="CustomRenderModule.h" />
+    <ClInclude Include="CylinderRenderingObject.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="GridRenderingObject.h" />
     <ClInclude Include="ImGUIRenderSubModule.h" />
@@ -68,18 +70,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\Cores\Core.hlsli">
-      <FileType>Document</FileType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
-    </None>
-    <None Include="Shaders\Cores\Lights.hlsli">
-      <FileType>Document</FileType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
-    </None>
-    <None Include="Shaders\Cores\PixelCore.hlsli">
-      <FileType>Document</FileType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
-    </None>
-    <None Include="Shaders\Cores\VertexCore.hlsli">
       <FileType>Document</FileType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
     </None>

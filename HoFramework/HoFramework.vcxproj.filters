@@ -48,6 +48,9 @@
     <ClCompile Include="GridRenderingObject.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="CylinderRenderingObject.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -83,6 +86,9 @@
     <ClInclude Include="GridRenderingObject.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="CylinderRenderingObject.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shaders\BaseDiffuse\PixelShaderUsingLight.hlsl" />
@@ -93,8 +99,5 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\Cores\Core.hlsli" />
-    <None Include="Shaders\Cores\Lights.hlsli" />
-    <None Include="Shaders\Cores\PixelCore.hlsli" />
-    <None Include="Shaders\Cores\VertexCore.hlsli" />
   </ItemGroup>
 </Project>
