@@ -85,16 +85,16 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="VertexShaderUsingLight.hlsl" />
-    <FxCompile Include="PixelShaderUsingLight.hlsl" />
-    <FxCompile Include="PixelShaderNormal.hlsl" />
-    <FxCompile Include="PixelShaderGridDraw.hlsl" />
-    <FxCompile Include="VertexShaderGridWave.hlsl" />
+    <FxCompile Include="Shaders\BaseDiffuse\PixelShaderUsingLight.hlsl" />
+    <FxCompile Include="Shaders\BaseDiffuse\VertexShaderUsingLight.hlsl" />
+    <FxCompile Include="Shaders\Grid\PixelShaderGridDraw.hlsl" />
+    <FxCompile Include="Shaders\Grid\VertexShaderGridWave.hlsl" />
+    <FxCompile Include="Shaders\Normal\PixelShaderNormal.hlsl" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Lights.hlsli" />
-    <None Include="Core.hlsli" />
-    <None Include="VertexCore.hlsli" />
-    <None Include="PixelCore.hlsli" />
+    <None Include="Shaders\Cores\Core.hlsli" />
+    <None Include="Shaders\Cores\Lights.hlsli" />
+    <None Include="Shaders\Cores\PixelCore.hlsli" />
+    <None Include="Shaders\Cores\VertexCore.hlsli" />
   </ItemGroup>
 </Project>

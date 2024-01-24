@@ -1,4 +1,4 @@
-#include "VertexCore.hlsli"
+#include "../Cores/VertexCore.hlsli"
 
 
 cbuffer VSTimeBuffer : register(b1)

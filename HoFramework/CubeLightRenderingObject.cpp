@@ -15,8 +15,8 @@ void HCubeLightRenderingObject::Initialize()
 
 	//Shaders
 	vector<D3D11_INPUT_ELEMENT_DESC> inputs = HRenderingLibrary::GetVSInputLayout();
-	HRenderingLibrary::CreateVertexShader(device, m_vertexShader, m_vertexInputLayout, L"VertexShaderUsingLight.hlsl", inputs);
-	HRenderingLibrary::CreatePixelShader(device, m_pixelShader, L"PixelShaderUsingLight.hlsl");
+	HRenderingLibrary::CreateVertexShader(device, m_vertexShader, m_vertexInputLayout, L"./Shaders/BaseDiffuse/VertexShaderUsingLight.hlsl", inputs);
+	HRenderingLibrary::CreatePixelShader(device, m_pixelShader, L"./Shaders/BaseDiffuse/PixelShaderUsingLight.hlsl");
 
 	if (HRenderingLibrary::CreateTexture(device, string("./SampleTexture/wall.jpg"), m_Texture1, m_Texture1ResourceView) == false)
 	{

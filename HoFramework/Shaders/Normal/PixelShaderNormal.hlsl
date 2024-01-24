@@ -1,4 +1,4 @@
-#include "PixelCore.hlsli"
+#include "../Cores/PixelCore.hlsli"
 
 float4 main(PSInput input) : SV_TARGET
 {

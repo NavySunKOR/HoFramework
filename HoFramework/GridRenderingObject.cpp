@@ -11,8 +11,8 @@ void HGridRenderingObject::Initialize()
 	vector<D3D11_INPUT_ELEMENT_DESC> inputs = HRenderingLibrary::GetVSInputLayout();
 
 	ComPtr<ID3D11Device>& device = m_ParentRenderModule->GetDevice();
-	HRenderingLibrary::CreateVertexShader(device, m_vertexShader, m_vertexInputLayout, L"VertexShaderGridWave.hlsl", inputs);
-	HRenderingLibrary::CreatePixelShader(device, m_pixelShader, L"PixelShaderGridDraw.hlsl");
+	HRenderingLibrary::CreateVertexShader(device, m_vertexShader, m_vertexInputLayout, L"./Shaders/Grid/VertexShaderGridWave.hlsl", inputs);
+	HRenderingLibrary::CreatePixelShader(device, m_pixelShader, L"./Shaders/Grid/PixelShaderGridDraw.hlsl");
 
 	ComPtr<ID3D11DeviceContext>& context = m_ParentRenderModule->GetContext();
 

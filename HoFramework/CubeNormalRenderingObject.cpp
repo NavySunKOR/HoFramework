@@ -14,8 +14,8 @@ void HCubeNormalRenderingObject::Initialize()
 
 	//Shaders
 	vector<D3D11_INPUT_ELEMENT_DESC> inputs = HRenderingLibrary::GetVSInputLayout();
-	HRenderingLibrary::CreateVertexShader(device, m_vertexShader, m_vertexInputLayout, L"VertexShaderNormal.hlsl", inputs);
-	HRenderingLibrary::CreatePixelShader(device, m_pixelShader, L"PixelShaderNormal.hlsl");
+	HRenderingLibrary::CreateVertexShader(device, m_vertexShader, m_vertexInputLayout, L"./Shaders/Normal/VertexShaderNormal.hlsl", inputs);
+	HRenderingLibrary::CreatePixelShader(device, m_pixelShader, L"./Shaders/Normal/PixelShaderNormal.hlsl");
 
 
 	Scale(Vector3(0.5f, 0.5f, 0.5f));

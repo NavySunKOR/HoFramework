@@ -1,5 +1,5 @@
 
-#include "VertexCore.hlsli"
+#include "../Cores/VertexCore.hlsli"
 
 PSInput main(VSInput Input)
 {
