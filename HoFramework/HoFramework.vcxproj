@@ -31,6 +31,7 @@
     <ClCompile Include="InputModule.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="RenderingLibrary.cpp" />
+    <ClCompile Include="SphereRenderingObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -45,6 +46,7 @@
     <ClInclude Include="ImGUIRenderSubModule.h" />
     <ClInclude Include="InputModule.h" />
     <ClInclude Include="RenderingLibrary.h" />
+    <ClInclude Include="SphereRenderingObject.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shaders\BaseDiffuse\PixelShaderUsingLight.hlsl">

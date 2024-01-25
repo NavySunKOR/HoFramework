@@ -81,3 +81,19 @@ public:
 	vector<uint16_t> indices;
 	string textureSourceName;
 };
+
+
+struct PSConstantBuffer
+{
+
+	//32
+	Light UsingLight;
+
+	//12
+	Vector3 UsingViewPosition;
+
+	float Dummy;
+
+	//
+	Material UsingMat;
+};

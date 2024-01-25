@@ -5,6 +5,7 @@
 #include "CubeNormalRenderingObject.h"
 #include "GridRenderingObject.h"
 #include "CylinderRenderingObject.h"
+#include "SphereRenderingObject.h"
 
 #pragma comment(lib,"d3d11.lib")
 #pragma comment(lib,"d3dcompiler.lib")
@@ -20,8 +21,9 @@ bool HCustomRenderModule::Initialize(Application* pAppContext)
 	RenderingObjects.reserve(1);
 	//RenderingObjects.push_back(std::make_shared<HCubeLightRenderingObject>(this));
 	//RenderingObjects.push_back(std::make_shared<HCubeNormalRenderingObject>(this));
-	RenderingObjects.push_back(std::make_shared<HGridRenderingObject>(this));
+	//RenderingObjects.push_back(std::make_shared<HGridRenderingObject>(this));
 	//RenderingObjects.push_back(std::make_shared<HCylinderRenderingObject>(this));
+	RenderingObjects.push_back(std::make_shared<HSphereRenderingObject>(this));
 
 
 	for (size_t i = 0; i < RenderingObjects.size(); ++i)

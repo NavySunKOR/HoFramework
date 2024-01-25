@@ -305,8 +305,43 @@ void HRenderingLibrary::MakeCylinder(Mesh* InBoxMesh, float InRadius, int InRadi
 
 }
 
-void HRenderingLibrary::MakeSphere(Mesh* InBoxMesh)
+//VerticalDivision - 세로로 쪼개는 갯수(slice) , HorizontalDivision - 가로로 쪼개는 갯수(stack)
+void HRenderingLibrary::MakeSphere(Mesh* InBoxMesh , float InRadius,Vector3 InCenterPos,int InVerticalDivision, int InHorizontalDivision)
 {
+	float ZAnglePerPiece = XM_PI / InHorizontalDivision;
+	float YAnglePerPiece = XM_2PI / InVerticalDivision;
+
+	//위에서 아래로 만들것.
+	for (int y = 0; y <= InHorizontalDivision; ++y)
+	{
+		Vector3 StartPoint = Vector3::Transform(Vector3(0, InRadius, 0),Matrix::CreateRotationZ(ZAnglePerPiece * y));
+		for (int x = 0; x <= InVerticalDivision; ++x)
+		{
+			Vertex NewVert;
+			NewVert.position = Vector3::Transform(StartPoint, Matrix::CreateRotationY(YAnglePerPiece * float(x)));
+			NewVert.texCoord = Vector2(float(x) / InVerticalDivision, float(y) / InHorizontalDivision);
+			NewVert.normal = NewVert.position - InCenterPos;
+			NewVert.normal.Normalize();
+
+			InBoxMesh->vertices.push_back(NewVert);
+		}
+	}
+
+	for (int j = 0; j < InHorizontalDivision; j++) {
+
+		const int offset = (InVerticalDivision + 1) * j;
+
+		for (int i = 0; i < InVerticalDivision; i++) {
+
+			InBoxMesh->indices.push_back(offset + i);
+			InBoxMesh->indices.push_back(offset + i + InVerticalDivision + 1);
+			InBoxMesh->indices.push_back(offset + i + 1 + InVerticalDivision + 1);
+
+			InBoxMesh->indices.push_back(offset + i);
+			InBoxMesh->indices.push_back(offset + i + 1 + InVerticalDivision + 1);
+			InBoxMesh->indices.push_back(offset + i + 1);
+		}
+	}
 
 }
 

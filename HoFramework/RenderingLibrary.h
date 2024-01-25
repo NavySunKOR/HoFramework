@@ -18,7 +18,7 @@ public:
 	static void MakeGrid(Mesh* InBoxMesh,int InHorizontalGridCnt, int InVerticalGridCnt,int InGridSize);
 	//InRadius - 원통의 반지름 , InRadialSliceCount 원통을 세로로 쪼개짐 갯수 , InCylinderVerticalStackCount 원통의 길이
 	static void MakeCylinder(Mesh* InBoxMesh, float InRadius, int InRadialSliceCount, float InCylinderHeight);
-	static void MakeSphere(Mesh* InBoxMesh);
+	static void MakeSphere(Mesh* InBoxMesh, float InRadius, Vector3 InCenterPos, int InVerticalDivision, int InHorizontalDivision);
 	static bool CreateIndexBuffer(ComPtr<ID3D11Device> pDeviceContext, Mesh* pDrawingMesh, ComPtr<ID3D11Buffer>& pIndexBuffer);
 	static bool CreateVertexBuffer(ComPtr<ID3D11Device> pDeviceContext, Mesh* pDrawingMesh, ComPtr<ID3D11Buffer>& pVertexBuffer);
 	static vector<D3D11_INPUT_ELEMENT_DESC> GetVSInputLayout();

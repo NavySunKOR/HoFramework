@@ -16,11 +16,16 @@ PSInput main(VSInput Input)
     
     float4 Position = float4(Input.Position, 1.f);
     
+    float4 OldPosition = Position;
+    
     float Amplitue = 2.f;
     float Frequency = 20.f;
     
-    Position += float4(Input.Normal * sin(Input.TexCoord.x * Frequency + elapsedTime) * Amplitue, 1);
+    float SinAngle = Input.TexCoord.x * Frequency + elapsedTime;
     
+    Position += float4(Input.Normal * sin(SinAngle) * Amplitue, 1);
+    
+
     Position = mul(Position, ModelTransform);
     Output.WorldPosition = Position.xyz;
     
