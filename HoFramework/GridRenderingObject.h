@@ -40,6 +40,9 @@ private:
 	ComPtr<ID3D11Buffer> m_VSTimeBuffer;
 	VSConstantTimeBuffer m_VSTimeBufferData;
 
+	ComPtr<ID3D11Texture2D> m_Texture;
+	ComPtr<ID3D11ShaderResourceView> m_TextureResourceView;
+
 	
 
 

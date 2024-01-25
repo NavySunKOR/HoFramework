@@ -16,7 +16,7 @@ void HCubeLightRenderingObject::Initialize()
 	HRenderingLibrary::CreateVertexShader(device, m_vertexShader, m_vertexInputLayout, L"./Shaders/BaseDiffuse/VertexShaderUsingLight.hlsl", inputs);
 	HRenderingLibrary::CreatePixelShader(device, m_pixelShader, L"./Shaders/BaseDiffuse/PixelShaderUsingLight.hlsl");
 
-	if (HRenderingLibrary::CreateTexture(device, string("./SampleTexture/wall.jpg"), m_Texture1, m_Texture1ResourceView) == false)
+	if (HRenderingLibrary::CreateTexture(device, string("./SampleTexture/wall.png"), m_Texture1, m_Texture1ResourceView) == false)
 	{
 		cout << "wall doesn't exist! " << endl;
 	}

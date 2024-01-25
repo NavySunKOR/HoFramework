@@ -16,6 +16,20 @@ void HGridRenderingObject::Initialize()
 
 	ComPtr<ID3D11DeviceContext>& context = m_ParentRenderModule->GetContext();
 
+	if (HRenderingLibrary::CreateTexture(device, string("./SampleTexture/map.png"), m_Texture, m_TextureResourceView) == false)
+	{
+		cout << "wall doesn't exist! " << endl;
+	}
+
+	m_PSConstBufferData.UsingLight.LightDir = Vector3(0.f, 0.f, 1.f);
+	m_PSConstBufferData.UsingLight.LightIntensity = 1.f;
+	m_PSConstBufferData.UsingLight.LightPos = Vector3(0.f, 0.f, -2.f);
+
+	m_PSConstBufferData.UsingMat.ambient = Vector3(0.3f, 0.3f, 0.3f);
+	m_PSConstBufferData.UsingMat.diffuse = Vector3(0.5f, 0.5f, 0.5f);
+	m_PSConstBufferData.UsingMat.shiness = 1.f;
+	m_PSConstBufferData.UsingMat.specular = Vector3(1.f);
+
 	HRenderingLibrary::CreateConstantBuffer<PSConstantBufferGrid>(device, m_PSConstBufferData, m_PSConstBuffer);
 	context->PSSetConstantBuffers(0, 1, m_PSConstBuffer.GetAddressOf());
 
@@ -41,5 +55,11 @@ void HGridRenderingObject::Update()
 void HGridRenderingObject::Render()
 {
 	HBaseRenderingObject::Render();
+
+	ComPtr<ID3D11DeviceContext>& context = m_ParentRenderModule->GetContext();
+
+	ID3D11ShaderResourceView* pixelResources[1] = { m_TextureResourceView.Get()};
+	context->PSSetShaderResources(0, 1, pixelResources);
+	context->PSSetSamplers(0, 1, m_ParentRenderModule->GetSampler().GetAddressOf());
 	
 }
