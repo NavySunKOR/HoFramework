@@ -366,6 +366,109 @@ bool HRenderingLibrary::CreateVertexBuffer(ComPtr<ID3D11Device> pDeviceContext, 
     return true;
 }
 
+void HRenderingLibrary::MakeLcosahedron(Mesh* InMesh)
+{
+	// Luna DX12 교재 참고
+   // 등20면체
+   // https://mathworld.wolfram.com/Isohedron.html
+
+	const float X = 0.525731f;
+	const float Z = 0.850651f;
+
+	vector<Vector3> pos = {
+		Vector3(-X, 0.0f, Z), Vector3(X, 0.0f, Z),   Vector3(-X, 0.0f, -Z),
+		Vector3(X, 0.0f, -Z), Vector3(0.0f, Z, X),   Vector3(0.0f, Z, -X),
+		Vector3(0.0f, -Z, X), Vector3(0.0f, -Z, -X), Vector3(Z, X, 0.0f),
+		Vector3(-Z, X, 0.0f), Vector3(Z, -X, 0.0f),  Vector3(-Z, -X, 0.0f) };
+
+	for (size_t i = 0; i < pos.size(); i++) {
+		Vertex v;
+		v.position = pos[i];
+		v.normal = v.position;
+		v.normal.Normalize();
+
+		InMesh->vertices.push_back(v);
+	}
+
+	InMesh->indices = { 1,  4,  0, 4,  9, 0, 4, 5,  9, 8, 5, 4,  1,  8, 4,
+					   1,  10, 8, 10, 3, 8, 8, 3,  5, 3, 2, 5,  3,  7, 2,
+					   3,  10, 7, 10, 6, 7, 6, 11, 7, 6, 0, 11, 6,  1, 0,
+					   10, 1,  6, 11, 0, 9, 2, 11, 9, 5, 2, 9,  11, 2, 7 };
+}
+
+void HRenderingLibrary::MakeSphereSubdivision(Mesh* InMesh,float InSphereRadius)
+{
+
+	using namespace DirectX;
+	using DirectX::SimpleMath::Matrix;
+	using DirectX::SimpleMath::Vector3;
+
+	// 원점이 중심이라고 가정
+	// 입력 받은 구 모델의 반지름 조절
+	for (auto& v : InMesh->vertices) {
+		v.position = v.normal * InSphereRadius;
+	}
+
+	// 버텍스가 중복되는 구조로 구현
+	Mesh newMesh;
+	uint16_t count = 0;
+	for (size_t i = 0; i < InMesh->indices.size(); i += 3) {
+		size_t i0 = InMesh->indices[i];
+		size_t i1 = InMesh->indices[i + 1];
+		size_t i2 = InMesh->indices[i + 2];
+
+		Vertex v0 = InMesh->vertices[i0];
+		Vertex v1 = InMesh->vertices[i1];
+		Vertex v2 = InMesh->vertices[i2];
+
+		Vertex v3;
+
+		v3.position = (v0.position + v2.position) / 2.f;
+		v3.texCoord = (v0.texCoord + v2.texCoord) / 2.f;
+
+		// 위치와 텍스춰 좌표 결정
+
+		Vertex v4;
+
+		v4.position = (v0.position + v1.position) / 2.f;
+		v4.texCoord = (v0.texCoord + v1.texCoord) / 2.f;
+		// 위치와 텍스춰 좌표 결정
+
+		Vertex v5;
+		v5.position = (v1.position + v2.position) / 2.f;
+		v5.texCoord = (v1.texCoord + v2.texCoord) / 2.f;
+		// 위치와 텍스춰 좌표 결정
+
+		ProjectVertexToSphereSurface(v3, InSphereRadius);
+		ProjectVertexToSphereSurface(v4, InSphereRadius);
+		ProjectVertexToSphereSurface(v5, InSphereRadius);
+
+		// 모든 버텍스 새로 추가
+		newMesh.vertices.push_back(v4);
+		newMesh.vertices.push_back(v1);
+		newMesh.vertices.push_back(v5);
+
+		newMesh.vertices.push_back(v0);
+		newMesh.vertices.push_back(v4);
+		newMesh.vertices.push_back(v3);
+
+		newMesh.vertices.push_back(v3);
+		newMesh.vertices.push_back(v4);
+		newMesh.vertices.push_back(v5);
+
+		newMesh.vertices.push_back(v3);
+		newMesh.vertices.push_back(v5);
+		newMesh.vertices.push_back(v2);
+
+		//인덱스 업데이트
+		for (uint16_t j = 0; j < 12; j++) {
+			newMesh.indices.push_back(j + count);
+		}
+		count += 12;
+	}
+	*InMesh = newMesh;
+}
+
 vector<D3D11_INPUT_ELEMENT_DESC> HRenderingLibrary::GetVSInputLayout()
 {
 	vector<D3D11_INPUT_ELEMENT_DESC> Result;
@@ -511,4 +614,19 @@ bool HRenderingLibrary::CreateTexture(ComPtr<ID3D11Device> pDeviceContext, strin
 	pDeviceContext->CreateShaderResourceView(OutTexture.Get(), nullptr,	OutResourceView.GetAddressOf());
 
 	return (OutTexture.Get() && OutResourceView.Get());
+}
+
+void HRenderingLibrary::ProjectVertexToSphereSurface(Vertex& InVertex, const float InRadius)
+{
+	InVertex.normal = InVertex.position;
+	InVertex.normal.Normalize();
+	InVertex.position = InVertex.normal * InRadius;
+
+	// 주의: 텍스춰가 이음매에서 깨집니다.
+	// atan vs atan2
+	// https://stackoverflow.com/questions/283406/what-is-the-difference-between-atan-and-atan2-in-c
+	const float theta = atan2f(InVertex.position.z, InVertex.position.x);
+	const float phi = acosf(InVertex.position.y / InRadius);
+	InVertex.texCoord.x = theta / XM_2PI;
+	InVertex.texCoord.y = phi / XM_PI;
 }

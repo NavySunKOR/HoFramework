@@ -6,6 +6,7 @@
 #include "GridRenderingObject.h"
 #include "CylinderRenderingObject.h"
 #include "SphereRenderingObject.h"
+#include "SubdivRenderingObject.h"
 
 #pragma comment(lib,"d3d11.lib")
 #pragma comment(lib,"d3dcompiler.lib")
@@ -23,7 +24,7 @@ bool HCustomRenderModule::Initialize(Application* pAppContext)
 	//RenderingObjects.push_back(std::make_shared<HCubeNormalRenderingObject>(this));
 	//RenderingObjects.push_back(std::make_shared<HGridRenderingObject>(this));
 	//RenderingObjects.push_back(std::make_shared<HCylinderRenderingObject>(this));
-	RenderingObjects.push_back(std::make_shared<HSphereRenderingObject>(this));
+	RenderingObjects.push_back(std::make_shared<HSubdivRenderingObject>(this));
 
 
 	for (size_t i = 0; i < RenderingObjects.size(); ++i)

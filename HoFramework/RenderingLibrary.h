@@ -21,6 +21,8 @@ public:
 	static void MakeSphere(Mesh* InBoxMesh, float InRadius, Vector3 InCenterPos, int InVerticalDivision, int InHorizontalDivision);
 	static bool CreateIndexBuffer(ComPtr<ID3D11Device> pDeviceContext, Mesh* pDrawingMesh, ComPtr<ID3D11Buffer>& pIndexBuffer);
 	static bool CreateVertexBuffer(ComPtr<ID3D11Device> pDeviceContext, Mesh* pDrawingMesh, ComPtr<ID3D11Buffer>& pVertexBuffer);
+	static void MakeLcosahedron(Mesh* InMesh);
+	static void MakeSphereSubdivision(Mesh* InMesh, float InSphereRadius);
 	static vector<D3D11_INPUT_ELEMENT_DESC> GetVSInputLayout();
 
 	template<typename T_BUFFERTYPE>
@@ -65,4 +67,7 @@ public:
 	}
 
 	static bool CreateTexture(ComPtr<ID3D11Device> pDeviceContext, string pTextureFileLocation, ComPtr<ID3D11Texture2D>& OutTexture, ComPtr<ID3D11ShaderResourceView>& OutResourceView);
+
+private:
+	static void ProjectVertexToSphereSurface(Vertex& InVertex,const float InRadius);
 };
