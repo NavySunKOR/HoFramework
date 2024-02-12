@@ -23,6 +23,7 @@ public:
 	static bool CreateVertexBuffer(ComPtr<ID3D11Device> pDeviceContext, Mesh* pDrawingMesh, ComPtr<ID3D11Buffer>& pVertexBuffer);
 	static void MakeLcosahedron(Mesh* InMesh);
 	static void MakeSphereSubdivision(Mesh* InMesh, float InSphereRadius);
+	static void VertexNormalToFaceNormal(Vertex& v0, Vertex& v1, Vertex& v2);
 	static vector<D3D11_INPUT_ELEMENT_DESC> GetVSInputLayout();
 
 	template<typename T_BUFFERTYPE>

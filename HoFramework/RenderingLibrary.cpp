@@ -439,9 +439,15 @@ void HRenderingLibrary::MakeSphereSubdivision(Mesh* InMesh,float InSphereRadius)
 		v5.texCoord = (v1.texCoord + v2.texCoord) / 2.f;
 		// 위치와 텍스춰 좌표 결정
 
+
 		ProjectVertexToSphereSurface(v3, InSphereRadius);
 		ProjectVertexToSphereSurface(v4, InSphereRadius);
 		ProjectVertexToSphereSurface(v5, InSphereRadius);
+
+		VertexNormalToFaceNormal(v4, v1, v5);
+		VertexNormalToFaceNormal(v0, v4, v3);
+		VertexNormalToFaceNormal(v3, v4, v5);
+		VertexNormalToFaceNormal(v3, v5, v2);
 
 		// 모든 버텍스 새로 추가
 		newMesh.vertices.push_back(v4);
@@ -467,6 +473,15 @@ void HRenderingLibrary::MakeSphereSubdivision(Mesh* InMesh,float InSphereRadius)
 		count += 12;
 	}
 	*InMesh = newMesh;
+}
+
+void HRenderingLibrary::VertexNormalToFaceNormal(Vertex& v0,Vertex& v1,Vertex& v2)
+{
+	Vector3 NewNormal = (v1.position - v0.position).Cross(v2.position - v0.position);
+	NewNormal.Normalize();
+	v0.normal = NewNormal;
+	v1.normal = NewNormal;
+	v2.normal = NewNormal;
 }
 
 vector<D3D11_INPUT_ELEMENT_DESC> HRenderingLibrary::GetVSInputLayout()

@@ -4,8 +4,9 @@ void HSubdivRenderingObject::Initialize()
 {
 	HRenderingLibrary::MakeSphere(&m_drawingMesh,3.f,Vector3(0,0,0),3,3);
 	HRenderingLibrary::MakeSphereSubdivision(&m_drawingMesh, 3.f);
-	HRenderingLibrary::MakeSphereSubdivision(&m_drawingMesh, 3.f);
-	HRenderingLibrary::MakeSphereSubdivision(&m_drawingMesh, 3.f);
+
+	//HRenderingLibrary::MakeSphereSubdivision(&m_drawingMesh, 3.f);
+	//HRenderingLibrary::MakeSphereSubdivision(&m_drawingMesh, 3.f);
 	HBaseRenderingObject::Initialize();
 	vector<D3D11_INPUT_ELEMENT_DESC> inputs = HRenderingLibrary::GetVSInputLayout();
 
@@ -41,4 +42,6 @@ void HSubdivRenderingObject::Update()
 void HSubdivRenderingObject::Render()
 {
 	HBaseRenderingObject::Render();
+	ComPtr<ID3D11DeviceContext>& context = m_ParentRenderModule->GetContext();
+	context->PSSetConstantBuffers(0, 1, m_PSConstBuffer.GetAddressOf());
 }
