@@ -8,15 +8,16 @@ cbuffer PixelCalculateBuffer : register(b0)
     Material UsingMat; //48Byte
 };
 
-
 Texture2D g_texture0 : register(t0);
 SamplerState g_sampler : register(s0);
+
 
 float4 main(PSInput input) : SV_TARGET
 {
     float3 toViewDirection = normalize(ViewPosition - input.WorldPosition);
-    float4 textureColor = g_texture0.Sample(g_sampler, input.TexCoord);
+    float4 textureColor = g_texture0.Sample(g_sampler, input.TexCoord) ;
 
     float4 LightColor = float4(ComputeDirectionalLight(UsingLight, toViewDirection, input.Normal , UsingMat),  1.f);
     return LightColor * textureColor;
+
 }

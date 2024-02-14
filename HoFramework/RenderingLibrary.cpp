@@ -444,10 +444,10 @@ void HRenderingLibrary::MakeSphereSubdivision(Mesh* InMesh,float InSphereRadius)
 		ProjectVertexToSphereSurface(v4, InSphereRadius);
 		ProjectVertexToSphereSurface(v5, InSphereRadius);
 
-		VertexNormalToFaceNormal(v4, v1, v5);
-		VertexNormalToFaceNormal(v0, v4, v3);
-		VertexNormalToFaceNormal(v3, v4, v5);
-		VertexNormalToFaceNormal(v3, v5, v2);
+		//VertexNormalToFaceNormal(v4, v1, v5);
+		//VertexNormalToFaceNormal(v0, v4, v3);
+		//VertexNormalToFaceNormal(v3, v4, v5);
+		//VertexNormalToFaceNormal(v3, v5, v2);
 
 		// 모든 버텍스 새로 추가
 		newMesh.vertices.push_back(v4);

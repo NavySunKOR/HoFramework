@@ -109,6 +109,7 @@
     <FxCompile Include="Shaders\Grid\VertexShaderGridWave.hlsl" />
     <FxCompile Include="Shaders\Normal\PixelShaderNormal.hlsl" />
     <FxCompile Include="Shaders\Cylinder\PixelShaderCylinder.hlsl" />
+    <FxCompile Include="Shaders\Subdiv\PixelShaderSubdivision.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\Cores\Core.hlsli" />
