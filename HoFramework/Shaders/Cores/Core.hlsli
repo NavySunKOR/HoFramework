@@ -60,8 +60,9 @@ struct VSInput
 
 struct PSInput
 {
+    float4 ModelPosition : POSITION0;
     float4 ScreenPosition : SV_POSITION;
-    float3 WorldPosition : POSITION;
+    float3 WorldPosition : POSITION1;
     float3 Color : COLOR;
     float2 TexCoord : TEXCOORD;
     float3 Normal : NORMAL;

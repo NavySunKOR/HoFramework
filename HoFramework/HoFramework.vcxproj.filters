@@ -110,6 +110,7 @@
     <FxCompile Include="Shaders\Normal\PixelShaderNormal.hlsl" />
     <FxCompile Include="Shaders\Cylinder\PixelShaderCylinder.hlsl" />
     <FxCompile Include="Shaders\Subdiv\PixelShaderSubdivision.hlsl" />
+    <FxCompile Include="Shaders\Subdiv\VertexShaderSubdivision.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\Cores\Core.hlsli" />

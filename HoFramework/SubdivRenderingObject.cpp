@@ -2,7 +2,7 @@
 
 void HSubdivRenderingObject::Initialize()
 {
-	HRenderingLibrary::MakeSphere(&m_drawingMesh,3.f,Vector3(0,0,0),3,3);
+	HRenderingLibrary::MakeLcosahedron(&m_drawingMesh);
 	HRenderingLibrary::MakeSphereSubdivision(&m_drawingMesh, 3.f);
 	HRenderingLibrary::MakeSphereSubdivision(&m_drawingMesh, 3.f);
 	HRenderingLibrary::MakeSphereSubdivision(&m_drawingMesh, 3.f);
@@ -11,7 +11,7 @@ void HSubdivRenderingObject::Initialize()
 	vector<D3D11_INPUT_ELEMENT_DESC> inputs = HRenderingLibrary::GetVSInputLayout();
 
 	ComPtr<ID3D11Device>& device = m_ParentRenderModule->GetDevice();
-	HRenderingLibrary::CreateVertexShader(device, m_vertexShader, m_vertexInputLayout, L"./Shaders/BaseDiffuse/VertexShaderUsingLight.hlsl", inputs);
+	HRenderingLibrary::CreateVertexShader(device, m_vertexShader, m_vertexInputLayout, L"./Shaders/Subdiv/VertexShaderSubdivision.hlsl", inputs);
 	HRenderingLibrary::CreatePixelShader(device, m_pixelShader, L"./Shaders/Subdiv/PixelShaderSubdivision.hlsl");
 
 	ComPtr<ID3D11DeviceContext>& context = m_ParentRenderModule->GetContext();
