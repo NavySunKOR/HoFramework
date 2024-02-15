@@ -10,6 +10,20 @@
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
 
+vector<Mesh> HRenderingLibrary::LoadMeshFromFile(string InDir)
+{
+	Assimp::Importer importer;
+
+	const aiScene* scene = importer.ReadFile(InDir, aiProcess_Triangulate | aiProcess_ConvertToLeftHanded);
+
+	Matrix mat;
+	vector<Mesh> meshes;
+	meshes.reserve(scene->mNumMeshes);
+	ProcessAINode(meshes, scene->mRootNode, scene, mat);
+
+	return meshes;
+}
+
 void HRenderingLibrary::MakeBox(Mesh* InMesh)
 {
 	InMesh->vertices.reserve(24);
@@ -631,6 +645,26 @@ bool HRenderingLibrary::CreateTexture(ComPtr<ID3D11Device> pDeviceContext, strin
 	return (OutTexture.Get() && OutResourceView.Get());
 }
 
+Matrix HRenderingLibrary::GLMatrixToDXMatrix(aiMatrix4x4 InMatrix)
+{
+	Matrix Return;
+
+
+	//DX 행렬 포인터에 GLMatrix의 값을 덮어 씌움
+	float* DXMat11 = &Return._11;
+	ai_real* GLMat11 = &InMatrix.a1;
+
+	//4x4
+	for (int i = 0; i < 16; ++i)
+	{
+		DXMat11[i] = float(GLMat11[i]);
+	}
+
+	Return.Transpose();
+	
+	return Return;
+}
+
 void HRenderingLibrary::ProjectVertexToSphereSurface(Vertex& InVertex, const float InRadius)
 {
 	InVertex.normal = InVertex.position;
@@ -644,4 +678,75 @@ void HRenderingLibrary::ProjectVertexToSphereSurface(Vertex& InVertex, const flo
 	const float phi = acosf(InVertex.position.y / InRadius);
 	InVertex.texCoord.x = theta / XM_2PI;
 	InVertex.texCoord.y = phi / XM_PI;
+}
+
+void HRenderingLibrary::ProcessAINode(vector<Mesh>& OutMesh, aiNode* InNode, const aiScene* InScene, Matrix InMatrix)
+{
+	Matrix UsingMat;
+	UsingMat = GLMatrixToDXMatrix(InNode->mTransformation) * InMatrix;
+
+	for (int i = 0; i < InNode->mNumMeshes; ++i)
+	{
+		aiMesh* mesh = InScene->mMeshes[InNode->mMeshes[i]];
+
+		Mesh NewMesh = ProcessAIMesh(mesh, InScene);
+
+		for (int j = 0; j < NewMesh.vertices.size(); ++j)
+		{
+			NewMesh.vertices[j].position = Vector3::Transform(NewMesh.vertices[j].position, UsingMat);
+		}
+
+
+		OutMesh.push_back(NewMesh);
+	}
+
+	for (int i = 0; i < InNode->mNumChildren; ++i)
+	{
+		ProcessAINode(OutMesh, InNode->mChildren[i], InScene, InMatrix);
+	}
+}
+
+Mesh HRenderingLibrary::ProcessAIMesh(aiMesh* InAIMesh, const aiScene* InScene)
+{
+	Mesh NewMesh;
+	//버텍스
+	NewMesh.vertices.reserve(InAIMesh->mNumVertices);
+	for (int j = 0; j < InAIMesh->mNumVertices; ++j)
+	{
+		Vertex NewVert;
+		NewVert.position = Vector3(InAIMesh->mVertices[j].x, InAIMesh->mVertices[j].y, InAIMesh->mVertices[j].z);
+		NewVert.normal = Vector3(InAIMesh->mNormals[j].x, InAIMesh->mNormals[j].y, InAIMesh->mNormals[j].z);
+		NewVert.normal.Normalize();
+		if (InAIMesh->mTextureCoords[0])
+			NewVert.texCoord = Vector2(InAIMesh->mTextureCoords[0][j].x, InAIMesh->mTextureCoords[0][j].y);
+		NewMesh.vertices.push_back(NewVert);
+	}
+
+
+	//인다이스
+	vector<uint16_t> indices;
+	for (int j = 0; j < InAIMesh->mNumFaces; ++j)
+	{
+		aiFace face = InAIMesh->mFaces[j];
+		indices.reserve(indices.size() + face.mNumIndices);
+		for (int faceNum = 0; faceNum < face.mNumIndices; ++faceNum)
+		{
+			indices.push_back(face.mIndices[faceNum]);
+		}
+	}
+
+	memcpy(NewMesh.indices.data(), indices.data(), indices.size());
+
+	//텍스쳐 명칭
+
+	if (InAIMesh->mMaterialIndex >= 0) {
+		aiMaterial* material = InScene->mMaterials[InAIMesh->mMaterialIndex];
+
+		if (material->GetTextureCount(aiTextureType_DIFFUSE) > 0) {
+			aiString filepath;
+			material->GetTexture(aiTextureType_DIFFUSE, 0, &filepath);
+			NewMesh.textureSourceName = filepath.C_Str();
+		}
+	}
+	return NewMesh;
 }
