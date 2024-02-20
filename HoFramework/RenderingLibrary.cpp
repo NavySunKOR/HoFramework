@@ -735,10 +735,12 @@ Mesh HRenderingLibrary::ProcessAIMesh(aiMesh* InAIMesh, const aiScene* InScene)
 		}
 	}
 
-	memcpy(NewMesh.indices.data(), indices.data(), indices.size());
+	for (int i = 0; i < indices.size(); ++i)
+	{
+		NewMesh.indices.push_back(indices[i]);
+	}
 
 	//ÅØ½ºÃÄ ¸íÄª
-
 	if (InAIMesh->mMaterialIndex >= 0) {
 		aiMaterial* material = InScene->mMaterials[InAIMesh->mMaterialIndex];
 

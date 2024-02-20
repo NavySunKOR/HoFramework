@@ -2,10 +2,14 @@
 #include <vector>
 #include <string>
 #include <directxtk/SimpleMath.h>
+#include <d3d11.h>
+#include <d3dcompiler.h>
 #include <iostream>
+#include <wrl.h> // ComPtr
 
 
 using namespace std;
+using Microsoft::WRL::ComPtr;
 using DirectX::SimpleMath::Vector2;
 using DirectX::SimpleMath::Vector3;
 using DirectX::SimpleMath::Matrix;
@@ -74,6 +78,7 @@ struct Material
 
 };
 
+
 struct Mesh
 {
 public:
@@ -82,6 +87,18 @@ public:
 	string textureSourceName;
 };
 
+struct MeshObject
+{
+public:
+	Mesh mesh;
+	ComPtr<ID3D11Buffer> vertexBuffer;
+	ComPtr<ID3D11Buffer> indexBuffer;
+	ComPtr<ID3D11Buffer> vertexConstantBuffer;
+	ComPtr<ID3D11Buffer> pixelConstantBuffer;
+
+	ComPtr<ID3D11Texture2D> texture;
+	ComPtr<ID3D11ShaderResourceView> textureResourceView;
+};
 
 struct PSConstantBuffer
 {
