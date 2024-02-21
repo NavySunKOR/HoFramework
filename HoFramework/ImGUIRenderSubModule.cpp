@@ -1,7 +1,7 @@
 #include "ImGUIRenderSubModule.h"
 #include "BaseRenderModule.h"
 #include "Application.h"
-#include "CubeLightRenderingObject.h"
+#include "FBXDragonRenderingObject.h"
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd,
 	UINT msg,
@@ -67,8 +67,8 @@ void HImGUIRenderSubModule::Render()
 
 	//ImGui::SliderFloat3("translation", &m_ParentRenderModule->GetGlobalCameraPosition().x, -1.f, 1.f);
 	//ImGui::SliderFloat3("rotation", &m_ParentRenderModule->GetGlobalCameraRotation().x,-180.f * 3.141592/180.f, 180.f * 3.141592 / 180.f);
-	//ImGui::SliderFloat("x rot", &((HCubeLightRenderingObject*)(m_ParentRenderModule->GetRenderingObjects()[0].get()))->RotationXValue,-3.141592f, 3.141592f);
-	//ImGui::SliderFloat("y rot", &((HCubeLightRenderingObject*)(m_ParentRenderModule->GetRenderingObjects()[0].get()))->RotationYValue, -3.141592f, 3.141592f);
+	ImGui::SliderFloat("RimIntensity", &((HFBXDragonRenderingObject*)(m_ParentRenderModule->GetRenderingObjects()[0].get()))->m_PSExtraData.RimIntensity,0.f, 10.f);
+	ImGui::SliderFloat("RimPow", &((HFBXDragonRenderingObject*)(m_ParentRenderModule->GetRenderingObjects()[0].get()))->m_PSExtraData.RimPow, 0.f, 10.f);
 
 
 	ImGui::Checkbox("Wireframe", &m_ParentRenderModule->GetIsWireframe());
