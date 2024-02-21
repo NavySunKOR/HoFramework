@@ -4,7 +4,7 @@
 
 void HLoadFBXRenderingObject::Initialize()
 {
-	auto loaded = HRenderingLibrary::LoadMeshFromFile("./Meshes/zeldaPosed001/zeldaPosed001.fbx");
+	auto loaded = HRenderingLibrary::LoadMeshFromFile("./Meshes/zeldaPosed001/","zeldaPosed001.fbx");
 	PrimitiveTopology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 
 	ComPtr<ID3D11Device>& Device = m_ParentRenderModule->GetDevice();

@@ -17,7 +17,7 @@ class HRenderingLibrary
 {
 
 public:
-	static vector<Mesh> LoadMeshFromFile(string InDir);
+	static vector<Mesh> LoadMeshFromFile(string InDir, string InFileName);
 	static void MakeBox(Mesh* InMesh);
 	static void MakeBoxNormal(Mesh* InBoxMesh , Mesh* OutNormalMesh);
 	static void MakeGrid(Mesh* InBoxMesh,int InHorizontalGridCnt, int InVerticalGridCnt,int InGridSize);
@@ -78,7 +78,7 @@ public:
 
 private:
 	static void ProjectVertexToSphereSurface(Vertex& InVertex,const float InRadius);
-	static void ProcessAINode(vector<Mesh>& OutMesh, aiNode* InNode, const aiScene* InScene,Matrix InMatrix);
+	static void ProcessAINode(vector<Mesh>& OutMesh, aiNode* InNode, const aiScene* InScene,Matrix InMatrix,string InDir);
 
-	static Mesh ProcessAIMesh(aiMesh* InAIMesh, const aiScene* InScene);
+	static Mesh ProcessAIMesh(aiMesh* InAIMesh, const aiScene* InScene, string InDir);
 };

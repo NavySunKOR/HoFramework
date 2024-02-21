@@ -2,24 +2,27 @@
 #include "RenderingLibrary.h"
 
 #include <string.h>
+#include <filesystem>
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 #include <directxtk/SimpleMath.h>
 
+
+using namespace std;
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
 
-vector<Mesh> HRenderingLibrary::LoadMeshFromFile(string InDir)
+vector<Mesh> HRenderingLibrary::LoadMeshFromFile(string InDir,string InFileName)
 {
 	Assimp::Importer importer;
 
-	const aiScene* scene = importer.ReadFile(InDir, aiProcess_Triangulate | aiProcess_ConvertToLeftHanded);
+	const aiScene* scene = importer.ReadFile(InDir+ InFileName, aiProcess_Triangulate | aiProcess_ConvertToLeftHanded);
 
 	Matrix mat;
 	vector<Mesh> meshes;
 	meshes.reserve(scene->mNumMeshes);
-	ProcessAINode(meshes, scene->mRootNode, scene, mat);
+	ProcessAINode(meshes, scene->mRootNode, scene, mat, InDir);
 
 	return meshes;
 }
@@ -680,7 +683,7 @@ void HRenderingLibrary::ProjectVertexToSphereSurface(Vertex& InVertex, const flo
 	InVertex.texCoord.y = phi / XM_PI;
 }
 
-void HRenderingLibrary::ProcessAINode(vector<Mesh>& OutMesh, aiNode* InNode, const aiScene* InScene, Matrix InMatrix)
+void HRenderingLibrary::ProcessAINode(vector<Mesh>& OutMesh, aiNode* InNode, const aiScene* InScene, Matrix InMatrix, string InDir)
 {
 	Matrix UsingMat;
 	UsingMat = GLMatrixToDXMatrix(InNode->mTransformation) * InMatrix;
@@ -689,7 +692,7 @@ void HRenderingLibrary::ProcessAINode(vector<Mesh>& OutMesh, aiNode* InNode, con
 	{
 		aiMesh* mesh = InScene->mMeshes[InNode->mMeshes[i]];
 
-		Mesh NewMesh = ProcessAIMesh(mesh, InScene);
+		Mesh NewMesh = ProcessAIMesh(mesh, InScene, InDir);
 
 		for (int j = 0; j < NewMesh.vertices.size(); ++j)
 		{
@@ -702,11 +705,11 @@ void HRenderingLibrary::ProcessAINode(vector<Mesh>& OutMesh, aiNode* InNode, con
 
 	for (int i = 0; i < InNode->mNumChildren; ++i)
 	{
-		ProcessAINode(OutMesh, InNode->mChildren[i], InScene, InMatrix);
+		ProcessAINode(OutMesh, InNode->mChildren[i], InScene, InMatrix, InDir);
 	}
 }
 
-Mesh HRenderingLibrary::ProcessAIMesh(aiMesh* InAIMesh, const aiScene* InScene)
+Mesh HRenderingLibrary::ProcessAIMesh(aiMesh* InAIMesh, const aiScene* InScene, string InDir)
 {
 	Mesh NewMesh;
 	//¹öÅØ½º
@@ -747,7 +750,8 @@ Mesh HRenderingLibrary::ProcessAIMesh(aiMesh* InAIMesh, const aiScene* InScene)
 		if (material->GetTextureCount(aiTextureType_DIFFUSE) > 0) {
 			aiString filepath;
 			material->GetTexture(aiTextureType_DIFFUSE, 0, &filepath);
-			NewMesh.textureSourceName = filepath.C_Str();
+			
+			NewMesh.textureSourceName = InDir + filesystem::path(filepath.C_Str()).filename().string();
 		}
 	}
 	return NewMesh;
