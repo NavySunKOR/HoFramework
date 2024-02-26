@@ -63,6 +63,9 @@
     <ClCompile Include="FBXDragonRenderingObject.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="CubeMapRenderingObject.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -113,6 +116,9 @@
     <ClInclude Include="FBXDragonRenderingObject.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="CubeMapRenderingObject.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shaders\BaseDiffuse\PixelShaderUsingLight.hlsl" />
@@ -127,6 +133,8 @@
     <FxCompile Include="Shaders\FBX\VertexShaderUsingLight.hlsl" />
     <FxCompile Include="Shaders\Dragon\PixelShaderDragon.hlsl" />
     <FxCompile Include="Shaders\Dragon\VertexShaderDragon.hlsl" />
+    <FxCompile Include="Shaders\Skybox\VertexShaderSkybox.hlsl" />
+    <FxCompile Include="Shaders\Skybox\PixelShaderSkybox.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\Cores\Core.hlsli" />

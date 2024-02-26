@@ -8,7 +8,6 @@
 #include "stb_image.h"
 #include <directxtk/SimpleMath.h>
 
-
 using namespace std;
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
@@ -27,7 +26,7 @@ vector<Mesh> HRenderingLibrary::LoadMeshFromFile(string InDir,string InFileName)
 	return meshes;
 }
 
-void HRenderingLibrary::MakeBox(Mesh* InMesh)
+void HRenderingLibrary::MakeBox(Mesh* InMesh, float InSize)
 {
 	InMesh->vertices.reserve(24);
 
@@ -39,10 +38,10 @@ void HRenderingLibrary::MakeBox(Mesh* InMesh)
 	//¿ÞÂÊ ¾Æ·¡ºÎÅÍ ½Ã°è¹æÇâ
 
 	//À­¸é
-	InMesh->vertices[0].position = Vector3(-1.0f, 1.0f, -1.0f);
-	InMesh->vertices[1].position = Vector3(-1.0f, 1.0f, 1.0f);
-	InMesh->vertices[2].position = Vector3(1.0f, 1.0f, 1.0f);
-	InMesh->vertices[3].position = Vector3(1.0f, 1.0f, -1.0f);
+	InMesh->vertices[0].position = Vector3(-1.0f, 1.0f, -1.0f) * InSize;
+	InMesh->vertices[1].position = Vector3(-1.0f, 1.0f, 1.0f) * InSize;
+	InMesh->vertices[2].position = Vector3(1.0f, 1.0f, 1.0f) * InSize;
+	InMesh->vertices[3].position = Vector3(1.0f, 1.0f, -1.0f) * InSize;
 	InMesh->vertices[0].color = Vector3(0.0f, 0.0f, 0.0f);
 	InMesh->vertices[1].color = Vector3(0.0f, 0.0f, 0.0f);
 	InMesh->vertices[2].color = Vector3(0.0f, 0.0f, 0.0f);
@@ -66,10 +65,10 @@ void HRenderingLibrary::MakeBox(Mesh* InMesh)
 
 
 	//¾Æ·§¸é
-	InMesh->vertices[4].position = Vector3(-1.0f, -1.0f, -1.0f);
-	InMesh->vertices[5].position = Vector3(1.0f, -1.0f, -1.0f);
-	InMesh->vertices[6].position = Vector3(1.0f, -1.0f, 1.0f);
-	InMesh->vertices[7].position = Vector3(-1.0f, -1.0f, 1.0f);
+	InMesh->vertices[4].position = Vector3(-1.0f, -1.0f, -1.0f) * InSize;
+	InMesh->vertices[5].position = Vector3(1.0f, -1.0f, -1.0f) * InSize;
+	InMesh->vertices[6].position = Vector3(1.0f, -1.0f, 1.0f) * InSize;
+	InMesh->vertices[7].position = Vector3(-1.0f, -1.0f, 1.0f) * InSize;
 	InMesh->vertices[4].color = Vector3(0, 0, 0);
 	InMesh->vertices[5].color = Vector3(0, 0, 0);
 	InMesh->vertices[6].color = Vector3(0, 0, 0);
@@ -92,10 +91,10 @@ void HRenderingLibrary::MakeBox(Mesh* InMesh)
 
 
 	// ¾Õ¸é
-	InMesh->vertices[8].position = Vector3(-1.0f, -1.0f, -1.0f);
-	InMesh->vertices[9].position = Vector3(-1.0f, 1.0f, -1.0f);
-	InMesh->vertices[10].position = Vector3(1.0f, 1.0f, -1.0f);
-	InMesh->vertices[11].position = Vector3(1.0f, -1.0f, -1.0f);
+	InMesh->vertices[8].position = Vector3(-1.0f, -1.0f, -1.0f) * InSize;
+	InMesh->vertices[9].position = Vector3(-1.0f, 1.0f, -1.0f) * InSize;
+	InMesh->vertices[10].position = Vector3(1.0f, 1.0f, -1.0f) * InSize;
+	InMesh->vertices[11].position = Vector3(1.0f, -1.0f, -1.0f) * InSize;
 	InMesh->vertices[8].color = Vector3(0, 0, 0);
 	InMesh->vertices[9].color = Vector3(0, 0, 0);
 	InMesh->vertices[10].color = Vector3(0, 0, 0);
@@ -117,10 +116,10 @@ void HRenderingLibrary::MakeBox(Mesh* InMesh)
 	InMesh->indices.push_back(11);
 
 	// µÞ¸é
-	InMesh->vertices[12].position = Vector3(-1.0f, -1.0f, 1.0f);
-	InMesh->vertices[13].position = Vector3(1.0f, -1.0f, 1.0f);
-	InMesh->vertices[14].position = Vector3(1.0f, 1.0f, 1.0f);
-	InMesh->vertices[15].position = Vector3(-1.0f, 1.0f, 1.0f);
+	InMesh->vertices[12].position = Vector3(-1.0f, -1.0f, 1.0f) * InSize;
+	InMesh->vertices[13].position = Vector3(1.0f, -1.0f, 1.0f) * InSize;
+	InMesh->vertices[14].position = Vector3(1.0f, 1.0f, 1.0f) * InSize;
+	InMesh->vertices[15].position = Vector3(-1.0f, 1.0f, 1.0f) * InSize;
 	InMesh->vertices[12].color = Vector3(0, 0, 0);
 	InMesh->vertices[13].color = Vector3(0, 0, 0);
 	InMesh->vertices[14].color = Vector3(0, 0, 0);
@@ -143,10 +142,10 @@ void HRenderingLibrary::MakeBox(Mesh* InMesh)
 
 
 	////¿ÞÂÊ
-	InMesh->vertices[16].position = Vector3(-1.0f, -1.0f, 1.0f);
-	InMesh->vertices[17].position = Vector3(-1.0f, 1.0f, 1.0f);
-	InMesh->vertices[18].position = Vector3(-1.0f, 1.0f, -1.0f);
-	InMesh->vertices[19].position = Vector3(-1.0f, -1.0f, -1.0f);
+	InMesh->vertices[16].position = Vector3(-1.0f, -1.0f, 1.0f) * InSize;
+	InMesh->vertices[17].position = Vector3(-1.0f, 1.0f, 1.0f) * InSize;
+	InMesh->vertices[18].position = Vector3(-1.0f, 1.0f, -1.0f) * InSize;
+	InMesh->vertices[19].position = Vector3(-1.0f, -1.0f, -1.0f) * InSize;
 	InMesh->vertices[16].color = Vector3(0, 0, 0);
 	InMesh->vertices[17].color = Vector3(0, 0, 0);
 	InMesh->vertices[18].color = Vector3(0, 0, 0);
@@ -168,10 +167,10 @@ void HRenderingLibrary::MakeBox(Mesh* InMesh)
 	InMesh->indices.push_back(19);
 
 	////¿À¸¥ÂÊ	
-	InMesh->vertices[20].position = Vector3(1.0f, -1.0f, 1.0f);
-	InMesh->vertices[21].position = Vector3(1.0f, -1.0f, -1.0f);
-	InMesh->vertices[22].position = Vector3(1.0f, 1.0f, -1.0f);
-	InMesh->vertices[23].position = Vector3(1.0f, 1.0f, 1.0f);
+	InMesh->vertices[20].position = Vector3(1.0f, -1.0f, 1.0f) * InSize;
+	InMesh->vertices[21].position = Vector3(1.0f, -1.0f, -1.0f) * InSize;
+	InMesh->vertices[22].position = Vector3(1.0f, 1.0f, -1.0f) * InSize;
+	InMesh->vertices[23].position = Vector3(1.0f, 1.0f, 1.0f) * InSize;
 	InMesh->vertices[20].color = Vector3(0, 0, 0);
 	InMesh->vertices[21].color = Vector3(0, 0, 0);
 	InMesh->vertices[22].color = Vector3(0, 0, 0);

@@ -18,7 +18,7 @@ class HRenderingLibrary
 
 public:
 	static vector<Mesh> LoadMeshFromFile(string InDir, string InFileName);
-	static void MakeBox(Mesh* InMesh);
+	static void MakeBox(Mesh* InMesh,float InSize = 1.f);
 	static void MakeBoxNormal(Mesh* InBoxMesh , Mesh* OutNormalMesh);
 	static void MakeGrid(Mesh* InBoxMesh,int InHorizontalGridCnt, int InVerticalGridCnt,int InGridSize);
 	//InRadius - 원통의 반지름 , InRadialSliceCount 원통을 세로로 쪼개짐 갯수 , InCylinderVerticalStackCount 원통의 길이
