@@ -13,10 +13,16 @@ public:
 	virtual void Update();
 	virtual void Render();
 
-	ComPtr<ID3D11ShaderResourceView> GetSkyboxTexture() {
-		return m_SkyboxResourceView;
+	ComPtr<ID3D11ShaderResourceView> GetSkyboxDiffuse() {
+		return m_SkyboxDiffuseResourceView;
+	};
+
+	ComPtr<ID3D11ShaderResourceView> GetSkyboxSpecular() {
+		return m_SkyboxSpecularResourceView;
 	};
 private:
-	ComPtr<ID3D11Resource> m_SkyboxResource;
-	ComPtr<ID3D11ShaderResourceView> m_SkyboxResourceView;
+	ComPtr<ID3D11Resource> m_SkyboxDiffuseResource;
+	ComPtr<ID3D11ShaderResourceView> m_SkyboxDiffuseResourceView;
+	ComPtr<ID3D11Resource> m_SkyboxSpecularResource;
+	ComPtr<ID3D11ShaderResourceView> m_SkyboxSpecularResourceView;
 };

@@ -4,7 +4,7 @@
 
 void HEnvMapSphereRenderingObject::Initialize()
 {
-	HRenderingLibrary::MakeSphere(&m_drawingMesh, 1.f, Vector3(0, 0, 0), 12, 24);
+	HRenderingLibrary::MakeSphere(&m_drawingMesh, 1.f, Vector3(0, 0, 0), 64, 24);
 	HBaseRenderingObject::Initialize();
 
 
@@ -30,10 +30,11 @@ void HEnvMapSphereRenderingObject::Initialize()
 	context->PSSetConstantBuffers(0, 1, m_PSConstBuffer.GetAddressOf());
 	
 	HCubeMapRenderingObject* CubeMap = (HCubeMapRenderingObject*)(m_ParentRenderModule->GetRenderingObjects()[0].get());
-	ID3D11ShaderResourceView* CubeMapTexture = CubeMap->GetSkyboxTexture().Get();
+	ID3D11ShaderResourceView* CubeMapDiffuseTexture = CubeMap->GetSkyboxDiffuse().Get();
+	ID3D11ShaderResourceView* CubeMapSpecularTexture = CubeMap->GetSkyboxSpecular().Get();
 
-	ID3D11ShaderResourceView* pixelResources[1] = { CubeMapTexture };
-	context->PSSetShaderResources(0, 1, pixelResources);
+	ID3D11ShaderResourceView* pixelResources[2] = { CubeMapDiffuseTexture,CubeMapSpecularTexture };
+	context->PSSetShaderResources(0, 2, pixelResources);
 	context->PSSetSamplers(0, 1, m_ParentRenderModule->GetSampler().GetAddressOf());
 	
 

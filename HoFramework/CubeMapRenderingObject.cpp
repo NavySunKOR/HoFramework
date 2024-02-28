@@ -16,11 +16,19 @@ void HCubeMapRenderingObject::Initialize()
 	
 	auto hr = CreateDDSTextureFromFileEx(
 		// this->m_device.Get(), L"./SaintPetersBasilica/saintpeters.dds", 0,
-		m_ParentRenderModule->GetDevice().Get(), L"./skybox/clearSky/skybox.dds", 0, D3D11_USAGE_DEFAULT,
+		m_ParentRenderModule->GetDevice().Get(), L"./skybox/clearSky/CloudCommon_diffuseIBL.dds", 0, D3D11_USAGE_DEFAULT,
 		D3D11_BIND_SHADER_RESOURCE, 0,
 		D3D11_RESOURCE_MISC_TEXTURECUBE, // Å¥ºê¸Ê¿ë ÅØ½ºÃç
-		DDS_LOADER_FLAGS(false), (ID3D11Resource**)m_SkyboxResource.GetAddressOf(),
-		m_SkyboxResourceView.GetAddressOf(), nullptr);
+		DDS_LOADER_FLAGS(false), (ID3D11Resource**)m_SkyboxDiffuseResource.GetAddressOf(),
+		m_SkyboxDiffuseResourceView.GetAddressOf(), nullptr);
+
+	auto hr2 = CreateDDSTextureFromFileEx(
+		// this->m_device.Get(), L"./SaintPetersBasilica/saintpeters.dds", 0,
+		m_ParentRenderModule->GetDevice().Get(), L"./skybox/clearSky/CloudCommons_specularIBL.dds", 0, D3D11_USAGE_DEFAULT,
+		D3D11_BIND_SHADER_RESOURCE, 0,
+		D3D11_RESOURCE_MISC_TEXTURECUBE, // Å¥ºê¸Ê¿ë ÅØ½ºÃç
+		DDS_LOADER_FLAGS(false), (ID3D11Resource**)m_SkyboxSpecularResource.GetAddressOf(),
+		m_SkyboxSpecularResourceView.GetAddressOf(), nullptr);
 
 	HRenderingLibrary::CreateVertexShader(m_ParentRenderModule->GetDevice(), m_vertexShader, m_vertexInputLayout, L"./Shaders/Skybox/VertexShaderSkybox.hlsl", HRenderingLibrary::GetVSInputLayout());
 	HRenderingLibrary::CreatePixelShader(m_ParentRenderModule->GetDevice(), m_pixelShader, L"./Shaders/Skybox/PixelShaderSkybox.hlsl");
@@ -38,7 +46,7 @@ void HCubeMapRenderingObject::Update()
 void HCubeMapRenderingObject::Render()
 {
 	ComPtr<ID3D11DeviceContext> Context = m_ParentRenderModule->GetContext();
-	Context->PSSetShaderResources(0, 1, { m_SkyboxResourceView.GetAddressOf() });
+	Context->PSSetShaderResources(0, 1, { m_SkyboxSpecularResourceView.GetAddressOf() });
 	Context->PSSetSamplers(0, 1, m_ParentRenderModule->GetSampler().GetAddressOf());
 	HBaseRenderingObject::Render();
 }
