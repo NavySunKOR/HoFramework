@@ -26,6 +26,8 @@ void HSphereRenderingObject::Initialize()
 	HRenderingLibrary::CreateConstantBuffer<PSConstantBuffer>(device, m_PSConstBufferData, m_PSConstBuffer);
 	context->PSSetConstantBuffers(0, 1, m_PSConstBuffer.GetAddressOf());
 
+	context->PSSetSamplers(0, 1, m_ParentRenderModule->GetSampler().GetAddressOf());
+
 	Scale(Vector3(0.25f, 0.25f, 0.25f));
 	Translate(Vector3(0.f, 0.f, 0.f));
 }

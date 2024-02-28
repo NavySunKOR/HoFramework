@@ -27,6 +27,7 @@
     <ClCompile Include="CubeNormalRenderingObject.cpp" />
     <ClCompile Include="CustomRenderModule.cpp" />
     <ClCompile Include="CylinderRenderingObject.cpp" />
+    <ClCompile Include="EnvMapSphereRenderingObject.cpp" />
     <ClCompile Include="FBXDragonRenderingObject.cpp" />
     <ClCompile Include="GridRenderingObject.cpp" />
     <ClCompile Include="ImGUIRenderSubModule.cpp" />
@@ -47,6 +48,7 @@
     <ClInclude Include="CustomRenderModule.h" />
     <ClInclude Include="CylinderRenderingObject.h" />
     <ClInclude Include="Define.h" />
+    <ClInclude Include="EnvMapSphereRenderingObject.h" />
     <ClInclude Include="FBXDragonRenderingObject.h" />
     <ClInclude Include="GridRenderingObject.h" />
     <ClInclude Include="ImGUIRenderSubModule.h" />
@@ -81,6 +83,12 @@
     <FxCompile Include="Shaders\Dragon\VertexShaderDragon.hlsl">
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="Shaders\EnvMapping\PixelShaderEnvMapping.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
     </FxCompile>
     <FxCompile Include="Shaders\FBX\PixelShaderUsingLight.hlsl">
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>

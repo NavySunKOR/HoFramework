@@ -66,6 +66,9 @@
     <ClCompile Include="CubeMapRenderingObject.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="EnvMapSphereRenderingObject.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -119,6 +122,9 @@
     <ClInclude Include="CubeMapRenderingObject.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="EnvMapSphereRenderingObject.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shaders\BaseDiffuse\PixelShaderUsingLight.hlsl" />
@@ -135,6 +141,7 @@
     <FxCompile Include="Shaders\Dragon\VertexShaderDragon.hlsl" />
     <FxCompile Include="Shaders\Skybox\VertexShaderSkybox.hlsl" />
     <FxCompile Include="Shaders\Skybox\PixelShaderSkybox.hlsl" />
+    <FxCompile Include="Shaders\EnvMapping\PixelShaderEnvMapping.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\Cores\Core.hlsli" />
