@@ -17,27 +17,38 @@ public:
 		m_ParentRenderModule = pRenderModule;
 	}
 
-	virtual void Initialize();
-	virtual void Update();
-	virtual void Render();
+	virtual void Initialize() = 0;
+	virtual void Update() = 0;
+	virtual void Render() = 0;
 
 public:
 	void Translate(Vector3 pTranslate);
 	void Rotate(Vector3 pTranslate);
 	void Scale(Vector3 pTranslate);
 
-	inline Mesh* GetDrawingMesh() { return &m_drawingMesh; };
-	inline TransformConstantBuffer* GetTransformConstBuffer(){return &m_transformConstData;}
+	inline vector<MeshObject>* GetDrawingMeshes() { return &m_meshObjects; };
+	inline BasicVSConstantBuffer* GetVSConstBuffer(){return &m_basicVertexConstBufferData;}
+	inline BasicPSConstantBuffer* GetPSConstBuffer() { return &m_basicPixelConstBufferData; }
 protected:
-	Mesh m_drawingMesh;
-	ComPtr<ID3D11Buffer> m_vertexBuffer;
-	ComPtr<ID3D11Buffer> m_indexBuffer;
-	ComPtr<ID3D11Buffer> m_transformConstBuffer;
-	TransformConstantBuffer m_transformConstData;
 
-	ComPtr<ID3D11InputLayout> m_vertexInputLayout;
+	void InitializeInternal();
+	void UpdateInternal();
+	void RenderInternal();
+
+	vector<MeshObject> m_meshObjects;
 	ComPtr<ID3D11VertexShader> m_vertexShader;
+	ComPtr<ID3D11InputLayout> m_vertexInputLayout;
 	ComPtr<ID3D11PixelShader> m_pixelShader;
+
+
+	ComPtr<ID3D11Buffer> m_basicVertexConstBuffer;
+	ComPtr<ID3D11Buffer> m_basicPixelConstBuffer;
+
+	vector<ComPtr<ID3D11Buffer>> m_extraVertexConstBuffers;
+	vector<ComPtr<ID3D11Buffer>> m_extraPixelConstBuffers;
+
+	BasicVSConstantBuffer m_basicVertexConstBufferData;
+	BasicPSConstantBuffer m_basicPixelConstBufferData;
 
 	HBaseRenderModule* m_ParentRenderModule;
 
@@ -51,6 +62,6 @@ protected:
 	Matrix ScaleMatrix;
 	Matrix RotationMatrix;
 
-	D3D11_PRIMITIVE_TOPOLOGY PrimitiveTopology;
+	D3D11_PRIMITIVE_TOPOLOGY PrimitiveTopology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 
 };

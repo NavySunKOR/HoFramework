@@ -27,7 +27,7 @@ public:
 
 private:
 	vector<MeshObject> m_Meshes;
-	PSConstantBuffer m_PSConstBufferData;
+	BasicPSConstantBuffer m_PSConstBufferData;
 
 
 	ComPtr<ID3D11Buffer> m_PSExtraBuffer;

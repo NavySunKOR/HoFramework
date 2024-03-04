@@ -16,7 +16,7 @@ public:
 
 private:
 	ComPtr<ID3D11Buffer> m_PSConstBuffer;
-	PSConstantBuffer m_PSConstBufferData;
+	BasicPSConstantBuffer m_PSConstBufferData;
 
 	ComPtr<ID3D11ShaderResourceView> m_SkyboxResourceView;
 };

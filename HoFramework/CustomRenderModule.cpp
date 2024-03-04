@@ -1,12 +1,6 @@
 #include "CustomRenderModule.h"
 #include "Application.h"
 #include "RenderingLibrary.h"
-#include "CubeLightRenderingObject.h"
-#include "CubeNormalRenderingObject.h"
-#include "GridRenderingObject.h"
-#include "CylinderRenderingObject.h"
-#include "SphereRenderingObject.h"
-#include "SubdivRenderingObject.h"
 #include "LoadFBXRenderingObject.h"
 #include "FBXDragonRenderingObject.h"
 #include "CubeMapRenderingObject.h"
@@ -29,7 +23,8 @@ bool HCustomRenderModule::Initialize(Application* pAppContext)
 	//RenderingObjects.push_back(std::make_shared<HGridRenderingObject>(this));
 	//RenderingObjects.push_back(std::make_shared<HCylinderRenderingObject>(this));
 	RenderingObjects.push_back(std::make_shared<HCubeMapRenderingObject>(this));
-	RenderingObjects.push_back(std::make_shared<HEnvMapSphereRenderingObject>(this));
+	//RenderingObjects.push_back(std::make_shared<HEnvMapSphereRenderingObject>(this));
+	RenderingObjects.push_back(std::make_shared<HFBXDragonRenderingObject>(this));
 
 
 	for (size_t i = 0; i < RenderingObjects.size(); ++i)

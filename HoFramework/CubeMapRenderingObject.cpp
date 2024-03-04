@@ -8,14 +8,16 @@ using namespace DirectX;
 
 void HCubeMapRenderingObject::Initialize()
 {
-	HRenderingLibrary::MakeBox(&m_drawingMesh,20);
+	Mesh mesh;
+	HRenderingLibrary::MakeBox(&mesh,20);
+	
+	MeshObject obj;
+	obj.mesh = mesh;
 
-	//std::reverse(m_drawingMesh.indices.begin(), m_drawingMesh.indices.end());
-	HBaseRenderingObject::Initialize();
+	m_meshObjects.push_back(obj);
 
 	
 	auto hr = CreateDDSTextureFromFileEx(
-		// this->m_device.Get(), L"./SaintPetersBasilica/saintpeters.dds", 0,
 		m_ParentRenderModule->GetDevice().Get(), L"./skybox/clearSky/CloudCommon_diffuseIBL.dds", 0, D3D11_USAGE_DEFAULT,
 		D3D11_BIND_SHADER_RESOURCE, 0,
 		D3D11_RESOURCE_MISC_TEXTURECUBE, // Å¥ºê¸Ê¿ë ÅØ½ºÃç
@@ -23,7 +25,6 @@ void HCubeMapRenderingObject::Initialize()
 		m_SkyboxDiffuseResourceView.GetAddressOf(), nullptr);
 
 	auto hr2 = CreateDDSTextureFromFileEx(
-		// this->m_device.Get(), L"./SaintPetersBasilica/saintpeters.dds", 0,
 		m_ParentRenderModule->GetDevice().Get(), L"./skybox/clearSky/CloudCommons_specularIBL.dds", 0, D3D11_USAGE_DEFAULT,
 		D3D11_BIND_SHADER_RESOURCE, 0,
 		D3D11_RESOURCE_MISC_TEXTURECUBE, // Å¥ºê¸Ê¿ë ÅØ½ºÃç
@@ -34,19 +35,20 @@ void HCubeMapRenderingObject::Initialize()
 	HRenderingLibrary::CreatePixelShader(m_ParentRenderModule->GetDevice(), m_pixelShader, L"./Shaders/Skybox/PixelShaderSkybox.hlsl");
 
 
-	//Scale(Vector3(20, 20, 20));
+	InitializeInternal();
 
 }
 
 void HCubeMapRenderingObject::Update()
 {
-	HBaseRenderingObject::Update();
+	UpdateInternal();
 }
 
 void HCubeMapRenderingObject::Render()
 {
 	ComPtr<ID3D11DeviceContext> Context = m_ParentRenderModule->GetContext();
-	Context->PSSetShaderResources(0, 1, { m_SkyboxSpecularResourceView.GetAddressOf() });
+	ID3D11ShaderResourceView* resources[1] = { m_SkyboxSpecularResourceView.Get()};
+	Context->PSSetShaderResources(0, 1, resources);
 	Context->PSSetSamplers(0, 1, m_ParentRenderModule->GetSampler().GetAddressOf());
-	HBaseRenderingObject::Render();
+	RenderInternal();
 }

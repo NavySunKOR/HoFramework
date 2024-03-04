@@ -4,9 +4,13 @@
 
 void HEnvMapSphereRenderingObject::Initialize()
 {
-	HRenderingLibrary::MakeSphere(&m_drawingMesh, 1.f, Vector3(0, 0, 0), 64, 24);
-	HBaseRenderingObject::Initialize();
+	Mesh mesh;
+	HRenderingLibrary::MakeSphere(&mesh, 1.f, Vector3(0, 0, 0), 64, 24);
 
+	MeshObject obj;
+	obj.mesh = mesh;
+
+	m_meshObjects.push_back(obj);
 
 
 	vector<D3D11_INPUT_ELEMENT_DESC> inputs = HRenderingLibrary::GetVSInputLayout();
@@ -16,18 +20,6 @@ void HEnvMapSphereRenderingObject::Initialize()
 	HRenderingLibrary::CreatePixelShader(device, m_pixelShader, L"./Shaders/EnvMapping/PixelShaderEnvMapping.hlsl");
 
 	ComPtr<ID3D11DeviceContext>& context = m_ParentRenderModule->GetContext();
-
-	m_PSConstBufferData.UsingLight.LightDir = Vector3(0.f, 0.f, 1.f);
-	m_PSConstBufferData.UsingLight.LightIntensity = 1.f;
-	m_PSConstBufferData.UsingLight.LightPos = Vector3(0.f, 0.f, -2.f);
-
-	m_PSConstBufferData.UsingMat.ambient = Vector3(0.3f, 0.3f, 0.3f);
-	m_PSConstBufferData.UsingMat.diffuse = Vector3(0.5f, 0.5f, 0.5f);
-	m_PSConstBufferData.UsingMat.shiness = 1.f;
-	m_PSConstBufferData.UsingMat.specular = Vector3(1.f);
-
-	HRenderingLibrary::CreateConstantBuffer<PSConstantBuffer>(device, m_PSConstBufferData, m_PSConstBuffer);
-	context->PSSetConstantBuffers(0, 1, m_PSConstBuffer.GetAddressOf());
 	
 	HCubeMapRenderingObject* CubeMap = (HCubeMapRenderingObject*)(m_ParentRenderModule->GetRenderingObjects()[0].get());
 	ID3D11ShaderResourceView* CubeMapDiffuseTexture = CubeMap->GetSkyboxDiffuse().Get();
@@ -40,18 +32,17 @@ void HEnvMapSphereRenderingObject::Initialize()
 
 	Scale(Vector3(0.25f, 0.25f, 0.25f));
 	Translate(Vector3(0.f, 0.f, 0.f));
+
+	InitializeInternal();
 }
 
 void HEnvMapSphereRenderingObject::Update()
 {
 	m_ParentRenderModule->GetGlobalCameraRotation().y += 0.01f;
-	HBaseRenderingObject::Update();
-
-	m_PSConstBufferData.UsingViewPosition = Vector3::Transform(Vector3(0.f, 0.f, 0.f), m_transformConstData.ViewTransform.Transpose().Invert());
-	HRenderingLibrary::UpdateConstantBuffer(m_PSConstBufferData, m_PSConstBuffer, m_ParentRenderModule->GetContext());
+	UpdateInternal();
 }
 
 void HEnvMapSphereRenderingObject::Render()
 {
-	HBaseRenderingObject::Render();
+	RenderInternal();
 }

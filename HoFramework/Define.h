@@ -29,14 +29,14 @@ struct Vertex
 };
 
 
-struct TransformConstantBuffer
+struct BasicVSConstantBuffer
 {
 	Matrix ModelTransform;
 	Matrix InverseTransform;
 	Matrix ViewTransform;
 	Matrix ProjectionTransform;
 
-	TransformConstantBuffer()
+	BasicVSConstantBuffer()
 	{
 		ModelTransform = Matrix();
 		InverseTransform = Matrix();
@@ -50,11 +50,11 @@ struct TransformConstantBuffer
 struct Light
 {
 	//16
-	Vector3 LightPos; //12
-	float LightIntensity; //4 
+	Vector3 LightPos = Vector3(0.f, 0.f, -2.f); //12
+	float LightIntensity = 1.f; //4 
 
 	//16
-	Vector3 LightDir; //12
+	Vector3 LightDir = Vector3(0.f, 0.f, 1.f); //12
 	float Dummy; //4 
 };
 
@@ -63,17 +63,17 @@ struct Material
 {
 	//16
 	//주의 - 16byte씩 페어 일때 
-	Vector3 diffuse;
-	float shiness;
+	Vector3 diffuse = Vector3(0.5f, 0.5f, 0.5f);
+	float shiness = 1.f;
 	
 	//이렇게 한 쌍이 16바이트로 묶여 있어야 한다 Vector3를 연달아 쓰면 다음 Vector3 변수의 x 파트에 덮어 씌우게 된다.
 
 	//16
-	Vector3 ambient;
+	Vector3 ambient = Vector3(0.3f, 0.3f, 0.3f);
 	float dummy1;
 
 	//16
-	Vector3 specular;
+	Vector3 specular = Vector3(1.f);
 	float dummy2;
 
 };
@@ -95,12 +95,12 @@ public:
 	ComPtr<ID3D11Buffer> indexBuffer;
 	ComPtr<ID3D11Buffer> vertexConstantBuffer;
 	ComPtr<ID3D11Buffer> pixelConstantBuffer;
-
 	ComPtr<ID3D11Texture2D> texture;
 	ComPtr<ID3D11ShaderResourceView> textureResourceView;
+
 };
 
-struct PSConstantBuffer
+struct BasicPSConstantBuffer
 {
 
 	//32

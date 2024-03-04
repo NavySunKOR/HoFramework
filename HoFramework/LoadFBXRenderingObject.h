@@ -18,6 +18,6 @@ private:
 	vector<MeshObject> m_Meshes;
 
 
-	PSConstantBuffer m_PSConstBufferData;
+	BasicPSConstantBuffer m_PSConstBufferData;
 
 };

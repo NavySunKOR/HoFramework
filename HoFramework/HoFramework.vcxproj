@@ -22,41 +22,28 @@
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="BaseRenderingObject.cpp" />
     <ClCompile Include="BaseRenderModule.cpp" />
-    <ClCompile Include="CubeLightRenderingObject.cpp" />
     <ClCompile Include="CubeMapRenderingObject.cpp" />
-    <ClCompile Include="CubeNormalRenderingObject.cpp" />
     <ClCompile Include="CustomRenderModule.cpp" />
-    <ClCompile Include="CylinderRenderingObject.cpp" />
     <ClCompile Include="EnvMapSphereRenderingObject.cpp" />
     <ClCompile Include="FBXDragonRenderingObject.cpp" />
-    <ClCompile Include="GridRenderingObject.cpp" />
     <ClCompile Include="ImGUIRenderSubModule.cpp" />
     <ClCompile Include="InputModule.cpp" />
     <ClCompile Include="LoadFBXRenderingObject.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="RenderingLibrary.cpp" />
-    <ClCompile Include="SphereRenderingObject.cpp" />
-    <ClCompile Include="SubdivRenderingObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
-    <ClInclude Include="BaseRenderingObject.h" />
     <ClInclude Include="BaseRenderModule.h" />
-    <ClInclude Include="CubeLightRenderingObject.h" />
     <ClInclude Include="CubeMapRenderingObject.h" />
-    <ClInclude Include="CubeNormalRenderingObject.h" />
     <ClInclude Include="CustomRenderModule.h" />
-    <ClInclude Include="CylinderRenderingObject.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="EnvMapSphereRenderingObject.h" />
     <ClInclude Include="FBXDragonRenderingObject.h" />
-    <ClInclude Include="GridRenderingObject.h" />
     <ClInclude Include="ImGUIRenderSubModule.h" />
     <ClInclude Include="InputModule.h" />
     <ClInclude Include="LoadFBXRenderingObject.h" />
     <ClInclude Include="RenderingLibrary.h" />
-    <ClInclude Include="SphereRenderingObject.h" />
-    <ClInclude Include="SubdivRenderingObject.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shaders\BaseDiffuse\PixelShaderUsingLight.hlsl">
