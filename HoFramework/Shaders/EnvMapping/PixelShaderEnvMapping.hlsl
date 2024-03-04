@@ -26,7 +26,13 @@ float4 main(PSInput input) : SV_TARGET
     //LightColor *= g_textureSkybox.Sample(g_sampler, reflectVector);
 
     //IBL사용
-    LightColor = g_diffuseSkybox.Sample(g_sampler, input.Normal) * 0.1f + g_reflectionSkybox.Sample(g_sampler, reflectVector) * 5.f;
+    float4 Diffuse = g_diffuseSkybox.Sample(g_sampler, input.Normal) * 0.1f;
+    float4 Specular = g_reflectionSkybox.Sample(g_sampler, reflectVector) * 5.f;
+
+    float3 GlassFresnel = float3(0.02, 0.02, 0.02);
+    Specular *= float4(ComputeSchlickFresnel(GlassFresnel, input.Normal, -toViewDirection), 1.f);
+
+    LightColor = Diffuse + Specular;    //IBL사용으로 인한 덮어씌우기
 
     return LightColor * textureColor;
 
