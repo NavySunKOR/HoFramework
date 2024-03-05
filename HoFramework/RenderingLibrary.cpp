@@ -321,6 +321,52 @@ void HRenderingLibrary::MakeCylinder(Mesh* InBoxMesh, float InRadius, int InRadi
 
 }
 
+void HRenderingLibrary::MakeSquare(Mesh* InBoxMesh)
+{
+	vector<Vector3> positions;
+	vector<Vector3> colors;
+	vector<Vector3> normals;
+	vector<Vector2> texcoords; // ÅØ½ºÃç ÁÂÇ¥
+
+	const float scale = 1.0f;
+
+	// ¾Õ¸é
+	positions.push_back(Vector3(-1.0f, 1.0f, 0.0f) * scale);
+	positions.push_back(Vector3(1.0f, 1.0f, 0.0f) * scale);
+	positions.push_back(Vector3(1.0f, -1.0f, 0.0f) * scale);
+	positions.push_back(Vector3(-1.0f, -1.0f, 0.0f) * scale);
+	colors.push_back(Vector3(0.0f, 0.0f, 1.0f));
+	colors.push_back(Vector3(0.0f, 0.0f, 1.0f));
+	colors.push_back(Vector3(0.0f, 0.0f, 1.0f));
+	colors.push_back(Vector3(0.0f, 0.0f, 1.0f));
+	normals.push_back(Vector3(0.0f, 0.0f, -1.0f));
+	normals.push_back(Vector3(0.0f, 0.0f, -1.0f));
+	normals.push_back(Vector3(0.0f, 0.0f, -1.0f));
+	normals.push_back(Vector3(0.0f, 0.0f, -1.0f));
+
+	// Texture Coordinates (Direct3D 9)
+	// https://learn.microsoft.com/en-us/windows/win32/direct3d9/texture-coordinates
+	texcoords.push_back(Vector2(0.0f, 0.0f));
+	texcoords.push_back(Vector2(1.0f, 0.0f));
+	texcoords.push_back(Vector2(1.0f, 1.0f));
+	texcoords.push_back(Vector2(0.0f, 1.0f));
+
+
+	for (size_t i = 0; i < positions.size(); i++) {
+		Vertex v;
+		v.position = positions[i];
+		v.normal = normals[i];
+		v.texCoord = texcoords[i];
+
+		// v.color = colors[i];
+
+		InBoxMesh->vertices.push_back(v);
+	}
+	InBoxMesh->indices = {
+		0, 1, 2, 0, 2, 3, // ¾Õ¸é
+	};
+}
+
 //VerticalDivision - ¼¼·Î·Î ÂÉ°³´Â °¹¼ö(slice) , HorizontalDivision - °¡·Î·Î ÂÉ°³´Â °¹¼ö(stack)
 void HRenderingLibrary::MakeSphere(Mesh* InBoxMesh , float InRadius,Vector3 InCenterPos,int InVerticalDivision, int InHorizontalDivision)
 {

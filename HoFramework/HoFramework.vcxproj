@@ -26,6 +26,7 @@
     <ClCompile Include="CustomRenderModule.cpp" />
     <ClCompile Include="EnvMapSphereRenderingObject.cpp" />
     <ClCompile Include="FBXDragonRenderingObject.cpp" />
+    <ClCompile Include="ImageFilter.cpp" />
     <ClCompile Include="ImGUIRenderSubModule.cpp" />
     <ClCompile Include="InputModule.cpp" />
     <ClCompile Include="LoadFBXRenderingObject.cpp" />
@@ -40,6 +41,7 @@
     <ClInclude Include="Define.h" />
     <ClInclude Include="EnvMapSphereRenderingObject.h" />
     <ClInclude Include="FBXDragonRenderingObject.h" />
+    <ClInclude Include="ImageFilter.h" />
     <ClInclude Include="ImGUIRenderSubModule.h" />
     <ClInclude Include="InputModule.h" />
     <ClInclude Include="LoadFBXRenderingObject.h" />
