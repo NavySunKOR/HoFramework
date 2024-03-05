@@ -109,6 +109,10 @@
     <FxCompile Include="Shaders\Skybox\VertexShaderSkybox.hlsl" />
     <FxCompile Include="Shaders\Skybox\PixelShaderSkybox.hlsl" />
     <FxCompile Include="Shaders\EnvMapping\PixelShaderEnvMapping.hlsl" />
+    <FxCompile Include="Shaders\ImageFilters\Base\ImageVertexShader.hlsl" />
+    <FxCompile Include="Shaders\ImageFilters\Base\ImagePixelShader.hlsl" />
+    <FxCompile Include="Shaders\ImageFilters\Blur\BlurXPixelShader.hlsl" />
+    <FxCompile Include="Shaders\ImageFilters\Blur\BlurYPixelShader.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\Cores\Core.hlsli" />
