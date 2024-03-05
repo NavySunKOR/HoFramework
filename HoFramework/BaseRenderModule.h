@@ -19,6 +19,11 @@ class HBaseRenderModule
 #pragma region Init
 public: 
 	virtual bool Initialize(Application* pAppContext);
+
+protected:
+
+	virtual void InitImageFilters() = 0;
+
 private:
 	bool InitDeviceAndContext();
 	bool InitSwapChain();
@@ -120,6 +125,7 @@ protected:
 	ComPtr<ID3D11DeviceContext> m_context; //컨텍스트 
 
 	ComPtr<ID3D11RenderTargetView> m_renderTargetView; //렌더 타겟 뷰
+	ComPtr<ID3D11ShaderResourceView> m_renderTargetResourceView; //렌더 타겟을 리소스화 함(Post Process Image Filter 등에 사용됨)
 	
 	ComPtr<IDXGISwapChain> m_swapChain; //스왑체인
 
@@ -138,6 +144,7 @@ protected:
 
 	//RenderingObjects
 	vector<std::shared_ptr<class HBaseRenderingObject>> RenderingObjects;
+	vector<class HImageFilter> ImageFilters;
 
 #pragma endregion
 

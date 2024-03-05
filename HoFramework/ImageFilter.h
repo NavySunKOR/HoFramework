@@ -7,7 +7,7 @@ using namespace DirectX::SimpleMath;
 class HImageFilter
 {
 public:
-	virtual void Initialize(HBaseRenderModule* ParentModule, const wstring vertexPrefix, const wstring pixelPrefix,
+	virtual void Initialize(HBaseRenderModule* ParentModule, const wstring vertexShaderName, const wstring pixelShaderName,
         int width, int height);
 	virtual void Update();
 	virtual void Render();

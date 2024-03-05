@@ -18,6 +18,9 @@ public:
 
 
 protected:
+
+	virtual void InitImageFilters() override;
+
 	virtual void Update() override;
 	virtual void Render() override;
 

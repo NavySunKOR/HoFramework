@@ -214,6 +214,7 @@ bool HBaseRenderModule::InitRenderTargetView()
     m_swapChain->GetBuffer(0, IID_PPV_ARGS(&backBuffer));
     if (backBuffer) {
         m_device->CreateRenderTargetView(backBuffer, NULL, m_renderTargetView.GetAddressOf());
+        m_device->CreateShaderResourceView(backBuffer, NULL, m_renderTargetResourceView.GetAddressOf());
     }
     else {
         std::cout << "CreateRenderTargetView() failed." << std::endl;
