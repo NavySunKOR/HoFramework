@@ -113,6 +113,7 @@
     <FxCompile Include="Shaders\ImageFilters\Base\ImagePixelShader.hlsl" />
     <FxCompile Include="Shaders\ImageFilters\Blur\BlurXPixelShader.hlsl" />
     <FxCompile Include="Shaders\ImageFilters\Blur\BlurYPixelShader.hlsl" />
+    <FxCompile Include="Shaders\ImageFilters\ShaderToy\SeaPixelShader.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\Cores\Core.hlsli" />
