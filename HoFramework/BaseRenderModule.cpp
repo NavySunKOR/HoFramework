@@ -151,9 +151,9 @@ bool HBaseRenderModule::InitSwapChain()
     sd.BufferDesc.Height = m_AppContext->GetScreenHeight(); // set the back buffer height
     sd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM; // use 32-bit color
     sd.BufferCount = 2;                                // Double-buffering
-    sd.BufferDesc.RefreshRate.Numerator = 60;
+    sd.BufferDesc.RefreshRate.Numerator = 120;
     sd.BufferDesc.RefreshRate.Denominator = 1;
-    sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT; // how swap chain is to be used
+    sd.BufferUsage = DXGI_USAGE_SHADER_INPUT | DXGI_USAGE_RENDER_TARGET_OUTPUT; // how swap chain is to be used
     sd.OutputWindow = m_AppContext->GetMainWindow();      // the window to be used
     sd.Windowed = TRUE;                  // windowed/full-screen mode
     sd.Flags =
@@ -210,11 +210,15 @@ bool HBaseRenderModule::InitRenderTargetView()
     if(m_renderTargetView)
         m_renderTargetView.Reset();
 
-    ID3D11Texture2D* backBuffer;
-    m_swapChain->GetBuffer(0, IID_PPV_ARGS(&backBuffer));
+    ComPtr<ID3D11Texture2D> backBuffer;
+    m_swapChain->GetBuffer(0, IID_PPV_ARGS(backBuffer.GetAddressOf()));
     if (backBuffer) {
-        m_device->CreateRenderTargetView(backBuffer, NULL, m_renderTargetView.GetAddressOf());
-        m_device->CreateShaderResourceView(backBuffer, NULL, m_renderTargetResourceView.GetAddressOf());
+        m_device->CreateRenderTargetView(backBuffer.Get(), nullptr, m_renderTargetView.GetAddressOf());
+       HRESULT Res =  m_device->CreateShaderResourceView(backBuffer.Get(), nullptr, m_renderTargetResourceView.GetAddressOf());
+       if (FAILED(Res))
+       {
+           return false;
+       }
     }
     else {
         std::cout << "CreateRenderTargetView() failed." << std::endl;

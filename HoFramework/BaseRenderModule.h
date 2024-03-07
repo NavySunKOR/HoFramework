@@ -144,7 +144,7 @@ protected:
 
 	//RenderingObjects
 	vector<std::shared_ptr<class HBaseRenderingObject>> RenderingObjects;
-	vector<class HImageFilter> ImageFilters;
+	vector< std::shared_ptr<class HImageFilter>> ImageFilters;
 
 #pragma endregion
 

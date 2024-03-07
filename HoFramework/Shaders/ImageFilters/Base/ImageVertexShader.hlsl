@@ -1,4 +1,13 @@
-float4 main( float4 pos : POSITION ) : SV_POSITION
+
+#include"./ImageFilterHeader.hlsli"
+
+
+SamplingPixelShaderInput main(SamplingVertexShaderInput input)
 {
-	return pos;
+    SamplingPixelShaderInput output;
+
+    output.position = float4(input.Position, 1.0);
+    output.texcoord = input.TexCoord;
+
+    return output;
 }

@@ -6,6 +6,37 @@ void HImageFilter::Initialize(HBaseRenderModule* ParentModule, const wstring ver
     HRenderingLibrary::MakeSquare(&m_mesh->mesh);
     m_parentRenderModule = ParentModule;
     auto device = m_parentRenderModule->GetDevice();
+
+
+    HRenderingLibrary::CreateVertexBuffer(device, &m_mesh->mesh, m_mesh->vertexBuffer);
+    HRenderingLibrary::CreateIndexBuffer(device, &m_mesh->mesh, m_mesh->indexBuffer);
+
+
+    HRenderingLibrary::CreateVertexShader(device, m_vertexShader, m_inputLayout, vertexShaderName.c_str(), HRenderingLibrary::GetVSInputLayout());
+    HRenderingLibrary::CreatePixelShader(device, m_pixelShader, pixelShaderName.c_str());
+
+
+    m_pixelConstData.dx = 1.0f / width;
+    m_pixelConstData.dy = 1.0f / height;
+    HRenderingLibrary::CreateConstantBuffer(device, m_pixelConstData,
+        m_mesh->pixelConstantBuffer);
+
+
+    // Texture sampler
+    D3D11_SAMPLER_DESC sampDesc;
+    ZeroMemory(&sampDesc, sizeof(sampDesc));
+    sampDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+    sampDesc.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
+    sampDesc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
+    sampDesc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
+    sampDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
+    sampDesc.MinLOD = 0;
+    sampDesc.MaxLOD = D3D11_FLOAT32_MAX;
+
+    // Create the Sample State
+    device->CreateSamplerState(&sampDesc, m_samplerState.GetAddressOf());
+
+
     // Create a rasterizer state
     D3D11_RASTERIZER_DESC rastDesc;
     ZeroMemory(&rastDesc, sizeof(D3D11_RASTERIZER_DESC)); // Need this
@@ -53,11 +84,6 @@ void HImageFilter::Initialize(HBaseRenderModule* ParentModule, const wstring ver
     device->CreateShaderResourceView(texture.Get(), nullptr,
         m_shaderResourceView.GetAddressOf());
 
-    m_pixelConstData.dx = 1.0f / width;
-    m_pixelConstData.dy = 1.0f / height;
-
-    HRenderingLibrary::CreateConstantBuffer(device, m_pixelConstData,
-        m_mesh->pixelConstantBuffer);
 
     // ±âº» ·»´õÅ¸°Ù
    SetRenderTargets({ m_renderTargetView });
@@ -98,5 +124,6 @@ void HImageFilter::Render()
     context->PSSetConstantBuffers(
         0, 1, m_mesh->pixelConstantBuffer.GetAddressOf());
     context->PSSetSamplers(0, 1, m_samplerState.GetAddressOf());
+
     context->DrawIndexed(m_mesh->mesh.indices.size(), 0, 0);
 }

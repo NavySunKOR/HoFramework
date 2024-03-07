@@ -117,5 +117,6 @@
   <ItemGroup>
     <None Include="Shaders\Cores\Core.hlsli" />
     <None Include="Shaders\Cores\VSHeader.hlsli" />
+    <None Include="Shaders\ImageFilters\Base\ImageFilterHeader.hlsli" />
   </ItemGroup>
 </Project>

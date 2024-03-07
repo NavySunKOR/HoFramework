@@ -1,4 +1,19 @@
-float4 main() : SV_TARGET
+
+#include"./ImageFilterHeader.hlsli"
+
+cbuffer SamplingPixelConstantData : register(b0)
 {
-	return float4(1.0f, 1.0f, 1.0f, 1.0f);
+    float dx;
+    float dy;
+    float threshold;
+    float strength;
+    float4 options;
+};
+
+
+
+float4 main(SamplingPixelShaderInput input) : SV_TARGET
+{
+    //return g_texture0.Sample(g_sampler,input.texcoord);
+    return float4(0,0,1,1);
 }
