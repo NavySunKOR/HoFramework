@@ -77,7 +77,7 @@ void HBaseRenderingObject::RenderInternal()
 		UINT offset = 0;
 		context->IASetInputLayout(m_vertexInputLayout.Get());
 		context->IASetVertexBuffers(0, 1, meshObj.vertexBuffer.GetAddressOf(), &stride, &offset);
-		context->IASetIndexBuffer(meshObj.indexBuffer.Get(), DXGI_FORMAT_R16_UINT, 0);
+		context->IASetIndexBuffer(meshObj.indexBuffer.Get(), DXGI_FORMAT_R32_UINT, 0);
 		context->IASetPrimitiveTopology(PrimitiveTopology);
 
 		// 어떤 쉐이더를 사용할지 설정
@@ -92,7 +92,7 @@ void HBaseRenderingObject::RenderInternal()
 		}
 
 		context->PSSetConstantBuffers(0, 1, meshObj.pixelConstantBuffer.GetAddressOf());
-		context->DrawIndexed(meshObj.mesh.indices.size(), 0, 0);
+		context->DrawIndexed((UINT)meshObj.mesh.indices.size(), 0, 0);
 	}
 
 }

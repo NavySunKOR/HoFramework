@@ -126,6 +126,7 @@ protected:
 
 	ComPtr<ID3D11RenderTargetView> m_renderTargetView; //∑ª¥ı ≈∏∞Ÿ ∫‰
 	ComPtr<ID3D11ShaderResourceView> m_renderTargetResourceView; //∑ª¥ı ≈∏∞Ÿ¿ª ∏Æº“Ω∫»≠ «‘(Post Process Image Filter µÓø° ªÁøÎµ )
+	ComPtr<ID3D11Texture2D> m_tempTexture;// ∑ª¥ı≈∏∞Ÿ¿« Texture2DMS∏¶ ∫πªÁ«“ ¿”Ω√ ≈ÿΩ∫√Á
 	
 	ComPtr<IDXGISwapChain> m_swapChain; //Ω∫ø“√º¿Œ
 

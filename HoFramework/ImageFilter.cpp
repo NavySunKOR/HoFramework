@@ -43,7 +43,7 @@ void HImageFilter::Initialize(HBaseRenderModule* ParentModule, const wstring ver
     rastDesc.FillMode = D3D11_FILL_MODE::D3D11_FILL_SOLID;
     rastDesc.CullMode = D3D11_CULL_MODE::D3D11_CULL_NONE;
     rastDesc.FrontCounterClockwise = false;
-    rastDesc.DepthClipEnable = false;
+    rastDesc.DepthClipEnable = true;
 
     device->CreateRasterizerState(&rastDesc,
         m_rasterizerSate.GetAddressOf());
@@ -68,8 +68,7 @@ void HImageFilter::Initialize(HBaseRenderModule* ParentModule, const wstring ver
     txtDesc.SampleDesc.Count = 1;
     txtDesc.Usage = D3D11_USAGE_DEFAULT;
     txtDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE |
-        D3D11_BIND_RENDER_TARGET |
-        D3D11_BIND_UNORDERED_ACCESS;
+        D3D11_BIND_RENDER_TARGET;
     txtDesc.MiscFlags = 0;
     txtDesc.CPUAccessFlags = 0;
 
@@ -100,11 +99,9 @@ void HImageFilter::Render()
     assert(m_renderTargets.size() > 0);
 
     auto context = m_parentRenderModule->GetContext();
-    // 어디에 렌더링 할지를 지정
+    //// 어디에 렌더링 할지를 지정
     context->OMSetRenderTargets(UINT(m_renderTargets.size()),
         m_renderTargets.data(), nullptr);
-    //float clearColor[4] = {0.0f, 0.0f, 0.0f, 1.0f};
-    //context->ClearRenderTargetView(m_renderTargetView.Get(), clearColor);
     context->RSSetState(m_rasterizerSate.Get());
     context->RSSetViewports(1, &m_viewport);
 
@@ -115,7 +112,7 @@ void HImageFilter::Render()
     context->IASetVertexBuffers(0, 1, m_mesh->vertexBuffer.GetAddressOf(),
         &stride, &offset);
     context->IASetIndexBuffer(m_mesh->indexBuffer.Get(),
-        DXGI_FORMAT_R16_UINT, 0);
+        DXGI_FORMAT_R32_UINT, 0);
     context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
     context->VSSetShader(m_vertexShader.Get(), 0, 0);
     context->PSSetShader(m_pixelShader.Get(), 0, 0);

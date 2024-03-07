@@ -83,7 +83,7 @@ struct Mesh
 {
 public:
 	vector<Vertex> vertices;
-	vector<uint16_t> indices;
+	vector<uint32_t> indices;
 	string textureSourceName;
 };
 

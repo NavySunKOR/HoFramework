@@ -473,7 +473,7 @@ void HRenderingLibrary::MakeSphereSubdivision(Mesh* InMesh,float InSphereRadius)
 
 	// 버텍스가 중복되는 구조로 구현
 	Mesh newMesh;
-	uint16_t count = 0;
+	uint32_t count = 0;
 	for (size_t i = 0; i < InMesh->indices.size(); i += 3) {
 		size_t i0 = InMesh->indices[i];
 		size_t i1 = InMesh->indices[i + 1];
@@ -529,7 +529,7 @@ void HRenderingLibrary::MakeSphereSubdivision(Mesh* InMesh,float InSphereRadius)
 		newMesh.vertices.push_back(v2);
 
 		//인덱스 업데이트
-		for (uint16_t j = 0; j < 12; j++) {
+		for (uint32_t j = 0; j < 12; j++) {
 			newMesh.indices.push_back(j + count);
 		}
 		count += 12;
@@ -602,8 +602,8 @@ bool HRenderingLibrary::CreateIndexBuffer(ComPtr<ID3D11Device> pDeviceContext, M
 	D3D11_BUFFER_DESC IndexBufferDesc = {};
 	IndexBufferDesc.Usage = D3D11_USAGE_IMMUTABLE; // 초기화 후 변경X
 	IndexBufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
-	IndexBufferDesc.ByteWidth = sizeof(uint16_t) * pDrawingMesh->indices.size();
-	IndexBufferDesc.StructureByteStride = sizeof(uint16_t);
+	IndexBufferDesc.ByteWidth = sizeof(uint32_t) * pDrawingMesh->indices.size();
+	IndexBufferDesc.StructureByteStride = sizeof(uint32_t);
 
 	D3D11_SUBRESOURCE_DATA IndexBufferData = {};
 	IndexBufferData.pSysMem = pDrawingMesh->indices.data();
@@ -773,7 +773,7 @@ Mesh HRenderingLibrary::ProcessAIMesh(aiMesh* InAIMesh, const aiScene* InScene, 
 
 
 	//인다이스
-	vector<uint16_t> indices;
+	vector<uint32_t> indices;
 	for (int j = 0; j < InAIMesh->mNumFaces; ++j)
 	{
 		aiFace face = InAIMesh->mFaces[j];

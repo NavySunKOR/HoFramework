@@ -106,6 +106,11 @@ void HCustomRenderModule::Render()
 		RenderingObjects[i]->Render();
 	}
 
+	ComPtr<ID3D11Texture2D> backBuffer;
+	m_swapChain->GetBuffer(0, IID_PPV_ARGS(backBuffer.GetAddressOf()));
+	m_context->ResolveSubresource(m_tempTexture.Get(), 0, backBuffer.Get(), 0,
+		DXGI_FORMAT_R8G8B8A8_UNORM);
+
 	for (size_t i = 0; i < ImageFilters.size(); ++i)
 	{
 		ImageFilters[i]->Render();
