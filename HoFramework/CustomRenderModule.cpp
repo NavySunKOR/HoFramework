@@ -49,10 +49,9 @@ void HCustomRenderModule::InitImageFilters()
 	shared_ptr<HImageFilter> AfterOM = make_shared<HImageFilter>();
 	AfterOM->Initialize(this, L"./Shaders/ImageFilters/Base/ImageVertexShader.hlsl", L"./Shaders/ImageFilters/Base/ImagePixelShader.hlsl", m_AppContext->GetScreenWidth(), m_AppContext->GetScreenHeight());
 	AfterOM->SetShaderResources({ m_renderTargetResourceView });
-	AfterOM->SetRenderTargets({ m_renderTargetView });
 	ImageFilters.push_back(AfterOM);
 
-	/*for (int i = 0; i < 10; ++i)
+	for (int i = 0; i < 10; ++i)
 	{
 		ComPtr<ID3D11ShaderResourceView> Prev = ImageFilters.back()->m_shaderResourceView;
 		shared_ptr<HImageFilter> BlurX = make_shared<HImageFilter>();
@@ -67,15 +66,15 @@ void HCustomRenderModule::InitImageFilters()
 		BlurY->SetShaderResources({ Prev2 });
 		ImageFilters.push_back(BlurY);
 	}
-	*/
+	
 
 
-	//ComPtr<ID3D11ShaderResourceView> Prev = ImageFilters.back()->m_shaderResourceView;
-	//shared_ptr<HImageFilter> FinalRendering = make_shared<HImageFilter>();	
-	//FinalRendering->Initialize(this, L"./Shaders/ImageFilters/Base/ImageVertexShader.hlsl", L"./Shaders/ImageFilters/Base/ImagePixelShader.hlsl", m_AppContext->GetScreenWidth(), m_AppContext->GetScreenHeight());
-	//FinalRendering->SetShaderResources({ Prev });
-	//FinalRendering->SetRenderTargets({ m_renderTargetView });
-	//ImageFilters.push_back(FinalRendering);
+	ComPtr<ID3D11ShaderResourceView> Prev = ImageFilters.back()->m_shaderResourceView;
+	shared_ptr<HImageFilter> FinalRendering = make_shared<HImageFilter>();	
+	FinalRendering->Initialize(this, L"./Shaders/ImageFilters/Base/ImageVertexShader.hlsl", L"./Shaders/ImageFilters/Base/ImagePixelShader.hlsl", m_AppContext->GetScreenWidth(), m_AppContext->GetScreenHeight());
+	FinalRendering->SetShaderResources({ Prev });
+	FinalRendering->SetRenderTargets({ m_renderTargetView });
+	ImageFilters.push_back(FinalRendering);
 
 
 }

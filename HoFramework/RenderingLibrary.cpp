@@ -600,6 +600,7 @@ vector<D3D11_INPUT_ELEMENT_DESC> HRenderingLibrary::GetVSInputLayout()
 bool HRenderingLibrary::CreateIndexBuffer(ComPtr<ID3D11Device> pDeviceContext, Mesh* pDrawingMesh, ComPtr<ID3D11Buffer> &pIndexBuffer)
 {
 	D3D11_BUFFER_DESC IndexBufferDesc = {};
+	IndexBufferDesc.Usage = D3D11_USAGE_IMMUTABLE; // 초기화 후 변경X
 	IndexBufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
 	IndexBufferDesc.ByteWidth = sizeof(uint16_t) * pDrawingMesh->indices.size();
 	IndexBufferDesc.StructureByteStride = sizeof(uint16_t);

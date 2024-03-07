@@ -115,7 +115,7 @@ void HImageFilter::Render()
     context->IASetVertexBuffers(0, 1, m_mesh->vertexBuffer.GetAddressOf(),
         &stride, &offset);
     context->IASetIndexBuffer(m_mesh->indexBuffer.Get(),
-        DXGI_FORMAT_R32_UINT, 0);
+        DXGI_FORMAT_R16_UINT, 0);
     context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
     context->VSSetShader(m_vertexShader.Get(), 0, 0);
     context->PSSetShader(m_pixelShader.Get(), 0, 0);
