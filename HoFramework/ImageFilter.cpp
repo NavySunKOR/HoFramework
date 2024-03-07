@@ -90,7 +90,7 @@ void HImageFilter::Initialize(HBaseRenderModule* ParentModule, const wstring ver
 
 void HImageFilter::Update()
 {
-
+    UpdateConstantBuffers(m_parentRenderModule->GetContext());
 }
 
 void HImageFilter::Render()

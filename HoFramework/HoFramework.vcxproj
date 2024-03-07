@@ -32,6 +32,7 @@
     <ClCompile Include="LoadFBXRenderingObject.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="RenderingLibrary.cpp" />
+    <ClCompile Include="SeaImageFilter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -46,6 +47,7 @@
     <ClInclude Include="InputModule.h" />
     <ClInclude Include="LoadFBXRenderingObject.h" />
     <ClInclude Include="RenderingLibrary.h" />
+    <ClInclude Include="SeaImageFilter.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Shaders\BaseDiffuse\PixelShaderUsingLight.hlsl">

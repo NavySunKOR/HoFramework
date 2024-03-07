@@ -10,6 +10,15 @@ cbuffer SamplingPixelConstantData : register(b0)
 };
 
 
+cbuffer SeaPixelConstantData : register(b1)
+{
+    float iTime;
+    float dummy1;
+    float dummy2;
+    float dummy3;
+};
+
+
 
 /*
  * "Seascape" by Alexander Alekseev aka TDM - 2014
@@ -35,7 +44,7 @@ static const float SEA_SPEED = 0.8;
 static const float SEA_FREQ = 0.16;
 static const float3 SEA_BASE = float3(0.0, 0.09, 0.18);
 static const float3 SEA_WATER_COLOR = float3(0.8, 0.9, 0.6) * 0.6;
-#define SEA_TIME (1.0 + strength * SEA_SPEED)
+#define SEA_TIME (1.0 + iTime * SEA_SPEED)
 static const float2x2 octave_m = float2x2(1.6, 1.2, -1.2, 1.6);
 
 // math
@@ -152,6 +161,7 @@ float3 getNormal(float3 p, float eps) {
 }
 
 float heightMapTracing(float3 ori, float3 dir, out float3 p) {
+
     float tm = 0.0;
     float tx = 1000.0;
     float hx = map(ori + dir * tx);
@@ -179,6 +189,9 @@ float heightMapTracing(float3 ori, float3 dir, out float3 p) {
 
 float3 getPixel(float2 uv, float time) {
 
+    uv.y = 1.0 - uv.y;
+    uv = uv * 2.0f - 1.f;
+    
     // ray
     float3 ang = float3(sin(time * 3.0) * 0.1, sin(time) * 0.2 + 0.3, time);
     float3 ori = float3(0.0, 3.5, time * 5.0);
@@ -201,7 +214,7 @@ float3 getPixel(float2 uv, float time) {
 
 // main
 float4 main(SamplingPixelShaderInput input)  :SV_TARGET{
-    float time = strength * 0.3 ;
+    float time = iTime * 0.3 + 0.01 ;
 
 #ifdef AA
     float3 color = float3(0.0);
