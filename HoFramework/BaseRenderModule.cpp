@@ -86,7 +86,6 @@ bool HBaseRenderModule::InitSampler()
 
 bool HBaseRenderModule::InitDeviceAndContext()
 {
-
     m_DriverType = D3D_DRIVER_TYPE_HARDWARE;
 
     // m_device¿Í m_context »ý¼º
@@ -98,7 +97,6 @@ bool HBaseRenderModule::InitDeviceAndContext()
 
     ComPtr<ID3D11Device> device;
     ComPtr<ID3D11DeviceContext> context;
-
 
     if (FAILED(D3D11CreateDevice(
         nullptr,    // Specify nullptr to use the default adapter.

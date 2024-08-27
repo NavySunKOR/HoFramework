@@ -19,9 +19,9 @@ bool HCustomRenderModule::Initialize(Application* pAppContext)
 	}
 
 	//TODO: 에디터처럼 만들려면 나중에 이걸 외부에서 추가 할 수 있도록 변경 필요.
-	//RenderingObjects.reserve(2);
-	//RenderingObjects.push_back(std::make_shared<HCubeMapRenderingObject>(this));
-	//RenderingObjects.push_back(std::make_shared<HFBXDragonRenderingObject>(this));
+	RenderingObjects.reserve(2);
+	RenderingObjects.push_back(std::make_shared<HCubeMapRenderingObject>(this));
+	RenderingObjects.push_back(std::make_shared<HFBXDragonRenderingObject>(this));
 
 
 	for (size_t i = 0; i < RenderingObjects.size(); ++i)
@@ -42,46 +42,41 @@ void HCustomRenderModule::InitImageFilters()
 {
 	ImageFilters.clear();
 
-	//shared_ptr<HImageFilter> AfterOM = make_shared<HImageFilter>();
-	//AfterOM->Initialize(this, L"./Shaders/ImageFilters/Base/ImageVertexShader.hlsl", L"./Shaders/ImageFilters/Base/ImagePixelShader.hlsl", m_AppContext->GetScreenWidth(), m_AppContext->GetScreenHeight());
-	//AfterOM->SetShaderResources({ m_renderTargetResourceView });
-	//ImageFilters.push_back(AfterOM);
-
-
-	//ComPtr<ID3D11ShaderResourceView> Prev = ImageFilters.back()->m_shaderResourceView;
-	shared_ptr<HSeaImageFilter> FinalRendering = make_shared<HSeaImageFilter>();
-	FinalRendering->Initialize(this, L"./Shaders/ImageFilters/Base/ImageVertexShader.hlsl", L"./Shaders/ImageFilters/ShaderToy/SeaPixelShader.hlsl", m_AppContext->GetScreenWidth(), m_AppContext->GetScreenHeight());
-	FinalRendering->SetShaderResources({ m_renderTargetResourceView });
-	FinalRendering->SetRenderTargets({ m_renderTargetView });
-	ImageFilters.push_back(FinalRendering);
-
-	/*shared_ptr<HImageFilter> AfterOM = make_shared<HImageFilter>();
+	shared_ptr<HImageFilter> AfterOM = make_shared<HImageFilter>();
 	AfterOM->Initialize(this, L"./Shaders/ImageFilters/Base/ImageVertexShader.hlsl", L"./Shaders/ImageFilters/Base/ImagePixelShader.hlsl", m_AppContext->GetScreenWidth(), m_AppContext->GetScreenHeight());
 	AfterOM->SetShaderResources({ m_renderTargetResourceView });
-	ImageFilters.push_back(AfterOM);*/
-
-	//for (int i = 0; i < 10; ++i)
-	//{
-	//	ComPtr<ID3D11ShaderResourceView> Prev = ImageFilters.back()->m_shaderResourceView;
-	//	shared_ptr<HImageFilter> BlurX = make_shared<HImageFilter>();
-	//	BlurX->Initialize(this, L"./Shaders/ImageFilters/Base/ImageVertexShader.hlsl", L"./Shaders/ImageFilters/Blur/BlurXPixelShader.hlsl", m_AppContext->GetScreenWidth(), m_AppContext->GetScreenHeight());
-	//	BlurX->SetShaderResources({ Prev });
-	//	ImageFilters.push_back(BlurX);
+	ImageFilters.push_back(AfterOM);
 
 
-	//	ComPtr<ID3D11ShaderResourceView> Prev2 = ImageFilters.back()->m_shaderResourceView;
-	//	shared_ptr<HImageFilter> BlurY = make_shared<HImageFilter>();
-	//	BlurY->Initialize(this, L"./Shaders/ImageFilters/Base/ImageVertexShader.hlsl", L"./Shaders/ImageFilters/Blur/BlurYPixelShader.hlsl", m_AppContext->GetScreenWidth(), m_AppContext->GetScreenHeight());
-	//	BlurY->SetShaderResources({ Prev2 });
-	//	ImageFilters.push_back(BlurY);
-	//}
+	for (int i = 0; i < 10; ++i)
+	{
+		ComPtr<ID3D11ShaderResourceView> Prev = ImageFilters.back()->m_shaderResourceView;
+		shared_ptr<HImageFilter> BlurX = make_shared<HImageFilter>();
+		BlurX->Initialize(this, L"./Shaders/ImageFilters/Base/ImageVertexShader.hlsl", L"./Shaders/ImageFilters/Blur/BlurXPixelShader.hlsl", m_AppContext->GetScreenWidth(), m_AppContext->GetScreenHeight());
+		BlurX->SetShaderResources({ Prev });
+		ImageFilters.push_back(BlurX);
+
+
+		ComPtr<ID3D11ShaderResourceView> Prev2 = ImageFilters.back()->m_shaderResourceView;
+		shared_ptr<HImageFilter> BlurY = make_shared<HImageFilter>();
+		BlurY->Initialize(this, L"./Shaders/ImageFilters/Base/ImageVertexShader.hlsl", L"./Shaders/ImageFilters/Blur/BlurYPixelShader.hlsl", m_AppContext->GetScreenWidth(), m_AppContext->GetScreenHeight());
+		BlurY->SetShaderResources({ Prev2 });
+		ImageFilters.push_back(BlurY);
+	}
 	
 
 
-	//ComPtr<ID3D11ShaderResourceView> Prev = ImageFilters.back()->m_shaderResourceView;
-	//shared_ptr<HImageFilter> FinalRendering = make_shared<HImageFilter>();	
-	//FinalRendering->Initialize(this, L"./Shaders/ImageFilters/Base/ImageVertexShader.hlsl", L"./Shaders/ImageFilters/Base/ImagePixelShader.hlsl", m_AppContext->GetScreenWidth(), m_AppContext->GetScreenHeight());
-	//FinalRendering->SetShaderResources({ Prev });
+	ComPtr<ID3D11ShaderResourceView> Prev = ImageFilters.back()->m_shaderResourceView;
+	shared_ptr<HImageFilter> FinalRendering = make_shared<HImageFilter>();	
+	FinalRendering->Initialize(this, L"./Shaders/ImageFilters/Base/ImageVertexShader.hlsl", L"./Shaders/ImageFilters/Base/ImagePixelShader.hlsl", m_AppContext->GetScreenWidth(), m_AppContext->GetScreenHeight());
+	FinalRendering->SetShaderResources({ Prev });
+	FinalRendering->SetRenderTargets({ m_renderTargetView });
+	ImageFilters.push_back(FinalRendering);
+
+
+	//shared_ptr<HSeaImageFilter> FinalRendering = make_shared<HSeaImageFilter>();
+	//FinalRendering->Initialize(this, L"./Shaders/ImageFilters/Base/ImageVertexShader.hlsl", L"./Shaders/ImageFilters/ShaderToy/SeaPixelShader.hlsl", m_AppContext->GetScreenWidth(), m_AppContext->GetScreenHeight());
+	//FinalRendering->SetShaderResources({ m_renderTargetResourceView });
 	//FinalRendering->SetRenderTargets({ m_renderTargetView });
 	//ImageFilters.push_back(FinalRendering);
 
