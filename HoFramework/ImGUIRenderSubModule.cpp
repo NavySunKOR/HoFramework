@@ -71,6 +71,9 @@ void HImGUIRenderSubModule::Render()
 	//ImGui::SliderFloat("RimPow", &((HFBXDragonRenderingObject*)(m_ParentRenderModule->GetRenderingObjects()[0].get()))->m_PSExtraData.RimPow, 0.f, 10.f);
 
 
+	ImGui::SliderFloat("Directional Light LightIntensity ", &((HFBXRenderingObject*)(m_ParentRenderModule->GetRenderingObjects()[0].get()))->m_PSConstBufferData.UsingLight[0].LightIntensity, 0.f, 10.f);
+	ImGui::SliderFloat3("Directional Light Light Dir ", &((HFBXRenderingObject*)(m_ParentRenderModule->GetRenderingObjects()[0].get()))->m_PSConstBufferData.UsingLight[0].LightDir.x, 0.f, 1.f);
+
 	ImGui::Checkbox("Wireframe", &m_ParentRenderModule->GetIsWireframe());
 
 	ImGui::End();

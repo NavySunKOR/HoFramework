@@ -25,9 +25,10 @@ public:
 
 	ExtraPixelBuffer m_PSExtraData;
 
+	BasicPSConstantBuffer m_PSConstBufferData;
+
 private:
 	vector<MeshObject> m_Meshes;
-	BasicPSConstantBuffer m_PSConstBufferData;
 
 
 	ComPtr<ID3D11Buffer> m_PSExtraBuffer;

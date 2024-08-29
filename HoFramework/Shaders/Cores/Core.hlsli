@@ -1,4 +1,4 @@
-//48byte
+
 struct Material
 {
 	//16
@@ -7,17 +7,8 @@ struct Material
     float shiness;
 	
 	//이렇게 한 쌍이 16바이트로 묶여 있어야 한다 Vector3를 연달아 쓰면 다음 Vector3 변수의 x 파트에 덮어 씌우게 된다.
-
-	//16
     float3 ambient;
-    float Materialdummy1;
-
-	//16
     float3 specular;
-    float Materialdummy2;
-
-	//4 <-마지막은 데이터가 들어가지 않아서 구색만 맞춘것.
-    float Materialdummy3;
 };
 
 
@@ -30,8 +21,18 @@ struct Light
 
 	//16
     float3 LightDir; //12
-    float LightDummy; //4 
+    
+    float FalloffStart; //4
+    float FalloffEnd; //4
+    float SpotFactor; //4
 };
+
+
+//Falloff를 0~1사이로 리턴
+float GetFallOffAttenutation(float CurrentValue, float InFalloffStart, float InFalloffEnd)
+{
+    return saturate((InFalloffEnd - CurrentValue) / (InFalloffEnd - InFalloffStart));
+}
 
 float3 BlinnPhongModel(float3 pLightDir, float3 pToViewDirection, float3 pNormalVector, float pLightIntensity, Material pMat)
 {
@@ -47,7 +48,41 @@ float3 ComputeDirectionalLight(Light pLight, float3 pToViewDirection, float3 pNo
     float3 LightVec = -pLight.LightDir;
     float AppliedIntensity = pLight.LightIntensity * max(dot(LightVec, pNormalVector), 0.f);
     return BlinnPhongModel(LightVec, pToViewDirection, pNormalVector, AppliedIntensity, pMat);
+}
+
+float3 ComputePointLight(Light pLight, float3 pObjectPos,float3 pToViewDirection, float3 pNormalVector, Material pMat)
+{
+    float3 LightVec = pLight.LightPos - pObjectPos;
+    float D = length(LightVec);
     
+    if (D>pLight.FalloffEnd)
+    {
+        return float3(0, 0, 0);
+    }
+    
+    float Attenutation = GetFallOffAttenutation(D, pLight.FalloffStart, pLight.FalloffEnd);
+    
+    float AppliedIntensity = pLight.LightIntensity * max(dot(LightVec, pNormalVector), 0.f) * Attenutation;
+    return BlinnPhongModel(LightVec, pToViewDirection, pNormalVector, AppliedIntensity, pMat);
+}
+
+float3 ComputeSpotLight(Light pLight, float3 pObjectPos, float3 pToViewDirection, float3 pNormalVector, Material pMat)
+{
+    float3 LightVec = pLight.LightPos - pObjectPos;
+    float D = length(LightVec);
+    
+    if (D > pLight.FalloffEnd)
+    {
+        return float3(0, 0, 0);
+    }
+    
+    LightVec /= D;
+    
+    float Attenutation = GetFallOffAttenutation(D, pLight.FalloffStart, pLight.FalloffEnd);
+    float SpotFactor = pow(max(dot(-LightVec, pLight.LightDir), 0.f), pLight.SpotFactor);
+    
+    float AppliedIntensity = pLight.LightIntensity * max(dot(LightVec, pNormalVector), 0.f) * Attenutation * SpotFactor;
+    return BlinnPhongModel(LightVec, pToViewDirection, pNormalVector, AppliedIntensity, pMat);
 }
 
 // Schlick approximation: Eq. 9.17 in "Real-Time Rendering 4th Ed."

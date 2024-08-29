@@ -46,7 +46,10 @@ struct BasicVSConstantBuffer
 };
 
 
-//32bytes
+static_assert((sizeof(BasicVSConstantBuffer) % 16) == 0,
+	"Constant Buffer size must be 16-byte aligned");
+
+//48bytes
 struct Light
 {
 	//16
@@ -55,7 +58,10 @@ struct Light
 
 	//16
 	Vector3 LightDir = Vector3(0.f, 0.f, 1.f); //12
-	float Dummy; //4 
+
+	float FalloffStart = 0.f; //4
+	float FalloffEnd = 0.f; //4
+	float SpotFactor = 0.f; //4
 };
 
 //48
@@ -63,19 +69,16 @@ struct Material
 {
 	//16
 	//주의 - 16byte씩 페어 일때 
-	Vector3 diffuse = Vector3(0.5f, 0.5f, 0.5f);
+	Vector3 diffuse = Vector3(1.f, 1.f, 1.f);
 	float shiness = 1.f;
 	
 	//이렇게 한 쌍이 16바이트로 묶여 있어야 한다 Vector3를 연달아 쓰면 다음 Vector3 변수의 x 파트에 덮어 씌우게 된다.
 
 	//16
-	Vector3 ambient = Vector3(0.3f, 0.3f, 0.3f);
-	float dummy1;
+	Vector3 ambient = Vector3(1.f, 1.f, 1.f);
 
 	//16
 	Vector3 specular = Vector3(1.f);
-	float dummy2;
-
 };
 
 
@@ -104,7 +107,7 @@ struct BasicPSConstantBuffer
 {
 
 	//32
-	Light UsingLight;
+	Light UsingLight[3];
 
 	//12
 	Vector3 UsingViewPosition;
@@ -114,6 +117,9 @@ struct BasicPSConstantBuffer
 	//
 	Material UsingMat;
 };
+
+static_assert((sizeof(BasicPSConstantBuffer) % 16) == 0,
+	"Constant Buffer size must be 16-byte aligned");
 
 enum EPrimitiveType
 {
