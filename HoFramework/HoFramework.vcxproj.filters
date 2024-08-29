@@ -88,21 +88,14 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Shaders\BaseDiffuse\PixelShaderUsingLight.hlsl" />
-    <FxCompile Include="Shaders\BaseDiffuse\VertexShaderUsingLight.hlsl" />
     <FxCompile Include="Shaders\Grid\PixelShaderGridDraw.hlsl" />
     <FxCompile Include="Shaders\Grid\VertexShaderGridWave.hlsl" />
     <FxCompile Include="Shaders\Normal\PixelShaderNormal.hlsl" />
     <FxCompile Include="Shaders\Cylinder\PixelShaderCylinder.hlsl" />
     <FxCompile Include="Shaders\Subdiv\PixelShaderSubdivision.hlsl" />
     <FxCompile Include="Shaders\Subdiv\VertexShaderSubdivision.hlsl" />
-    <FxCompile Include="Shaders\FBX\PixelShaderUsingLight.hlsl" />
-    <FxCompile Include="Shaders\FBX\VertexShaderUsingLight.hlsl" />
-    <FxCompile Include="Shaders\Dragon\PixelShaderDragon.hlsl" />
-    <FxCompile Include="Shaders\Dragon\VertexShaderDragon.hlsl" />
     <FxCompile Include="Shaders\Skybox\VertexShaderSkybox.hlsl" />
     <FxCompile Include="Shaders\Skybox\PixelShaderSkybox.hlsl" />
-    <FxCompile Include="Shaders\EnvMapping\PixelShaderEnvMapping.hlsl" />
     <FxCompile Include="Shaders\ImageFilters\Base\ImageVertexShader.hlsl" />
     <FxCompile Include="Shaders\ImageFilters\Base\ImagePixelShader.hlsl" />
     <FxCompile Include="Shaders\ImageFilters\Blur\BlurXPixelShader.hlsl" />
