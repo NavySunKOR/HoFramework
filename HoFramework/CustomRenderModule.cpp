@@ -36,6 +36,8 @@ bool HCustomRenderModule::Initialize(Application* pAppContext)
 	ZeldaObject->Translate(Vector3(0.f, -1.f, 0.f));
 
 
+
+
 	RenderingObjects.reserve(1);
 	RenderingObjects.push_back(ZeldaObject);
 

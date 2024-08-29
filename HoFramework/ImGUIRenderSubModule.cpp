@@ -71,8 +71,26 @@ void HImGUIRenderSubModule::Render()
 	//ImGui::SliderFloat("RimPow", &((HFBXDragonRenderingObject*)(m_ParentRenderModule->GetRenderingObjects()[0].get()))->m_PSExtraData.RimPow, 0.f, 10.f);
 
 
+	ImGui::SliderFloat3("Directional Light Light Pos ", &((HFBXRenderingObject*)(m_ParentRenderModule->GetRenderingObjects()[0].get()))->m_PSConstBufferData.UsingLight[0].LightPos.x, -1.f, 1.f);
 	ImGui::SliderFloat("Directional Light LightIntensity ", &((HFBXRenderingObject*)(m_ParentRenderModule->GetRenderingObjects()[0].get()))->m_PSConstBufferData.UsingLight[0].LightIntensity, 0.f, 10.f);
-	ImGui::SliderFloat3("Directional Light Light Dir ", &((HFBXRenderingObject*)(m_ParentRenderModule->GetRenderingObjects()[0].get()))->m_PSConstBufferData.UsingLight[0].LightDir.x, 0.f, 1.f);
+	ImGui::SliderFloat3("Directional Light Light Dir ", &((HFBXRenderingObject*)(m_ParentRenderModule->GetRenderingObjects()[0].get()))->m_PSConstBufferData.UsingLight[0].LightDir.x, -1.f, 1.f);
+	ImGui::SliderFloat("Directional Light Falloff Start ", &((HFBXRenderingObject*)(m_ParentRenderModule->GetRenderingObjects()[0].get()))->m_PSConstBufferData.UsingLight[0].FalloffStart, 0.f, 5.f);
+	ImGui::SliderFloat("Directional Light Falloff End ", &((HFBXRenderingObject*)(m_ParentRenderModule->GetRenderingObjects()[0].get()))->m_PSConstBufferData.UsingLight[0].FalloffEnd, 0.f, 5.f);
+	ImGui::SliderFloat("Directional Light SpotFactor ", &((HFBXRenderingObject*)(m_ParentRenderModule->GetRenderingObjects()[0].get()))->m_PSConstBufferData.UsingLight[0].SpotFactor, 0.f, 5.f);
+
+	ImGui::SliderFloat3("Point Light Light Pos ", &((HFBXRenderingObject*)(m_ParentRenderModule->GetRenderingObjects()[0].get()))->m_PSConstBufferData.UsingLight[1].LightPos.x, -1.f, 1.f);
+	ImGui::SliderFloat("Point Light LightIntensity ", &((HFBXRenderingObject*)(m_ParentRenderModule->GetRenderingObjects()[0].get()))->m_PSConstBufferData.UsingLight[1].LightIntensity, 0.f, 10.f);
+	ImGui::SliderFloat3("Point Light Light Dir ", &((HFBXRenderingObject*)(m_ParentRenderModule->GetRenderingObjects()[0].get()))->m_PSConstBufferData.UsingLight[1].LightDir.x, -1.f, 1.f);
+	ImGui::SliderFloat("Point Light Falloff Start ", &((HFBXRenderingObject*)(m_ParentRenderModule->GetRenderingObjects()[0].get()))->m_PSConstBufferData.UsingLight[1].FalloffStart, 0.f, 5.f);
+	ImGui::SliderFloat("Point Light Falloff End ", &((HFBXRenderingObject*)(m_ParentRenderModule->GetRenderingObjects()[0].get()))->m_PSConstBufferData.UsingLight[1].FalloffEnd, 0.f, 2000.f);
+	ImGui::SliderFloat("Point Light Spot Factor ", &((HFBXRenderingObject*)(m_ParentRenderModule->GetRenderingObjects()[0].get()))->m_PSConstBufferData.UsingLight[1].SpotFactor, 0.f, 5.f);
+
+	ImGui::SliderFloat("Spot Light LightIntensity ", &((HFBXRenderingObject*)(m_ParentRenderModule->GetRenderingObjects()[0].get()))->m_PSConstBufferData.UsingLight[2].LightIntensity, 0.f, 10.f);
+	ImGui::SliderFloat3("Spot Light Light Pos ", &((HFBXRenderingObject*)(m_ParentRenderModule->GetRenderingObjects()[0].get()))->m_PSConstBufferData.UsingLight[2].LightPos.x, -1.f, 1.f);
+	ImGui::SliderFloat3("Spot Light Light Dir ", &((HFBXRenderingObject*)(m_ParentRenderModule->GetRenderingObjects()[0].get()))->m_PSConstBufferData.UsingLight[2].LightDir.x, -1.f, 1.f);
+	ImGui::SliderFloat("Spot Light Falloff Start ", &((HFBXRenderingObject*)(m_ParentRenderModule->GetRenderingObjects()[0].get()))->m_PSConstBufferData.UsingLight[2].FalloffStart, 0.f, 5.f);
+	ImGui::SliderFloat("Spot Light Falloff End ", &((HFBXRenderingObject*)(m_ParentRenderModule->GetRenderingObjects()[0].get()))->m_PSConstBufferData.UsingLight[2].FalloffEnd, 0.f, 2000.f);
+	ImGui::SliderFloat("Spot Light Spot Factor ", &((HFBXRenderingObject*)(m_ParentRenderModule->GetRenderingObjects()[0].get()))->m_PSConstBufferData.UsingLight[2].SpotFactor, 0.f, 5.f);
 
 	ImGui::Checkbox("Wireframe", &m_ParentRenderModule->GetIsWireframe());
 

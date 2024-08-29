@@ -52,16 +52,12 @@ static_assert((sizeof(BasicVSConstantBuffer) % 16) == 0,
 //48bytes
 struct Light
 {
-	//16
-	Vector3 LightPos = Vector3(0.f, 0.f, -2.f); //12
-	float LightIntensity = 1.f; //4 
-
-	//16
-	Vector3 LightDir = Vector3(0.f, 0.f, 1.f); //12
-
-	float FalloffStart = 0.f; //4
-	float FalloffEnd = 0.f; //4
-	float SpotFactor = 0.f; //4
+	Vector3 LightPos = Vector3(0.f, 0.f, -2.f); 
+	float LightIntensity = 1.f; 
+	Vector3 LightDir = Vector3(0.f, 0.f, 1.f);
+	float FalloffStart = 0.f;
+	float FalloffEnd = 5.f;
+	float SpotFactor = 0.f;
 };
 
 //48

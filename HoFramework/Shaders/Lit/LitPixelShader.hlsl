@@ -2,10 +2,10 @@
 
 cbuffer PixelCalculateBuffer : register(b0)
 {
-    Light UsingLight[3]; // 30byte
-    float3 ViewPosition; //12byte
-    float PixelCalculateBufferDummy; // 4byte
-    Material UsingMat; //48Byte
+    Light UsingLight[3];
+    float3 ViewPosition;
+    float Dummy;
+    Material UsingMat;
 };
 
 cbuffer ExtraPixelBuffer : register(b1)
@@ -34,20 +34,19 @@ float4 main(PSInput input) : SV_TARGET
     
     LightColor += float4(ComputeDirectionalLight(UsingLight[0], toViewDirection, input.Normal, UsingMat), 1.f);
     
+    LightColor += float4(ComputePointLight(UsingLight[1], input.WorldPosition, toViewDirection, input.Normal, UsingMat), 1.f);
+    
+    LightColor += float4(ComputeSpotLight(UsingLight[2], input.WorldPosition, toViewDirection, input.Normal, UsingMat), 1.f);
     //int i = 1;
     //[unroll]
     //for (i = 1; i < 1 + NUM_POINT_LIGHT; ++i)
     //{
-    //    LightColor += float4(ComputePointLight(UsingLight[i],input.WorldPosition, toViewDirection, input.Normal, UsingMat), 1.f);
     //}
     
     // [unroll]
-    //for (i = 1 + NUM_POINT_LIGHT ; i < 1 + NUM_POINT_LIGHT + NUM_SPOTLIGHT; ++i)
+    //for (i = 1 + NUM_POINT_LIGHT; i < 1 + NUM_POINT_LIGHT + NUM_SPOTLIGHT; ++i)
     //{
-    //    LightColor += float4(ComputeSpotLight(UsingLight[i], input.WorldPosition, toViewDirection, input.Normal, UsingMat), 1.f);
     //}
-    
-    
     
     //¸²Ã³¸®
     //float Dot = dot(toViewDirection, input.Normal);

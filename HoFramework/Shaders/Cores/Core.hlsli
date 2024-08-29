@@ -1,31 +1,25 @@
 
-struct Material
-{
-	//16
-	//주의 - 16byte씩 페어 일때 
-    float3 diffuse;
-    float shiness;
-	
-	//이렇게 한 쌍이 16바이트로 묶여 있어야 한다 Vector3를 연달아 쓰면 다음 Vector3 변수의 x 파트에 덮어 씌우게 된다.
-    float3 ambient;
-    float3 specular;
-};
-
 
 //32byte
 struct Light
 {
-	//16
-    float3 LightPos; //12
-    float LightIntensity; //4 
-
-	//16
-    float3 LightDir; //12
-    
-    float FalloffStart; //4
-    float FalloffEnd; //4
-    float SpotFactor; //4
+    float3 LightPos ; 
+    float LightIntensity;
+    float3 LightDir ; 
+    float FalloffStart;
+    float FalloffEnd; 
+    float SpotFactor; 
 };
+
+
+struct Material
+{
+    float3 diffuse;
+    float shiness;
+    float3 ambient;
+    float3 specular;
+};
+
 
 
 //Falloff를 0~1사이로 리턴
@@ -55,7 +49,10 @@ float3 ComputePointLight(Light pLight, float3 pObjectPos,float3 pToViewDirection
     float3 LightVec = pLight.LightPos - pObjectPos;
     float D = length(LightVec);
     
-    if (D>pLight.FalloffEnd)
+    
+    return pLight.LightPos;
+    
+    if (D > pLight.FalloffEnd)
     {
         return float3(0, 0, 0);
     }
