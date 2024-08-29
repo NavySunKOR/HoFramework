@@ -10,11 +10,11 @@ struct ExtraPixelBuffer
 	float Dummy2 = 0.f;
 };
 
-class HFBXDragonRenderingObject : public HBaseRenderingObject
+class HFBXRenderingObject : public HBaseRenderingObject
 {
 
 public:
-	HFBXDragonRenderingObject(HBaseRenderModule* InModuleRenderer) : HBaseRenderingObject(InModuleRenderer)
+	HFBXRenderingObject(HBaseRenderModule* InModuleRenderer) : HBaseRenderingObject(InModuleRenderer)
 	{
 
 	}

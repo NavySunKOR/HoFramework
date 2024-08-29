@@ -2,8 +2,8 @@
 #include "Application.h"
 #include "RenderingLibrary.h"
 #include "LoadFBXRenderingObject.h"
-#include "FBXDragonRenderingObject.h"
-#include "CubeMapRenderingObject.h"
+#include "FBXRenderingObject.h"
+#include "SkyBoxRenderingObject.h"
 #include "EnvMapSphereRenderingObject.h"
 #include "ImageFilter.h"
 #include "SeaImageFilter.h"
@@ -20,8 +20,8 @@ bool HCustomRenderModule::Initialize(Application* pAppContext)
 
 	//TODO: 에디터처럼 만들려면 나중에 이걸 외부에서 추가 할 수 있도록 변경 필요.
 
-	std::shared_ptr<HCubeMapRenderingObject> Skybox = std::make_shared<HCubeMapRenderingObject>(this);
-	std::shared_ptr<HFBXDragonRenderingObject> ZeldaObject = std::make_shared<HFBXDragonRenderingObject>(this);
+	std::shared_ptr<HSkyBoxRenderingObject> Skybox = std::make_shared<HSkyBoxRenderingObject>(this);
+	std::shared_ptr<HFBXRenderingObject> ZeldaObject = std::make_shared<HFBXRenderingObject>(this);
 
 
 	ZeldaObject->Scale(Vector3(0.01f, 0.01f, 0.01f));

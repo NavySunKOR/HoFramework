@@ -2,10 +2,10 @@
 #include "BaseRenderingObject.h"
 
 
-class HCubeMapRenderingObject : public HBaseRenderingObject
+class HSkyBoxRenderingObject : public HBaseRenderingObject
 {
 public:
-	HCubeMapRenderingObject(HBaseRenderModule* pRenderModule) : HBaseRenderingObject(pRenderModule)
+	HSkyBoxRenderingObject(HBaseRenderModule* pRenderModule) : HBaseRenderingObject(pRenderModule)
 	{
 	}
 

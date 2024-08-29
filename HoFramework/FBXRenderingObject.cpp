@@ -1,8 +1,8 @@
-#include "FBXDragonRenderingObject.h"
+#include "FBXRenderingObject.h"
 #include "RenderingLibrary.h"
 #include "Application.h"
 
-void HFBXDragonRenderingObject::Initialize()
+void HFBXRenderingObject::Initialize()
 {
 	auto meshes = HRenderingLibrary::LoadMeshFromFile("./Meshes/zeldaPosed001/","zeldaPosed001.fbx");
 	PrimitiveTopology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
@@ -28,12 +28,12 @@ void HFBXDragonRenderingObject::Initialize()
 	InitializeInternal();
 }
 
-void HFBXDragonRenderingObject::Update()
+void HFBXRenderingObject::Update()
 {
 	UpdateInternal();
 }
 
-void HFBXDragonRenderingObject::Render()
+void HFBXRenderingObject::Render()
 {
 	//TODO: 콘스탄트 버퍼 설정할 방법 찾아볼것
 	/**/

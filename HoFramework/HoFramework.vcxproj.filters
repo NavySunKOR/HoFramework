@@ -42,12 +42,6 @@
     <ClCompile Include="LoadFBXRenderingObject.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="FBXDragonRenderingObject.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="CubeMapRenderingObject.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="EnvMapSphereRenderingObject.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -55,6 +49,12 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="SeaImageFilter.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="FBXRenderingObject.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="SkyBoxRenderingObject.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -83,12 +83,6 @@
     <ClInclude Include="LoadFBXRenderingObject.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="FBXDragonRenderingObject.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="CubeMapRenderingObject.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="EnvMapSphereRenderingObject.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -96,6 +90,12 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="SeaImageFilter.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="FBXRenderingObject.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="SkyBoxRenderingObject.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

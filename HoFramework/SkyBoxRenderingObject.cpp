@@ -1,4 +1,4 @@
-#include "CubeMapRenderingObject.h"
+#include "SkyBoxRenderingObject.h"
 #include "RenderingLibrary.h"
 #include <directxtk/DDSTextureLoader.h> 
 #include <directxtk/WICTextureLoader.h>
@@ -6,7 +6,7 @@
 
 using namespace DirectX;
 
-void HCubeMapRenderingObject::Initialize()
+void HSkyBoxRenderingObject::Initialize()
 {
 	Mesh mesh;
 	HRenderingLibrary::MakeBox(&mesh,20);
@@ -39,12 +39,12 @@ void HCubeMapRenderingObject::Initialize()
 
 }
 
-void HCubeMapRenderingObject::Update()
+void HSkyBoxRenderingObject::Update()
 {
 	UpdateInternal();
 }
 
-void HCubeMapRenderingObject::Render()
+void HSkyBoxRenderingObject::Render()
 {
 	ComPtr<ID3D11DeviceContext> Context = m_ParentRenderModule->GetContext();
 	ID3D11ShaderResourceView* resources[1] = { m_SkyboxSpecularResourceView.Get()};

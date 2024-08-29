@@ -1,6 +1,6 @@
 #include "EnvMapSphereRenderingObject.h"
 #include "RenderingLibrary.h"
-#include "CubeMapRenderingObject.h"
+#include "SkyBoxRenderingObject.h"
 
 void HEnvMapSphereRenderingObject::Initialize()
 {
@@ -21,9 +21,9 @@ void HEnvMapSphereRenderingObject::Initialize()
 
 	ComPtr<ID3D11DeviceContext>& context = m_ParentRenderModule->GetContext();
 	
-	HCubeMapRenderingObject* CubeMap = (HCubeMapRenderingObject*)(m_ParentRenderModule->GetRenderingObjects()[0].get());
-	ID3D11ShaderResourceView* CubeMapDiffuseTexture = CubeMap->GetSkyboxDiffuse().Get();
-	ID3D11ShaderResourceView* CubeMapSpecularTexture = CubeMap->GetSkyboxSpecular().Get();
+	HSkyBoxRenderingObject* SkyBox = (HSkyBoxRenderingObject*)(m_ParentRenderModule->GetRenderingObjects()[0].get());
+	ID3D11ShaderResourceView* CubeMapDiffuseTexture = SkyBox->GetSkyboxDiffuse().Get();
+	ID3D11ShaderResourceView* CubeMapSpecularTexture = SkyBox->GetSkyboxSpecular().Get();
 
 	ID3D11ShaderResourceView* pixelResources[2] = { CubeMapDiffuseTexture,CubeMapSpecularTexture };
 	context->PSSetShaderResources(0, 2, pixelResources);
