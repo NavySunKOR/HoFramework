@@ -55,6 +55,18 @@ void HBaseRenderingObject::ApplyMesh(Mesh InMeshData)
 	m_meshObjects.push_back(obj);
 }
 
+void HBaseRenderingObject::ApplyMesh(const LPCSTR InDirName, const LPCSTR InFileName)
+{
+	auto meshes = HRenderingLibrary::LoadMeshFromFile(InDirName, InFileName);
+	m_meshObjects.reserve(meshes.size());
+	for (Mesh mesh : meshes)
+	{
+		MeshObject mObj;
+		mObj.mesh = mesh;
+		m_meshObjects.push_back(mObj);
+	}
+}
+
 void HBaseRenderingObject::InitializeInternal()
 {
 	ComPtr<ID3D11Device>& device = m_ParentRenderModule->GetDevice();

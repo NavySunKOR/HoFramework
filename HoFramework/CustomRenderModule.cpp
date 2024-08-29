@@ -29,6 +29,9 @@ bool HCustomRenderModule::Initialize(Application* pAppContext)
 
 
 	std::shared_ptr<HFBXRenderingObject> ZeldaObject = std::make_shared<HFBXRenderingObject>(this);
+	ZeldaObject->ApplyMesh("./Meshes/zeldaPosed001/", "zeldaPosed001.fbx");
+	ZeldaObject->SetVertexShader(L"./Shaders/Dragon/VertexShaderDragon.hlsl", "main");
+	ZeldaObject->SetPixelShader(L"./Shaders/Dragon/PixelShaderDragon.hlsl", "main");
 	ZeldaObject->Scale(Vector3(0.01f, 0.01f, 0.01f));
 	ZeldaObject->Translate(Vector3(0.f, -1.f, 0.f));
 

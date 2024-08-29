@@ -39,6 +39,9 @@ public:
 	//아예 별도로 정의하고 싶다면 이걸 사용하면 된다.
 	void ApplyMesh(Mesh InMeshData);
 
+	//경로로 로드 하고 싶다면 이걸 사용하면 된다.
+	void ApplyMesh(const LPCSTR InDirName,  const LPCSTR InFileName);
+
 protected:
 
 	void InitializeInternal();
