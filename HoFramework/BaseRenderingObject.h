@@ -28,7 +28,7 @@ public:
 
 	inline vector<MeshObject>* GetDrawingMeshes() { return &m_meshObjects; };
 	inline BasicVSConstantBuffer* GetVSConstBuffer(){return &m_basicVertexConstBufferData;}
-	inline BasicPSConstantBuffer* GetPSConstBuffer() { return &m_basicPixelConstBufferData; }
+	inline MaterialPSConstantBuffer* GetMaterialPSConstBuffer() { return &m_materialConstBufferData; }
 
 	void SetVertexShader(const LPCWSTR InShaderLoc, const LPCSTR InShaderMainName);
 	void SetPixelShader(const LPCWSTR InShaderLoc, const LPCSTR InShaderMainName);
@@ -55,13 +55,15 @@ protected:
 
 
 	ComPtr<ID3D11Buffer> m_basicVertexConstBuffer;
-	ComPtr<ID3D11Buffer> m_basicPixelConstBuffer;
+	ComPtr<ID3D11Buffer> m_viewConstBuffer;
+	ComPtr<ID3D11Buffer> m_materialConstBuffer;
 
 	vector<ComPtr<ID3D11Buffer>> m_extraVertexConstBuffers;
 	vector<ComPtr<ID3D11Buffer>> m_extraPixelConstBuffers;
 
 	BasicVSConstantBuffer m_basicVertexConstBufferData;
-	BasicPSConstantBuffer m_basicPixelConstBufferData;
+	ViewPSConstantBuffer m_viewConstBufferData;
+	MaterialPSConstantBuffer m_materialConstBufferData;
 
 	HBaseRenderModule* m_ParentRenderModule;
 

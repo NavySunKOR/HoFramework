@@ -52,12 +52,15 @@ static_assert((sizeof(BasicVSConstantBuffer) % 16) == 0,
 //48bytes
 struct Light
 {
-	Vector3 LightPos = Vector3(0.f, 0.f, -2.f); 
-	float LightIntensity = 1.f; 
+	Vector3 LightPos = Vector3(0.f, 0.f, 0.f); 
+	float LightIntensity = 0.f; 
 	Vector3 LightDir = Vector3(0.f, 0.f, 1.f);
 	float FalloffStart = 0.f;
 	float FalloffEnd = 5.f;
 	float SpotFactor = 0.f;
+
+	float Dummy1;
+	float Dummy2;
 };
 
 //48
@@ -71,10 +74,13 @@ struct Material
 	//이렇게 한 쌍이 16바이트로 묶여 있어야 한다 Vector3를 연달아 쓰면 다음 Vector3 변수의 x 파트에 덮어 씌우게 된다.
 
 	//16
-	Vector3 ambient = Vector3(1.f, 1.f, 1.f);
+	Vector3 ambient = Vector3(0.1f, 0.1f, 0.1f);
 
 	//16
 	Vector3 specular = Vector3(1.f);
+
+	float Dummy1;
+	float Dummy2;
 };
 
 
@@ -93,28 +99,35 @@ public:
 	ComPtr<ID3D11Buffer> vertexBuffer;
 	ComPtr<ID3D11Buffer> indexBuffer;
 	ComPtr<ID3D11Buffer> vertexConstantBuffer;
-	ComPtr<ID3D11Buffer> pixelConstantBuffer;
+	ComPtr<ID3D11Buffer> materialPSConstantBuffer;
 	ComPtr<ID3D11Texture2D> texture;
 	ComPtr<ID3D11ShaderResourceView> textureResourceView;
 
 };
 
-struct BasicPSConstantBuffer
+struct LightingPSConstantBuffer
 {
-
-	//32
-	Light UsingLight[3];
-
-	//12
-	Vector3 UsingViewPosition;
-
-	float Dummy;
-
-	//
-	Material UsingMat;
+	Light Lights[3];
 };
 
-static_assert((sizeof(BasicPSConstantBuffer) % 16) == 0,
+struct MaterialPSConstantBuffer
+{
+	Material Mat;
+};
+
+struct ViewPSConstantBuffer
+{
+	Vector3 UsingViewPosition;
+	float Dummy;
+};
+
+static_assert((sizeof(LightingPSConstantBuffer) % 16) == 0,
+	"Constant Buffer size must be 16-byte aligned");
+
+static_assert((sizeof(MaterialPSConstantBuffer) % 16) == 0,
+	"Constant Buffer size must be 16-byte aligned");
+
+static_assert((sizeof(ViewPSConstantBuffer) % 16) == 0,
 	"Constant Buffer size must be 16-byte aligned");
 
 enum EPrimitiveType

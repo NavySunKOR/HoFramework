@@ -1,19 +1,19 @@
 #include "../Cores/Core.hlsli"
 
-cbuffer PixelCalculateBuffer : register(b0)
+cbuffer MaterialPSBuffer : register(b0)
 {
-    Light UsingLight[3];
-    float3 ViewPosition;
-    float Dummy;
-    Material UsingMat;
+    Material Mat;
 };
 
-cbuffer ExtraPixelBuffer : register(b1)
+cbuffer ViewPixelBuffer : register(b1)
 {
-    float RimIntensity;
-    float RimPow;
-    float Dummy1;
-    float Dummy2;
+    float3 ViewPosition;
+    float Dummy;
+};
+
+cbuffer LightingPixelBuffer : register(b2)
+{
+    Light Lights[3];
 };
 
 
@@ -32,11 +32,11 @@ float4 main(PSInput input) : SV_TARGET
     
     float4 LightColor = float4(0, 0, 0, 1);
     
-    LightColor += float4(ComputeDirectionalLight(UsingLight[0], toViewDirection, input.Normal, UsingMat), 1.f);
+    LightColor += float4(ComputeDirectionalLight(Lights[0], toViewDirection, input.Normal, Mat), 1.f);
     
-    LightColor += float4(ComputePointLight(UsingLight[1], input.WorldPosition, toViewDirection, input.Normal, UsingMat), 1.f);
+    LightColor += float4(ComputePointLight(Lights[1], input.WorldPosition, toViewDirection, input.Normal, Mat), 1.f);
     
-    LightColor += float4(ComputeSpotLight(UsingLight[2], input.WorldPosition, toViewDirection, input.Normal, UsingMat), 1.f);
+    LightColor += float4(ComputeSpotLight(Lights[2], input.WorldPosition, toViewDirection, input.Normal, Mat), 1.f);
     //int i = 1;
     //[unroll]
     //for (i = 1; i < 1 + NUM_POINT_LIGHT; ++i)

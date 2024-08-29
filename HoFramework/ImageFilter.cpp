@@ -18,8 +18,9 @@ void HImageFilter::Initialize(HBaseRenderModule* ParentModule, const wstring ver
 
     m_pixelConstData.dx = 1.0f / width;
     m_pixelConstData.dy = 1.0f / height;
+    //TODO : 포스트 프로세스 전용 픽셀 ConstantBuffer 슬롯 따로 만들것.
     HRenderingLibrary::CreateConstantBuffer(device, m_pixelConstData,
-        m_mesh->pixelConstantBuffer);
+        m_mesh->materialPSConstantBuffer); 
 
 
     // Texture sampler
@@ -119,7 +120,7 @@ void HImageFilter::Render()
     context->PSSetShaderResources(0, UINT(m_shaderResources.size()),
         m_shaderResources.data());
     context->PSSetConstantBuffers(
-        0, 1, m_mesh->pixelConstantBuffer.GetAddressOf());
+        0, 1, m_mesh->materialPSConstantBuffer.GetAddressOf());
     context->PSSetSamplers(0, 1, m_samplerState.GetAddressOf());
 
     context->DrawIndexed(m_mesh->mesh.indices.size(), 0, 0);

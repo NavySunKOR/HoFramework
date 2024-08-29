@@ -38,6 +38,7 @@ bool HBaseRenderModule::Initialize(Application* pAppContext)
 
     SetViewport();
 
+
     m_IsInitialized = true;
 
     return true;

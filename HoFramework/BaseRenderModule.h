@@ -118,6 +118,10 @@ public:
 		return m_CurrentIsWireframe;
 	}
 
+
+	ComPtr<ID3D11Buffer> m_LightPSConstantBuffer;
+	LightingPSConstantBuffer m_LightPSConstant;
+
 protected:
 	Application* m_AppContext = nullptr;
 

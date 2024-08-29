@@ -14,7 +14,7 @@ public:
 
 
     void UpdateConstantBuffers(ComPtr<ID3D11DeviceContext>& context) {
-        HRenderingLibrary::UpdateConstantBuffer<SamplingPixelConstantData>(m_pixelConstData, m_mesh->pixelConstantBuffer, context);
+        HRenderingLibrary::UpdateConstantBuffer<SamplingPixelConstantData>(m_pixelConstData, m_mesh->materialPSConstantBuffer, context);
     }
 
     void SetShaderResources(

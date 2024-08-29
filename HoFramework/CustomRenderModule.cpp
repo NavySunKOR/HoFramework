@@ -18,6 +18,10 @@ bool HCustomRenderModule::Initialize(Application* pAppContext)
 
 	//TODO: 에디터처럼 만들려면 나중에 이걸 외부에서 추가 할 수 있도록 변경 필요.
 
+	//라이트 설정
+
+	HRenderingLibrary::CreateConstantBuffer<LightingPSConstantBuffer>(GetDevice(), m_LightPSConstant, m_LightPSConstantBuffer);
+
 	SkyBoxObject = std::make_shared<HSkyBoxRenderingObject>(this);
 
 	Mesh mesh;
@@ -129,6 +133,8 @@ void HCustomRenderModule::Update()
 	{
 		ImageFilters[i]->Update();
 	}
+
+	HRenderingLibrary::UpdateConstantBuffer(m_LightPSConstant, m_LightPSConstantBuffer, GetContext());
 	GUIRenderSubModule.Update();
 }
 

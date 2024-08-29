@@ -9,6 +9,9 @@ struct Light
     float FalloffStart;
     float FalloffEnd; 
     float SpotFactor; 
+    
+    float Dummy1;
+    float Dummy2;
 };
 
 
@@ -18,6 +21,9 @@ struct Material
     float shiness;
     float3 ambient;
     float3 specular;
+    
+    float Dummy1;
+    float Dummy2;
 };
 
 
@@ -48,9 +54,6 @@ float3 ComputePointLight(Light pLight, float3 pObjectPos,float3 pToViewDirection
 {
     float3 LightVec = pLight.LightPos - pObjectPos;
     float D = length(LightVec);
-    
-    
-    return pLight.LightPos;
     
     if (D > pLight.FalloffEnd)
     {

@@ -75,7 +75,10 @@ void HBaseRenderingObject::InitializeInternal()
 	HRenderingLibrary::CreateConstantBuffer<BasicVSConstantBuffer>(device, m_basicVertexConstBufferData, m_basicVertexConstBuffer);
 
 	//Constant Buffers
-	HRenderingLibrary::CreateConstantBuffer<BasicPSConstantBuffer>(device, m_basicPixelConstBufferData, m_basicPixelConstBuffer);
+	HRenderingLibrary::CreateConstantBuffer<MaterialPSConstantBuffer>(device, m_materialConstBufferData, m_materialConstBuffer);
+
+
+	HRenderingLibrary::CreateConstantBuffer<ViewPSConstantBuffer>(device, m_viewConstBufferData, m_viewConstBuffer);
 
 
 	for (int i = 0 ; i < m_meshObjects.size() ; ++i)
@@ -87,7 +90,7 @@ void HBaseRenderingObject::InitializeInternal()
 		HRenderingLibrary::CreateIndexBuffer(device, &m_meshObjects[i].mesh, m_meshObjects[i].indexBuffer);
 
 		m_meshObjects[i].vertexConstantBuffer = m_basicVertexConstBuffer;
-		m_meshObjects[i].pixelConstantBuffer = m_basicPixelConstBuffer;
+		m_meshObjects[i].materialPSConstantBuffer = m_materialConstBuffer;
 
  		if (m_meshObjects[i].mesh.textureSourceName.length() > 0)
 			HRenderingLibrary::CreateTexture(device, m_meshObjects[i].mesh.textureSourceName, m_meshObjects[i].texture, m_meshObjects[i].textureResourceView);
@@ -126,10 +129,11 @@ void HBaseRenderingObject::UpdateInternal()
 
 	m_basicVertexConstBufferData.ProjectionTransform = m_basicVertexConstBufferData.ProjectionTransform.Transpose();
 
-	m_basicPixelConstBufferData.UsingViewPosition = Vector3::Transform(Vector3(0.f, 0.f, 0.f), m_basicVertexConstBufferData.ViewTransform.Transpose().Invert());
+	m_viewConstBufferData.UsingViewPosition = Vector3::Transform(Vector3(0.f, 0.f, 0.f), m_basicVertexConstBufferData.ViewTransform.Transpose().Invert());
 
 	HRenderingLibrary::UpdateConstantBuffer(m_basicVertexConstBufferData, m_basicVertexConstBuffer, m_ParentRenderModule->GetContext());
-	HRenderingLibrary::UpdateConstantBuffer(m_basicPixelConstBufferData , m_basicPixelConstBuffer, m_ParentRenderModule->GetContext());
+	HRenderingLibrary::UpdateConstantBuffer(m_materialConstBufferData, m_materialConstBuffer, m_ParentRenderModule->GetContext());
+	HRenderingLibrary::UpdateConstantBuffer(m_viewConstBufferData, m_viewConstBuffer, m_ParentRenderModule->GetContext());
 
 }
 void HBaseRenderingObject::RenderInternal()
@@ -155,7 +159,9 @@ void HBaseRenderingObject::RenderInternal()
 			context->PSSetShaderResources(0, 1, pixelResources);
 		}
 
-		context->PSSetConstantBuffers(0, 1, meshObj.pixelConstantBuffer.GetAddressOf());
+		context->PSSetConstantBuffers(0, 1, meshObj.materialPSConstantBuffer.GetAddressOf());
+		context->PSSetConstantBuffers(1, 1, m_viewConstBuffer.GetAddressOf());
+		context->PSSetConstantBuffers(2, 1, m_ParentRenderModule->m_LightPSConstantBuffer.GetAddressOf());
 		context->DrawIndexed((UINT)meshObj.mesh.indices.size(), 0, 0);
 	}
 
