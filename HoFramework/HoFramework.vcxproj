@@ -23,12 +23,10 @@
     <ClCompile Include="BaseRenderingObject.cpp" />
     <ClCompile Include="BaseRenderModule.cpp" />
     <ClCompile Include="CustomRenderModule.cpp" />
-    <ClCompile Include="EnvMapSphereRenderingObject.cpp" />
     <ClCompile Include="FBXRenderingObject.cpp" />
     <ClCompile Include="ImageFilter.cpp" />
     <ClCompile Include="ImGUIRenderSubModule.cpp" />
     <ClCompile Include="InputModule.cpp" />
-    <ClCompile Include="LoadFBXRenderingObject.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="RenderingLibrary.cpp" />
     <ClCompile Include="SeaImageFilter.cpp" />
@@ -39,12 +37,10 @@
     <ClInclude Include="BaseRenderModule.h" />
     <ClInclude Include="CustomRenderModule.h" />
     <ClInclude Include="Define.h" />
-    <ClInclude Include="EnvMapSphereRenderingObject.h" />
     <ClInclude Include="FBXRenderingObject.h" />
     <ClInclude Include="ImageFilter.h" />
     <ClInclude Include="ImGUIRenderSubModule.h" />
     <ClInclude Include="InputModule.h" />
-    <ClInclude Include="LoadFBXRenderingObject.h" />
     <ClInclude Include="RenderingLibrary.h" />
     <ClInclude Include="SeaImageFilter.h" />
     <ClInclude Include="SkyBoxRenderingObject.h" />

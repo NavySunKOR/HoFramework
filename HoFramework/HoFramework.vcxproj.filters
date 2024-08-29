@@ -39,12 +39,6 @@
     <ClCompile Include="ImGUIRenderSubModule.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="LoadFBXRenderingObject.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="EnvMapSphereRenderingObject.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="ImageFilter.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -78,12 +72,6 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="ImGUIRenderSubModule.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="LoadFBXRenderingObject.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="EnvMapSphereRenderingObject.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="ImageFilter.h">
