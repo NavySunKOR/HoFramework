@@ -11,8 +11,6 @@ void HFBXDragonRenderingObject::Initialize()
 	HRenderingLibrary::CreateVertexShader(Device, m_vertexShader, m_vertexInputLayout, L"./Shaders/Dragon/VertexShaderDragon.hlsl", HRenderingLibrary::GetVSInputLayout());
 	HRenderingLibrary::CreatePixelShader(Device, m_pixelShader, L"./Shaders/Dragon/PixelShaderDragon.hlsl");
 
-	Scale(Vector3(0.01f, 0.01f, 0.01f));
-	Translate(Vector3(0.f, -1.f, 0.f));
 
 	m_PSExtraData.RimIntensity = 5.f;
 	m_PSExtraData.RimPow = 5.f;

@@ -21,6 +21,8 @@ protected:
 
 	virtual void InitImageFilters() override;
 
+	void InitBlurFilter();
+
 	virtual void Update() override;
 	virtual void Render() override;
 
