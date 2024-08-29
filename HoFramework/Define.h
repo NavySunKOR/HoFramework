@@ -114,3 +114,11 @@ struct BasicPSConstantBuffer
 	//
 	Material UsingMat;
 };
+
+enum EPrimitiveType
+{
+	Box = 0,
+	Sphere,
+	Square,
+	Cylinder
+};

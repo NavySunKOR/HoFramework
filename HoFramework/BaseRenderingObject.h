@@ -29,6 +29,16 @@ public:
 	inline vector<MeshObject>* GetDrawingMeshes() { return &m_meshObjects; };
 	inline BasicVSConstantBuffer* GetVSConstBuffer(){return &m_basicVertexConstBufferData;}
 	inline BasicPSConstantBuffer* GetPSConstBuffer() { return &m_basicPixelConstBufferData; }
+
+	void SetVertexShader(const LPCWSTR InShaderLoc, const LPCSTR InShaderMainName);
+	void SetPixelShader(const LPCWSTR InShaderLoc, const LPCSTR InShaderMainName);
+
+	//Primitive Type으로 생성 하면 무조건 외부에서 스케일을 키워줘야함.
+	void ApplyMesh(EPrimitiveType InPrimitiveType);
+
+	//아예 별도로 정의하고 싶다면 이걸 사용하면 된다.
+	void ApplyMesh(Mesh InMeshData);
+
 protected:
 
 	void InitializeInternal();

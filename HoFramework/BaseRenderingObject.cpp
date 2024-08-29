@@ -3,6 +3,58 @@
 #include "BaseRenderModule.h"
 #include "RenderingLibrary.h"
 
+void HBaseRenderingObject::SetVertexShader(const LPCWSTR InShaderLoc, const LPCSTR InShaderMainName)
+{
+	HRenderingLibrary::CreateVertexShader(m_ParentRenderModule->GetDevice(), m_vertexShader, m_vertexInputLayout, InShaderLoc, InShaderMainName,HRenderingLibrary::GetVSInputLayout());
+}
+
+void HBaseRenderingObject::SetPixelShader(const LPCWSTR InShaderLoc, const LPCSTR InShaderMainName)
+{
+	HRenderingLibrary::CreatePixelShader(m_ParentRenderModule->GetDevice(), m_pixelShader, InShaderLoc, InShaderMainName);
+}
+
+void HBaseRenderingObject::ApplyMesh(EPrimitiveType InPrimitiveType)
+{
+	Mesh mesh;
+
+
+	switch (InPrimitiveType)
+	{
+		case EPrimitiveType::Box:
+			HRenderingLibrary::MakeBox(&mesh, 1);
+			break;
+		case EPrimitiveType::Sphere:
+			HRenderingLibrary::MakeSphere(&mesh,1.f,Vector3(0,0,0),16,16);
+			break;
+
+		case EPrimitiveType::Square:
+			HRenderingLibrary::MakeSquare(&mesh);
+			break;
+
+		case EPrimitiveType::Cylinder:
+			HRenderingLibrary::MakeCylinder(&mesh, 1.f, 16, 2.f);
+			break;
+		default: 
+			assert(0);
+			break;
+	}
+
+
+	MeshObject obj;
+	obj.mesh = mesh;
+
+	m_meshObjects.push_back(obj);
+
+}
+
+void HBaseRenderingObject::ApplyMesh(Mesh InMeshData)
+{
+	MeshObject obj;
+	obj.mesh = InMeshData;
+
+	m_meshObjects.push_back(obj);
+}
+
 void HBaseRenderingObject::InitializeInternal()
 {
 	ComPtr<ID3D11Device>& device = m_ParentRenderModule->GetDevice();

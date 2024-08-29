@@ -619,13 +619,13 @@ bool HRenderingLibrary::CreateIndexBuffer(ComPtr<ID3D11Device> pDeviceContext, M
 	return true;
 }
 
-bool HRenderingLibrary::CreateVertexShader(ComPtr<ID3D11Device> pDeviceContext, ComPtr<ID3D11VertexShader>& pVertexShader, ComPtr<ID3D11InputLayout>& pVertexInputLayout , LPCWSTR pShaderFileLocation , vector<D3D11_INPUT_ELEMENT_DESC> pInput)
+bool HRenderingLibrary::CreateVertexShader(ComPtr<ID3D11Device> pDeviceContext, ComPtr<ID3D11VertexShader>& pVertexShader, ComPtr<ID3D11InputLayout>& pVertexInputLayout , LPCWSTR pShaderFileLocation, LPCSTR pShaderMainName, vector<D3D11_INPUT_ELEMENT_DESC> pInput)
 {
 
 	ComPtr<ID3DBlob> VSBlob;
 	ComPtr<ID3DBlob> VSErrorBlob;
 
-	HRESULT VShr = D3DCompileFromFile(pShaderFileLocation, 0, D3D_COMPILE_STANDARD_FILE_INCLUDE, "main", "vs_5_0", D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, 0, &VSBlob, &VSErrorBlob);
+	HRESULT VShr = D3DCompileFromFile(pShaderFileLocation, 0, D3D_COMPILE_STANDARD_FILE_INCLUDE, pShaderMainName, "vs_5_0", D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, 0, &VSBlob, &VSErrorBlob);
 
 	if (FAILED(VShr))
 	{
@@ -640,12 +640,12 @@ bool HRenderingLibrary::CreateVertexShader(ComPtr<ID3D11Device> pDeviceContext, 
 }
 
 
-bool HRenderingLibrary::CreatePixelShader(ComPtr<ID3D11Device> pDeviceContext, ComPtr<ID3D11PixelShader>& pPixelShader, LPCWSTR pShaderFileLocation)
+bool HRenderingLibrary::CreatePixelShader(ComPtr<ID3D11Device> pDeviceContext, ComPtr<ID3D11PixelShader>& pPixelShader, LPCWSTR pShaderFileLocation, LPCSTR pShaderMainName)
 {
 	ComPtr<ID3DBlob> PSBlob;
 	ComPtr<ID3DBlob> PSErrorBlob;
 
-	HRESULT PShr = D3DCompileFromFile(pShaderFileLocation, 0, D3D_COMPILE_STANDARD_FILE_INCLUDE, "main", "ps_5_0", D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, 0, &PSBlob, &PSErrorBlob);
+	HRESULT PShr = D3DCompileFromFile(pShaderFileLocation, 0, D3D_COMPILE_STANDARD_FILE_INCLUDE, pShaderMainName, "ps_5_0", D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, 0, &PSBlob, &PSErrorBlob);
 
 	if (FAILED(PShr))
 	{

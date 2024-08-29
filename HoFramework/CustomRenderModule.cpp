@@ -1,10 +1,8 @@
 #include "CustomRenderModule.h"
 #include "Application.h"
 #include "RenderingLibrary.h"
-#include "LoadFBXRenderingObject.h"
 #include "FBXRenderingObject.h"
 #include "SkyBoxRenderingObject.h"
-#include "EnvMapSphereRenderingObject.h"
 #include "ImageFilter.h"
 #include "SeaImageFilter.h"
 
@@ -20,18 +18,26 @@ bool HCustomRenderModule::Initialize(Application* pAppContext)
 
 	//TODO: 에디터처럼 만들려면 나중에 이걸 외부에서 추가 할 수 있도록 변경 필요.
 
-	std::shared_ptr<HSkyBoxRenderingObject> Skybox = std::make_shared<HSkyBoxRenderingObject>(this);
+	SkyBoxObject = std::make_shared<HSkyBoxRenderingObject>(this);
+
+	Mesh mesh;
+	HRenderingLibrary::MakeBox(&mesh, 20.f);
+	SkyBoxObject->ApplyMesh(mesh);
+	SkyBoxObject->SetSkyboxResources(L"./skybox/clearSky/CloudCommon_diffuseIBL.dds", L"./skybox/clearSky/CloudCommons_specularIBL.dds");
+	SkyBoxObject->SetVertexShader(L"./Shaders/Skybox/VertexShaderSkybox.hlsl", "main");
+	SkyBoxObject->SetPixelShader(L"./Shaders/Skybox/PixelShaderSkybox.hlsl", "main");
+
+
 	std::shared_ptr<HFBXRenderingObject> ZeldaObject = std::make_shared<HFBXRenderingObject>(this);
-
-
 	ZeldaObject->Scale(Vector3(0.01f, 0.01f, 0.01f));
 	ZeldaObject->Translate(Vector3(0.f, -1.f, 0.f));
 
-	RenderingObjects.reserve(2);
-	RenderingObjects.push_back(Skybox);
+
+	RenderingObjects.reserve(1);
 	RenderingObjects.push_back(ZeldaObject);
 
 
+	SkyBoxObject->Initialize();
 
 	for (size_t i = 0; i < RenderingObjects.size(); ++i)
 	{
@@ -105,6 +111,10 @@ void HCustomRenderModule::Update()
 {
 	HBaseRenderModule::Update();
 	//여기서부터 작성 
+	
+	if (SkyBoxObject)
+		SkyBoxObject->Update();
+
 	for (size_t i = 0; i < RenderingObjects.size(); ++i)
 	{
 		RenderingObjects[i]->Update();
@@ -127,6 +137,8 @@ void HCustomRenderModule::Render()
 	// RS: Rasterizer stage
 	// OM: Output-Merger stage.
 
+	if(SkyBoxObject)
+	SkyBoxObject->Render();
 
 	for (size_t i = 0; i < RenderingObjects.size(); ++i)
 	{

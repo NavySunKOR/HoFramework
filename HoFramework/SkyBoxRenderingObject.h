@@ -20,6 +20,8 @@ public:
 	ComPtr<ID3D11ShaderResourceView> GetSkyboxSpecular() {
 		return m_SkyboxSpecularResourceView;
 	};
+
+	void SetSkyboxResources(LPCWSTR InDiffuseDDSLoc, LPCWSTR InSpecularDDSLoc);
 private:
 	ComPtr<ID3D11Resource> m_SkyboxDiffuseResource;
 	ComPtr<ID3D11ShaderResourceView> m_SkyboxDiffuseResourceView;

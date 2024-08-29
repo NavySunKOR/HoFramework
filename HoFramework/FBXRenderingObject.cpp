@@ -8,8 +8,8 @@ void HFBXRenderingObject::Initialize()
 	PrimitiveTopology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 
 	ComPtr<ID3D11Device>& Device = m_ParentRenderModule->GetDevice();
-	HRenderingLibrary::CreateVertexShader(Device, m_vertexShader, m_vertexInputLayout, L"./Shaders/Dragon/VertexShaderDragon.hlsl", HRenderingLibrary::GetVSInputLayout());
-	HRenderingLibrary::CreatePixelShader(Device, m_pixelShader, L"./Shaders/Dragon/PixelShaderDragon.hlsl");
+	HRenderingLibrary::CreateVertexShader(Device, m_vertexShader, m_vertexInputLayout, L"./Shaders/Dragon/VertexShaderDragon.hlsl", "main", HRenderingLibrary::GetVSInputLayout());
+	HRenderingLibrary::CreatePixelShader(Device, m_pixelShader, L"./Shaders/Dragon/PixelShaderDragon.hlsl", "main");
 
 
 	m_PSExtraData.RimIntensity = 5.f;

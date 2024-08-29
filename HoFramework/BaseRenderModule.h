@@ -144,6 +144,7 @@ protected:
 	ComPtr<ID3D11SamplerState> m_SamplerState;
 
 	//RenderingObjects
+	std::shared_ptr<class HSkyBoxRenderingObject> SkyBoxObject;
 	vector<std::shared_ptr<class HBaseRenderingObject>> RenderingObjects;
 	vector< std::shared_ptr<class HImageFilter>> ImageFilters;
 

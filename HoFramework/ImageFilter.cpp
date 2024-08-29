@@ -12,8 +12,8 @@ void HImageFilter::Initialize(HBaseRenderModule* ParentModule, const wstring ver
     HRenderingLibrary::CreateIndexBuffer(device, &m_mesh->mesh, m_mesh->indexBuffer);
 
 
-    HRenderingLibrary::CreateVertexShader(device, m_vertexShader, m_inputLayout, vertexShaderName.c_str(), HRenderingLibrary::GetVSInputLayout());
-    HRenderingLibrary::CreatePixelShader(device, m_pixelShader, pixelShaderName.c_str());
+    HRenderingLibrary::CreateVertexShader(device, m_vertexShader, m_inputLayout, vertexShaderName.c_str(), "main",  HRenderingLibrary::GetVSInputLayout());
+    HRenderingLibrary::CreatePixelShader(device, m_pixelShader, pixelShaderName.c_str(), "main");
 
 
     m_pixelConstData.dx = 1.0f / width;

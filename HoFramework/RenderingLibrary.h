@@ -61,8 +61,8 @@ public:
 
 		return true;
 	}//TODO: ConstantBuffer를 템플릿으로 바꿔서 만든다.
-	static bool CreateVertexShader(ComPtr<ID3D11Device> pDeviceContext, ComPtr<ID3D11VertexShader>& pVertexShader, ComPtr<ID3D11InputLayout>& pVertexInputLayout, LPCWSTR pShaderFileLocation, vector<D3D11_INPUT_ELEMENT_DESC> pInput);
-	static bool CreatePixelShader(ComPtr<ID3D11Device> pDeviceContext, ComPtr<ID3D11PixelShader>& pPixelShader, LPCWSTR pShaderFileLocation);
+	static bool CreateVertexShader(ComPtr<ID3D11Device> pDeviceContext, ComPtr<ID3D11VertexShader>& pVertexShader, ComPtr<ID3D11InputLayout>& pVertexInputLayout, LPCWSTR pShaderFileLocation, LPCSTR pShaderMainName, vector<D3D11_INPUT_ELEMENT_DESC> pInput);
+	static bool CreatePixelShader(ComPtr<ID3D11Device> pDeviceContext, ComPtr<ID3D11PixelShader>& pPixelShader, LPCWSTR pShaderFileLocation, LPCSTR pShaderMainName);
 
 	template<typename T_BUFFERTYPE>
 	static void UpdateConstantBuffer(T_BUFFERTYPE& pConstantBufferData, ComPtr<ID3D11Buffer>& pBuffer, ComPtr<ID3D11DeviceContext>& pContext)
