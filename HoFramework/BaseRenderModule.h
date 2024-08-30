@@ -118,6 +118,11 @@ public:
 		return m_CurrentIsWireframe;
 	}
 
+	inline std::shared_ptr<class HSkyBoxRenderingObject> GetSkybox()
+	{
+		return SkyBoxObject;
+	}
+
 
 	ComPtr<ID3D11Buffer> m_LightPSConstantBuffer;
 	LightingPSConstantBuffer m_LightPSConstant;
