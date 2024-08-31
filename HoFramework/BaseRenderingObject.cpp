@@ -1,7 +1,5 @@
-#include "BaseRenderingObject.h"
 #include "Application.h"
-#include "BaseRenderModule.h"
-#include "RenderingLibrary.h"
+#include "BaseRenderingObject.h"
 
 void HBaseRenderingObject::SetVertexShader(const LPCWSTR InShaderLoc, const LPCSTR InShaderMainName)
 {
