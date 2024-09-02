@@ -14,5 +14,11 @@ public:
 	virtual void Initialize() override;
 	virtual void Update() override;
 	virtual void Render() override;
+	void SetExternalResource(vector<string> textureLocations);
+private:
+
+	vector<ComPtr<ID3D11Texture2D>> UsingTextures;
+	vector< ComPtr<ID3D11ShaderResourceView>> UsingShaderResources;
+
 
 };

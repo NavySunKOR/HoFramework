@@ -3,6 +3,7 @@
 #include "RenderingLibrary.h"
 #include "FBXRenderingObject.h"
 #include "SkyBoxRenderingObject.h"
+#include "DefaultRenderingObject.h"
 #include "ImageFilter.h"
 #include "SeaImageFilter.h"
 
@@ -40,10 +41,26 @@ bool HCustomRenderModule::Initialize(Application* pAppContext)
 	ZeldaObject->Translate(Vector3(0.f, -1.f, 0.f));
 
 
+	std::shared_ptr<HDefaultRenderingObject> SphereObject = std::make_shared<HDefaultRenderingObject>(this);
+
+	std::vector<string> Resources;
+	Resources.reserve(4);
+	Resources.push_back(string("./SampleTexture/stainless_steel/used-stainless-steel2_albedo.png"));
+	Resources.push_back(string("./SampleTexture/stainless_steel/used-stainless-steel2_albedo.png"));
+	/*Resources.push_back(string("./skybox/clearSky/CloudCommon_diffuseIBL.dds"));
+	Resources.push_back(string("./skybox/clearSky/CloudCommons_specularIBL.dds"));*/
+
+	SphereObject->SetExternalResource(Resources);
+	SphereObject->ApplyMesh(EPrimitiveType::Sphere);
+	SphereObject->SetVertexShader(L"./Shaders/Lit/LitVertexShader.hlsl", "main");
+	SphereObject->SetPixelShader(L"./Shaders/Lit/LitPixelShaderVer2.hlsl", "main");
+	SphereObject->Scale(Vector3(1.f, 1.f, 1.f));
+	SphereObject->Translate(Vector3(0.f, -1.f, -2.f));
 
 
-	RenderingObjects.reserve(1);
+	RenderingObjects.reserve(2);
 	RenderingObjects.push_back(ZeldaObject);
+	RenderingObjects.push_back(SphereObject);
 
 
 	SkyBoxObject->Initialize();

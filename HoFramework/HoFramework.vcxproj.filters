@@ -118,6 +118,7 @@
     <FxCompile Include="Shaders\ImageFilters\ShaderToy\SeaPixelShader.hlsl" />
     <FxCompile Include="Shaders\Lit\LitPixelShader.hlsl" />
     <FxCompile Include="Shaders\Lit\LitVertexShader.hlsl" />
+    <FxCompile Include="Shaders\Lit\LitPixelShaderVer2.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\Cores\Core.hlsli" />
