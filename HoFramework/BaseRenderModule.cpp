@@ -39,6 +39,8 @@ bool HBaseRenderModule::Initialize(Application* pAppContext)
     SetViewport();
 
 
+    m_MainView.SetApplication(m_AppContext);
+
     m_IsInitialized = true;
 
     return true;

@@ -1,7 +1,6 @@
 #include "Application.h"
 #include <iostream>
 
-Application* GApp = nullptr;
 
 LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 
@@ -97,17 +96,27 @@ LRESULT Application::MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
     case WM_MOUSEMOVE:
         InputModule.OnMouseMove(lParam);
         break;
-    case WM_LBUTTONUP:
-        InputModule.OnMouseButtonDown(EMouseButton::Left);
+    case WM_LBUTTONDOWN:
+        InputModule.OnKeyDown(wParam);
         break;
-    case WM_RBUTTONUP:
+    case WM_RBUTTONDOWN:
         // cout << "WM_RBUTTONUP Right mouse button" << endl;
+        InputModule.OnKeyDown(wParam);
+        break;
 
-        InputModule.OnMouseButtonDown(EMouseButton::Right);
+    case WM_LBUTTONUP:
+        InputModule.OnKeyUp(wParam);
+        break;
+
+    case WM_RBUTTONUP:
+        InputModule.OnKeyUp(wParam);
         break;
     case WM_KEYDOWN:
         // cout << "WM_KEYDOWN " << (int)wParam << endl;
         InputModule.OnKeyDown(wParam);
+        break;
+    case WM_KEYUP:
+        InputModule.OnKeyUp(wParam);
         break;
     case WM_DESTROY:
         ::PostQuitMessage(0);

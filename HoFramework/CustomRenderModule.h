@@ -27,5 +27,7 @@ protected:
 	virtual void Render() override;
 
 private:
+
+	void UpdateInput();
 	HImGUIRenderSubModule GUIRenderSubModule;
 };

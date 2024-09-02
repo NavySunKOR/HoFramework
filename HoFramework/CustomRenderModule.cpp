@@ -120,9 +120,11 @@ void HCustomRenderModule::Update()
 {
 	HBaseRenderModule::Update();
 	//여기서부터 작성 
+	UpdateInput();
 	
 	if (SkyBoxObject)
 		SkyBoxObject->Update();
+
 
 	for (size_t i = 0; i < RenderingObjects.size(); ++i)
 	{
@@ -136,6 +138,41 @@ void HCustomRenderModule::Update()
 
 	HRenderingLibrary::UpdateConstantBuffer(m_LightPSConstant, m_LightPSConstantBuffer, GetContext());
 	GUIRenderSubModule.Update();
+}
+
+
+
+void HCustomRenderModule::UpdateInput()
+{
+	//std::shared_ptr<HFBXRenderingObject> Zelda = (std::shared_ptr<HFBXRenderingObject>)(RenderingObjects[0]);
+	HInputModule Input = m_AppContext->GetInputModule();
+	const int KeyW = 0x57;
+	const int KeyS = 0x53;
+	const int KeyA = 0x41;
+	const int KeyD = 0x44;
+
+	if(Input.GetKey(KeyW))
+		m_MainView.Translate(m_MainView.GetForward() * 0.016f * 10.f);
+
+	if (Input.GetKey(KeyS))
+		m_MainView.Translate(m_MainView.GetForward() * -1.f * 0.016f * 10.f);
+
+	if (Input.GetKey(KeyA))
+		m_MainView.Translate(m_MainView.GetRight() * -1.f * 0.016f * 10.f);
+
+	if (Input.GetKey(KeyD))
+		m_MainView.Translate(m_MainView.GetRight() * 0.016f * 10.f);
+
+
+	Vector2 Mouse = m_AppContext->GetInputModule().GetMousePositionNDC();
+
+	//Mouse.y * (DirectX::XM_PI / 2)
+	m_MainView.Rotate(Vector3(Mouse.y * (DirectX::XM_PIDIV2), Mouse.x * (DirectX::XM_2PI), 0));
+
+
+
+
+
 }
 
 void HCustomRenderModule::Render()

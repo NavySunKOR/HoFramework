@@ -36,6 +36,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
+    <ClInclude Include="BaseRenderingObject.h" />
     <ClInclude Include="BaseRenderModule.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CustomRenderModule.h" />

@@ -17,6 +17,7 @@ public:
 	
 	vector<std::function<LRESULT(HWND, UINT , WPARAM , LPARAM)>> OnMessageProc;
 
+
 private:
 	bool InitWindows();
 
@@ -27,6 +28,10 @@ private:
 	std::shared_ptr<HBaseRenderModule> RenderModule = nullptr;
 	
 public:
+	HInputModule& GetInputModule() {
+		return InputModule;
+	}
+
 	inline bool IsInitialized() {
 		return m_IsInitialized;
 	};
@@ -47,3 +52,7 @@ private:
 	HWND m_mainWindow;
 
 };
+
+
+
+inline Application* GApp = nullptr;

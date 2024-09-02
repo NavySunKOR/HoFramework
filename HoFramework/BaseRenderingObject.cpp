@@ -107,27 +107,12 @@ void HBaseRenderingObject::UpdateInternal()
 	m_basicVertexConstBufferData.InverseTransform = m_basicVertexConstBufferData.InverseTransform.Transpose().Invert();
 
 
-	m_basicVertexConstBufferData.ViewTransform = Matrix::CreateRotationY(m_ParentRenderModule->GetGlobalCameraRotation().y) * Matrix::CreateTranslation(m_ParentRenderModule->GetGlobalCameraPosition());
-	m_basicVertexConstBufferData.ViewTransform = m_basicVertexConstBufferData.ViewTransform.Transpose();
-
-	HRenderingLibrary::UpdateConstantBuffer(m_basicVertexConstBufferData, m_basicVertexConstBuffer, m_ParentRenderModule->GetContext());
-
-	bool isPerspective = (m_IsUsingCustomView) ? m_CustomIsPerspective : m_ParentRenderModule->IsPerspective();
-	Application* appContext = m_ParentRenderModule->GetAppContext();
-
-	if (isPerspective)
+	if (m_IsUsingCustomView == false)
 	{
-		const float usingFOVAngle = (m_IsUsingCustomView) ? m_CustomFOVInDeg : m_ParentRenderModule->GetFOVInDeg() * (XM_PI / 180.f);
-		m_basicVertexConstBufferData.ProjectionTransform = XMMatrixPerspectiveFovLH(usingFOVAngle, appContext->GetAspectRatio(), 0.01f, 100.0f);
+		m_basicVertexConstBufferData.ViewTransform = m_ParentRenderModule->GetMainView().GetViewMatrix();
+		m_basicVertexConstBufferData.ProjectionTransform = m_ParentRenderModule->GetMainView().GetProjectionMatrix();
+		m_viewConstBufferData.UsingViewPosition = Vector3::Transform(Vector3(0.f, 0.f, 0.f), m_basicVertexConstBufferData.ViewTransform.Transpose().Invert());
 	}
-	else
-	{
-		m_basicVertexConstBufferData.ProjectionTransform = XMMatrixOrthographicLH(appContext->GetAspectRatio(), 0.f, 0.01f, 100.0f);
-	}
-
-	m_basicVertexConstBufferData.ProjectionTransform = m_basicVertexConstBufferData.ProjectionTransform.Transpose();
-
-	m_viewConstBufferData.UsingViewPosition = Vector3::Transform(Vector3(0.f, 0.f, 0.f), m_basicVertexConstBufferData.ViewTransform.Transpose().Invert());
 
 	HRenderingLibrary::UpdateConstantBuffer(m_basicVertexConstBufferData, m_basicVertexConstBuffer, m_ParentRenderModule->GetContext());
 	HRenderingLibrary::UpdateConstantBuffer(m_materialConstBufferData, m_materialConstBuffer, m_ParentRenderModule->GetContext());

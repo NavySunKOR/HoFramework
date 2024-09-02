@@ -6,6 +6,7 @@
 #include <vector>
 #include <wrl.h> // ComPtr
 #include "Define.h"
+#include "Camera.h"
 
 class Application;
 
@@ -123,6 +124,10 @@ public:
 		return SkyBoxObject;
 	}
 
+	inline HCamera& GetMainView() 
+	{
+		return m_MainView;
+	}
 
 	ComPtr<ID3D11Buffer> m_LightPSConstantBuffer;
 	LightingPSConstantBuffer m_LightPSConstant;
@@ -157,11 +162,18 @@ protected:
 	vector<std::shared_ptr<class HBaseRenderingObject>> RenderingObjects;
 	vector< std::shared_ptr<class HImageFilter>> ImageFilters;
 
+
+	//Camera
+	HCamera m_MainView;
+	std::vector<HCamera> m_Views;
+
+
 #pragma endregion
 
 #pragma region Functions
 public:
 	void ResizeWindow();
+
 
 #pragma endregion
 
