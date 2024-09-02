@@ -70,7 +70,7 @@ bool HCustomRenderModule::Initialize(Application* pAppContext)
 		RenderingObjects[i]->Initialize();
 	}
 
-	InitImageFilters();
+	//InitImageFilters();
 
 	if (!GUIRenderSubModule.Initialize(this))
 		return true;

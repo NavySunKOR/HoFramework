@@ -455,7 +455,7 @@ void HRenderingLibrary::MakeSphere(Mesh* InBoxMesh , float InRadius,Vector3 InCe
 				Vector3 BiTangent = Vector3(0, -1, 0);
 				Vector3 NormalOrth = NewVert.normal - NewVert.normal.Dot(BiTangent) * NewVert.normal;
 				NormalOrth.Normalize();
-				Vector3 TangentModel = NormalOrth.Cross(BiTangent);
+				Vector3 TangentModel = BiTangent.Cross(NormalOrth);
 				NewVert.tangent = TangentModel;
 			}
 
@@ -754,14 +754,51 @@ bool HRenderingLibrary::CreateTexture(ComPtr<ID3D11Device> pDeviceContext, strin
 
 	std::vector<uint8_t> colors;
 
-	colors.resize(size_t(width * height * channels));
+	// 4채널로 만들어서 복사
+	colors.resize(width * height * 4);
 
-	memcpy(colors.data(), img, colors.size() * sizeof(uint8_t));
+	if (channels == 1) {
+		for (size_t i = 0; i < width * height; i++) {
+			uint8_t g = img[i * channels + 0];
+			for (size_t c = 0; c < 4; c++) {
+				colors[4 * i + c] = g;
+			}
+		}
+	}
+	else if (channels == 2) {
+		for (size_t i = 0; i < width * height; i++) {
+			for (size_t c = 0; c < 2; c++) {
+				colors[4 * i + c] = img[i * channels + c];
+			}
+			colors[4 * i + 2] = 255;
+			colors[4 * i + 3] = 255;
+		}
+	}
+	else if (channels == 3) {
+		for (size_t i = 0; i < width * height; i++) {
+			for (size_t c = 0; c < 3; c++) {
+				colors[4 * i + c] = img[i * channels + c];
+			}
+			colors[4 * i + 3] = 255;
+		}
+	}
+	else if (channels == 4) {
+		for (size_t i = 0; i < width * height; i++) {
+			for (size_t c = 0; c < 4; c++) {
+				colors[4 * i + c] = img[i * channels + c];
+			}
+		}
+	}
+	else {
+		std::cout << "Cannot read " << channels << " channels" << endl;
+	}
+
 
 	D3D11_TEXTURE2D_DESC txtDesc = {};
 	txtDesc.Width = width;
 	txtDesc.Height = height;
-	txtDesc.MipLevels = txtDesc.ArraySize = 1;
+	txtDesc.MipLevels = 1;
+	txtDesc.ArraySize = 1;
 	txtDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 	txtDesc.SampleDesc.Count = 1;
 	txtDesc.Usage = D3D11_USAGE_IMMUTABLE;
