@@ -36,13 +36,14 @@ void HDefaultRenderingObject::Render()
 void HDefaultRenderingObject::SetExternalResource(vector<string> textureLocations)
 {
 	ComPtr<ID3D11Device>& device = m_ParentRenderModule->GetDevice();
+	ComPtr<ID3D11DeviceContext>& context = m_ParentRenderModule->GetContext();
 	UsingTextures.reserve(textureLocations.size());
 	UsingShaderResources.reserve(textureLocations.size());
 	for (int i = 0; i < textureLocations.size(); ++i)
 	{
 		ComPtr<ID3D11Texture2D> Texture;
 		ComPtr<ID3D11ShaderResourceView> SRV;
-		HRenderingLibrary::CreateTexture(device,textureLocations[i], Texture, SRV);
+		HRenderingLibrary::CreateTexture(device,context,textureLocations[i], Texture, SRV);
 		UsingTextures.push_back(Texture);
 		UsingShaderResources.push_back(SRV.Get());
 	}

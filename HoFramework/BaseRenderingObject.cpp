@@ -68,6 +68,7 @@ void HBaseRenderingObject::ApplyMesh(const LPCSTR InDirName, const LPCSTR InFile
 void HBaseRenderingObject::InitializeInternal()
 {
 	ComPtr<ID3D11Device>& device = m_ParentRenderModule->GetDevice();
+	ComPtr<ID3D11DeviceContext>& context = m_ParentRenderModule->GetContext();
 
 	//Constant Buffers
 	HRenderingLibrary::CreateConstantBuffer<BasicVSConstantBuffer>(device, m_basicVertexConstBufferData, m_basicVertexConstBuffer);
@@ -91,7 +92,7 @@ void HBaseRenderingObject::InitializeInternal()
 		m_meshObjects[i].materialPSConstantBuffer = m_materialConstBuffer;
 
  		if (m_meshObjects[i].mesh.textureSourceName.length() > 0)
-			HRenderingLibrary::CreateTexture(device, m_meshObjects[i].mesh.textureSourceName, m_meshObjects[i].texture, m_meshObjects[i].textureResourceView);
+			HRenderingLibrary::CreateTexture(device,context, m_meshObjects[i].mesh.textureSourceName, m_meshObjects[i].texture, m_meshObjects[i].textureResourceView);
 
 	}
 

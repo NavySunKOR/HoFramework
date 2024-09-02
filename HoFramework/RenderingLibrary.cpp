@@ -741,7 +741,7 @@ bool HRenderingLibrary::CreatePixelShader(ComPtr<ID3D11Device> pDeviceContext, C
 	return true;
 }
 
-bool HRenderingLibrary::CreateTexture(ComPtr<ID3D11Device> pDeviceContext, string pTextureFileLocation, ComPtr<ID3D11Texture2D>& OutTexture, ComPtr<ID3D11ShaderResourceView>& OutResourceView)
+bool HRenderingLibrary::CreateTexture(ComPtr<ID3D11Device> pDevice, ComPtr<ID3D11DeviceContext> pDeviceContext, string pTextureFileLocation, ComPtr<ID3D11Texture2D>& OutTexture, ComPtr<ID3D11ShaderResourceView>& OutResourceView)
 {
 	int width, height, channels;
 	unsigned char* img = stbi_load(pTextureFileLocation.c_str(), &width, &height, &channels,0);
@@ -794,7 +794,9 @@ bool HRenderingLibrary::CreateTexture(ComPtr<ID3D11Device> pDeviceContext, strin
 	}
 
 
+
 	D3D11_TEXTURE2D_DESC txtDesc = {};
+	ZeroMemory(&txtDesc, sizeof(txtDesc));
 	txtDesc.Width = width;
 	txtDesc.Height = height;
 	txtDesc.MipLevels = 1;
@@ -802,15 +804,21 @@ bool HRenderingLibrary::CreateTexture(ComPtr<ID3D11Device> pDeviceContext, strin
 	txtDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 	txtDesc.SampleDesc.Count = 1;
 	txtDesc.Usage = D3D11_USAGE_IMMUTABLE;
-	txtDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+	txtDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE ;
+	//txtDesc.MiscFlags = D3D11_RESOURCE_MISC_GENERATE_MIPS; // ¹Ó¸Ê »ç¿ë
+	//txtDesc.CPUAccessFlags = 0;
 
 	// Fill in the subresource data.
 	D3D11_SUBRESOURCE_DATA InitData;
 	InitData.pSysMem = colors.data();
-	InitData.SysMemPitch = txtDesc.Width * sizeof(uint8_t) * channels;
+	InitData.SysMemPitch = txtDesc.Width * sizeof(uint8_t) * 4;
+	
+	pDevice->CreateTexture2D(&txtDesc, &InitData, OutTexture.GetAddressOf());
+	pDevice->CreateShaderResourceView(OutTexture.Get(), 0,	OutResourceView.GetAddressOf());
 
-	pDeviceContext->CreateTexture2D(&txtDesc, &InitData, OutTexture.GetAddressOf());
-	pDeviceContext->CreateShaderResourceView(OutTexture.Get(), nullptr,	OutResourceView.GetAddressOf());
+
+	
+	//pDeviceContext->GenerateMips(OutResourceView.Get());
 
 	return (OutTexture.Get() && OutResourceView.Get());
 }
