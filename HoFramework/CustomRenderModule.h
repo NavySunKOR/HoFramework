@@ -26,8 +26,11 @@ protected:
 	virtual void Update() override;
 	virtual void Render() override;
 
+
+
 private:
 
 	void UpdateInput();
 	HImGUIRenderSubModule GUIRenderSubModule;
+	bool m_MoveFPP = false;
 };

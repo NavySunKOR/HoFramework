@@ -31,8 +31,11 @@ float4 main(PSInput input) : SV_TARGET
 {
     float3 toViewDirection = normalize(ViewPosition - input.WorldPosition);
     float4 textureColor = g_textureBaseColor.Sample(g_sampler, input.TexCoord);
-    //float3 textureNormal = g_textureNormal.Sample(g_sampler, input.TexCoord);
+    float3 textureNormal = g_textureNormal.Sample(g_sampler, input.TexCoord);
+    
+    float3x3 TBN = float3x3(input.Tangent - dot(input.Tangent, input.Normal) * input.Tangent, input.Normal, cross(input.Normal, input.Tangent));
 
+    input.Normal = normalize(mul(input.Normal, TBN));
     
     float4 LightColor = float4(0, 0, 0, 1);
     

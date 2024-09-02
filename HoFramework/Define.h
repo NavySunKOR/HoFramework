@@ -21,6 +21,7 @@ struct Vertex
 	Vector3 color;
 	Vector2 texCoord;
 	Vector3 normal;
+	Vector3 tangent; //Tangent Model
 
 	Vertex()
 	{

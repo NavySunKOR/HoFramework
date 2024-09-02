@@ -44,9 +44,9 @@ bool HCustomRenderModule::Initialize(Application* pAppContext)
 	std::shared_ptr<HDefaultRenderingObject> SphereObject = std::make_shared<HDefaultRenderingObject>(this);
 
 	std::vector<string> Resources;
-	Resources.reserve(4);
-	Resources.push_back(string("./SampleTexture/stainless_steel/used-stainless-steel2_albedo.png"));
-	Resources.push_back(string("./SampleTexture/stainless_steel/used-stainless-steel2_albedo.png"));
+	Resources.reserve(2);
+	Resources.push_back(string("./SampleTexture/brick-wall/brick-wall_albedo.png"));
+	Resources.push_back(string("./SampleTexture/brick-wall/brick-wall_normal-dx.png"));
 	/*Resources.push_back(string("./skybox/clearSky/CloudCommon_diffuseIBL.dds"));
 	Resources.push_back(string("./skybox/clearSky/CloudCommons_specularIBL.dds"));*/
 
@@ -167,24 +167,33 @@ void HCustomRenderModule::UpdateInput()
 	const int KeyS = 0x53;
 	const int KeyA = 0x41;
 	const int KeyD = 0x44;
+	const int KeyF = 0x46;
 
-	if(Input.GetKey(KeyW))
+
+
+	if (Input.GetKey(KeyF))
+		m_MoveFPP = !m_MoveFPP;
+
+	if(Input.GetKey(KeyW) && m_MoveFPP)
 		m_MainView.Translate(m_MainView.GetForward() * 0.016f * 10.f);
 
-	if (Input.GetKey(KeyS))
+	if (Input.GetKey(KeyS) && m_MoveFPP)
 		m_MainView.Translate(m_MainView.GetForward() * -1.f * 0.016f * 10.f);
 
-	if (Input.GetKey(KeyA))
+	if (Input.GetKey(KeyA) && m_MoveFPP)
 		m_MainView.Translate(m_MainView.GetRight() * -1.f * 0.016f * 10.f);
 
-	if (Input.GetKey(KeyD))
+	if (Input.GetKey(KeyD) && m_MoveFPP)
 		m_MainView.Translate(m_MainView.GetRight() * 0.016f * 10.f);
 
 
-	Vector2 Mouse = m_AppContext->GetInputModule().GetMousePositionNDC();
 
-	//Mouse.y * (DirectX::XM_PI / 2)
-	m_MainView.Rotate(Vector3(Mouse.y * (DirectX::XM_PIDIV2), Mouse.x * (DirectX::XM_2PI), 0));
+	if (m_MoveFPP)
+	{
+		Vector2 Mouse = m_AppContext->GetInputModule().GetMousePositionNDC();
+		//Mouse.y * (DirectX::XM_PI / 2)
+		m_MainView.Rotate(Vector3(Mouse.y * (DirectX::XM_PIDIV2), Mouse.x * (DirectX::XM_2PI), 0));
+	}
 
 
 

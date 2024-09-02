@@ -17,6 +17,8 @@ PSInput main(VSInput Input)
     Output.TexCoord = Input.TexCoord;
     Output.Normal = mul(float4(Input.Normal, 0), InverseTransform).xyz;
     Output.Normal = normalize(Output.Normal);
+    
+    Output.Tangent = mul(float4(Input.Tangent, 1), ModelTransform).xyz;
 
     return Output;
 }

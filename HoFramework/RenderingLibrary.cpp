@@ -38,6 +38,9 @@ void HRenderingLibrary::MakeBox(Mesh* InMesh, float InSize)
 	//왼쪽 아래부터 시계방향
 
 	//윗면
+
+	Vector3 BiTangent = Vector3(0, 1, 0);
+
 	InMesh->vertices[0].position = Vector3(-1.0f, 1.0f, -1.0f) * InSize;
 	InMesh->vertices[1].position = Vector3(-1.0f, 1.0f, 1.0f) * InSize;
 	InMesh->vertices[2].position = Vector3(1.0f, 1.0f, 1.0f) * InSize;
@@ -54,6 +57,17 @@ void HRenderingLibrary::MakeBox(Mesh* InMesh, float InSize)
 	InMesh->vertices[1].normal = Vector3(0.0f, 1.f, 0.0f);
 	InMesh->vertices[2].normal = Vector3(0.0f, 1.f, 0.0f);
 	InMesh->vertices[3].normal = Vector3(0.0f, 1.f, 0.0f);
+
+	{
+		Vector3 NormalOrth = InMesh->vertices[0].normal - InMesh->vertices[0].normal.Dot(BiTangent) * InMesh->vertices[0].normal;
+		NormalOrth.Normalize();
+		Vector3 TangentModel = BiTangent.Cross(NormalOrth);
+		InMesh->vertices[0].tangent = TangentModel;
+		InMesh->vertices[1].tangent = TangentModel;
+		InMesh->vertices[2].tangent = TangentModel;
+		InMesh->vertices[3].tangent = TangentModel;
+	}
+
 
 
 	InMesh->indices.push_back(0);
@@ -82,6 +96,17 @@ void HRenderingLibrary::MakeBox(Mesh* InMesh, float InSize)
 	InMesh->vertices[6].normal = Vector3(0.0f, -1.0f, 0.0f);
 	InMesh->vertices[7].normal = Vector3(0.0f, -1.0f, 0.0f);
 
+
+	{
+		Vector3 NormalOrth = InMesh->vertices[4].normal - InMesh->vertices[4].normal.Dot(BiTangent) * InMesh->vertices[4].normal;
+		NormalOrth.Normalize();
+		Vector3 TangentModel = BiTangent.Cross(NormalOrth);
+		InMesh->vertices[4].tangent = TangentModel;
+		InMesh->vertices[5].tangent = TangentModel;
+		InMesh->vertices[6].tangent = TangentModel;
+		InMesh->vertices[7].tangent = TangentModel;
+	}
+
 	InMesh->indices.push_back(4);
 	InMesh->indices.push_back(5);
 	InMesh->indices.push_back(6);
@@ -108,6 +133,16 @@ void HRenderingLibrary::MakeBox(Mesh* InMesh, float InSize)
 	InMesh->vertices[10].normal = Vector3(0.0f, 0.0f, -1.0f);
 	InMesh->vertices[11].normal = Vector3(0.0f, 0.0f, -1.0f);
 
+	{
+		Vector3 NormalOrth = InMesh->vertices[8].normal - InMesh->vertices[8].normal.Dot(BiTangent) * InMesh->vertices[8].normal;
+		NormalOrth.Normalize();
+		Vector3 TangentModel = BiTangent.Cross(NormalOrth);
+		InMesh->vertices[8].tangent = TangentModel;
+		InMesh->vertices[9].tangent = TangentModel;
+		InMesh->vertices[10].tangent = TangentModel;
+		InMesh->vertices[11].tangent = TangentModel;
+	}
+
 	InMesh->indices.push_back(8);
 	InMesh->indices.push_back(9);
 	InMesh->indices.push_back(10);
@@ -132,6 +167,16 @@ void HRenderingLibrary::MakeBox(Mesh* InMesh, float InSize)
 	InMesh->vertices[13].normal = Vector3(0.0f, 0.0f, 1.0f);
 	InMesh->vertices[14].normal = Vector3(0.0f, 0.0f, 1.0f);
 	InMesh->vertices[15].normal = Vector3(0.0f, 0.0f, 1.0f);
+
+	{
+		Vector3 NormalOrth = InMesh->vertices[12].normal - InMesh->vertices[12].normal.Dot(BiTangent) * InMesh->vertices[12].normal;
+		NormalOrth.Normalize();
+		Vector3 TangentModel = BiTangent.Cross(NormalOrth);
+		InMesh->vertices[12].tangent = TangentModel;
+		InMesh->vertices[13].tangent = TangentModel;
+		InMesh->vertices[14].tangent = TangentModel;
+		InMesh->vertices[15].tangent = TangentModel;
+	}
 
 	InMesh->indices.push_back(12);
 	InMesh->indices.push_back(13);
@@ -159,6 +204,16 @@ void HRenderingLibrary::MakeBox(Mesh* InMesh, float InSize)
 	InMesh->vertices[18].normal = Vector3(-1.0f, 0.0f, 0.0f);
 	InMesh->vertices[19].normal = Vector3(-1.0f, 0.0f, 0.0f);
 
+	{
+		Vector3 NormalOrth = InMesh->vertices[16].normal - InMesh->vertices[16].normal.Dot(BiTangent) * InMesh->vertices[16].normal;
+		NormalOrth.Normalize();
+		Vector3 TangentModel = BiTangent.Cross(NormalOrth);
+		InMesh->vertices[16].tangent = TangentModel;
+		InMesh->vertices[17].tangent = TangentModel;
+		InMesh->vertices[18].tangent = TangentModel;
+		InMesh->vertices[19].tangent = TangentModel;
+	}
+
 	InMesh->indices.push_back(16);
 	InMesh->indices.push_back(17);
 	InMesh->indices.push_back(18);
@@ -183,6 +238,17 @@ void HRenderingLibrary::MakeBox(Mesh* InMesh, float InSize)
 	InMesh->vertices[21].normal = Vector3(1.0f, 0.0f, 0.0f);
 	InMesh->vertices[22].normal = Vector3(1.0f, 0.0f, 0.0f);
 	InMesh->vertices[23].normal = Vector3(1.0f, 0.0f, 0.0f);
+
+	{
+		Vector3 NormalOrth = InMesh->vertices[20].normal - InMesh->vertices[20].normal.Dot(BiTangent) * InMesh->vertices[20].normal;
+		NormalOrth.Normalize();
+		Vector3 TangentModel = BiTangent.Cross(NormalOrth);
+		InMesh->vertices[20].tangent = TangentModel;
+		InMesh->vertices[21].tangent = TangentModel;
+		InMesh->vertices[22].tangent = TangentModel;
+		InMesh->vertices[23].tangent = TangentModel;
+	}
+
 
 	//이 메쉬의 중심점
 
@@ -385,6 +451,14 @@ void HRenderingLibrary::MakeSphere(Mesh* InBoxMesh , float InRadius,Vector3 InCe
 			NewVert.normal = NewVert.position - InCenterPos;
 			NewVert.normal.Normalize();
 
+			{
+				Vector3 BiTangent = Vector3(0, -1, 0);
+				Vector3 NormalOrth = NewVert.normal - NewVert.normal.Dot(BiTangent) * NewVert.normal;
+				NormalOrth.Normalize();
+				Vector3 TangentModel = NormalOrth.Cross(BiTangent);
+				NewVert.tangent = TangentModel;
+			}
+
 			InBoxMesh->vertices.push_back(NewVert);
 		}
 	}
@@ -556,6 +630,7 @@ vector<D3D11_INPUT_ELEMENT_DESC> HRenderingLibrary::GetVSInputLayout()
 	D3D11_INPUT_ELEMENT_DESC color;
 	D3D11_INPUT_ELEMENT_DESC texCoord;
 	D3D11_INPUT_ELEMENT_DESC normal;
+	D3D11_INPUT_ELEMENT_DESC tangent;
 
 	position.SemanticName = "POSITION";
 	position.SemanticIndex = 0;
@@ -589,10 +664,19 @@ vector<D3D11_INPUT_ELEMENT_DESC> HRenderingLibrary::GetVSInputLayout()
 	normal.InputSlotClass = D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA;
 	normal.InstanceDataStepRate = 0;
 
+	tangent.SemanticName = "TANGENT";
+	tangent.SemanticIndex = 0;
+	tangent.Format = DXGI_FORMAT_R32G32B32_FLOAT;
+	tangent.InputSlot = 0;
+	tangent.AlignedByteOffset = 4 * 3 + 4 * 3 + 4 * 2 + 4 * 3;
+	tangent.InputSlotClass = D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA;
+	tangent.InstanceDataStepRate = 0;
+
 	Result.push_back(position);
 	Result.push_back(color);
 	Result.push_back(texCoord);
 	Result.push_back(normal);
+	Result.push_back(tangent);
 
 	return Result;
 }

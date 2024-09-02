@@ -21,12 +21,14 @@ void HDefaultRenderingObject::Render()
 	//TODO: 콘스탄트 버퍼 설정할 방법 찾아볼것
 	/**/
 
+	ComPtr<ID3D11DeviceContext>& context = m_ParentRenderModule->GetContext();
+
 	if (UsingShaderResources.size() > 0)
 	{
-		ComPtr<ID3D11DeviceContext>& context = m_ParentRenderModule->GetContext();
 		ID3D11ShaderResourceView* Array[2] = { UsingShaderResources[0].Get(),UsingShaderResources[1].Get()};
 		context->PSSetShaderResources(0, UsingShaderResources.size(), Array);
 	}
+	context->PSSetSamplers(0, 1, m_ParentRenderModule->GetSampler().GetAddressOf());
 
 	RenderInternal();
 }

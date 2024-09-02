@@ -113,6 +113,7 @@ struct VSInput
     float3 Color : COLOR;
     float2 TexCoord : TEXCOORD;
     float3 Normal : NORMAL;
+    float3 Tangent : TANGENT0;
 };
 
 struct PSInput
@@ -123,4 +124,5 @@ struct PSInput
     float3 Color : COLOR;
     float2 TexCoord : TEXCOORD;
     float3 Normal : NORMAL;
+    float3 Tangent : TANGENT0;
 };
