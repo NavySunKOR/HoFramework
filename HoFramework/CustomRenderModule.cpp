@@ -65,6 +65,8 @@ bool HCustomRenderModule::Initialize(Application* pAppContext)
 
 	SkyBoxObject->Initialize();
 
+	m_LightPSConstant.Lights[0].LightIntensity = 2.f;
+
 	for (size_t i = 0; i < RenderingObjects.size(); ++i)
 	{
 		RenderingObjects[i]->Initialize();

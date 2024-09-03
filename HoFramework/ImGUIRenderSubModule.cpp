@@ -65,22 +65,11 @@ void HImGUIRenderSubModule::Render()
 		1000.0f / ImGui::GetIO().Framerate,
 		ImGui::GetIO().Framerate);
 
-	//ImGui::SliderFloat3("translation", &m_ParentRenderModule->GetGlobalCameraPosition().x, -1.f, 1.f);
-	//ImGui::SliderFloat3("rotation", &m_ParentRenderModule->GetGlobalCameraRotation().x,-180.f * 3.141592/180.f, 180.f * 3.141592 / 180.f);
-	//ImGui::SliderFloat("RimIntensity", &((HFBXDragonRenderingObject*)(m_ParentRenderModule->GetRenderingObjects()[0].get()))->m_PSExtraData.RimIntensity,0.f, 10.f);
-	//ImGui::SliderFloat("RimPow", &((HFBXDragonRenderingObject*)(m_ParentRenderModule->GetRenderingObjects()[0].get()))->m_PSExtraData.RimPow, 0.f, 10.f);
-
-
-	ImGui::SliderFloat3("Directional Light Light Pos ", &m_ParentRenderModule->m_LightPSConstant.Lights[0].LightPos.x, -1.f, 1.f);
 	ImGui::SliderFloat("Directional Light LightIntensity ", &m_ParentRenderModule->m_LightPSConstant.Lights[0].LightIntensity, 0.f, 10.f);
 	ImGui::SliderFloat3("Directional Light Light Dir ", &m_ParentRenderModule->m_LightPSConstant.Lights[0].LightDir.x, -1.f, 1.f);
-	ImGui::SliderFloat("Directional Light Falloff Start ", &m_ParentRenderModule->m_LightPSConstant.Lights[0].FalloffStart, 0.f, 5.f);
-	ImGui::SliderFloat("Directional Light Falloff End ", &m_ParentRenderModule->m_LightPSConstant.Lights[0].FalloffEnd, 0.f, 20.f);
-	ImGui::SliderFloat("Directional Light SpotFactor ", &m_ParentRenderModule->m_LightPSConstant.Lights[0].SpotFactor, 0.f, 5.f);
 
 	ImGui::SliderFloat3("Point Light Light Pos ", &m_ParentRenderModule->m_LightPSConstant.Lights[1].LightPos.x, -1.f, 1.f);
 	ImGui::SliderFloat("Point Light LightIntensity ", &m_ParentRenderModule->m_LightPSConstant.Lights[1].LightIntensity, 0.f, 10.f);
-	ImGui::SliderFloat3("Point Light Light Dir ", &m_ParentRenderModule->m_LightPSConstant.Lights[1].LightDir.x, -1.f, 1.f);
 	ImGui::SliderFloat("Point Light Falloff Start ", &m_ParentRenderModule->m_LightPSConstant.Lights[1].FalloffStart, 0.f, 5.f);
 	ImGui::SliderFloat("Point Light Falloff End ", &m_ParentRenderModule->m_LightPSConstant.Lights[1].FalloffEnd, 0.f, 20.f);
 	ImGui::SliderFloat("Point Light Spot Factor ", &m_ParentRenderModule->m_LightPSConstant.Lights[1].SpotFactor, 0.f, 5.f);

@@ -19,6 +19,6 @@ PSInput main(VSInput Input)
     Output.Normal = normalize(Output.Normal);
     
     Output.Tangent = mul(float4(Input.Tangent, 1), ModelTransform).xyz;
-
+    
     return Output;
 }

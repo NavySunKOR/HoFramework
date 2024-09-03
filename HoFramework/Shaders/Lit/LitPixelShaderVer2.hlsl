@@ -31,11 +31,20 @@ float4 main(PSInput input) : SV_TARGET
 {
     float3 toViewDirection = normalize(ViewPosition - input.WorldPosition);
     float4 textureColor = g_textureBaseColor.Sample(g_sampler, input.TexCoord);
-    float3 textureNormal = g_textureNormal.Sample(g_sampler, input.TexCoord);
+    float3 textureNormal = g_textureNormal.Sample(g_sampler, input.TexCoord) * 2.f - 1;
     
-    float3x3 TBN = float3x3(input.Tangent - dot(input.Tangent, input.Normal) * input.Tangent, input.Normal, cross(input.Normal, input.Tangent));
-
-    input.Normal = normalize(mul(input.Normal, TBN));
+    float3 N = input.Normal;
+    
+    //Normal 쪽에 프로젝션한 값을 탄젠트에 빼준다.
+    float3 T = normalize(input.Tangent - dot(input.Tangent, N) * N );
+    float3 B = cross(N, T);
+        
+    
+    float3x3 TBN = float3x3(T,B,N);
+    float3 newNormal = mul(textureNormal, TBN);
+    newNormal = normalize(newNormal);
+    input.Normal = newNormal;
+    
     
     float4 LightColor = float4(0, 0, 0, 1);
     
@@ -58,7 +67,7 @@ float4 main(PSInput input) : SV_TARGET
    
     float3 reflection = reflect(toViewDirection, input.Normal);
 
-    LightColor += SkyboxDiffuse.Sample(g_sampler, input.Normal) + SkyboxSpecular.Sample(g_sampler, normalize(reflection));
+    //LightColor += SkyboxDiffuse.Sample(g_sampler, input.Normal) + SkyboxSpecular.Sample(g_sampler, normalize(reflection));
     
     
     return LightColor * textureColor;

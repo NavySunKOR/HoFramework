@@ -424,6 +424,8 @@ void HRenderingLibrary::MakeSquare(Mesh* InBoxMesh)
 		v.normal = normals[i];
 		v.texCoord = texcoords[i];
 
+		v.tangent = Vector3(1, 0, 0);
+
 		// v.color = colors[i];
 
 		InBoxMesh->vertices.push_back(v);
@@ -439,6 +441,12 @@ void HRenderingLibrary::MakeSphere(Mesh* InBoxMesh , float InRadius,Vector3 InCe
 	float ZAnglePerPiece = XM_PI / InHorizontalDivision;
 	float YAnglePerPiece = XM_2PI / InVerticalDivision;
 
+	Vector3 StartPt = Vector3::Transform(Vector3(0, InRadius, 0), Matrix::CreateRotationZ(ZAnglePerPiece));
+	Vector3 Dx = Vector3::Transform(StartPt, Matrix::CreateRotationY(YAnglePerPiece)) - StartPt;
+	Vector3 Dy = Vector3::Transform(Vector3(0, InRadius, 0), Matrix::CreateRotationZ(ZAnglePerPiece * 2.f)) - StartPt;
+	Dx.Normalize();
+	Dy.Normalize();
+
 	//위에서 아래로 만들것.
 	for (int y = 0; y <= InHorizontalDivision; ++y)
 	{
@@ -453,11 +461,13 @@ void HRenderingLibrary::MakeSphere(Mesh* InBoxMesh , float InRadius,Vector3 InCe
 
 			{
 				Vector3 BiTangent = Vector3(0, -1, 0);
-				Vector3 NormalOrth = NewVert.normal - NewVert.normal.Dot(BiTangent) * NewVert.normal;
+
+				Vector3 NormalOrth = NewVert.normal - BiTangent.Dot(NewVert.normal) * NewVert.tangent; //내가봤을땐 여기는 BiTangent가 맞는거 같다.
 				NormalOrth.Normalize();
-				Vector3 TangentModel = BiTangent.Cross(NormalOrth);
-				NewVert.tangent = TangentModel;
+				NewVert.tangent = BiTangent.Cross(NormalOrth);
+				NewVert.tangent.Normalize();
 			}
+
 
 			InBoxMesh->vertices.push_back(NewVert);
 		}
