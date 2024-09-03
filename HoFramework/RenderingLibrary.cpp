@@ -460,11 +460,18 @@ void HRenderingLibrary::MakeSphere(Mesh* InBoxMesh , float InRadius,Vector3 InCe
 			NewVert.normal.Normalize();
 
 			{
+				//여기서 바이탄젠트는 아래로 내려간다고 생각하자. 왜냐면 구가 위에서 아래로 채워주는 중이기 때문.
 				Vector3 BiTangent = Vector3(0, -1, 0);
 
-				Vector3 NormalOrth = NewVert.normal - BiTangent.Dot(NewVert.normal) * NewVert.tangent; //내가봤을땐 여기는 BiTangent가 맞는거 같다.
-				NormalOrth.Normalize();
-				NewVert.tangent = BiTangent.Cross(NormalOrth);
+				//Vector3 NormalOrth = NewVert.normal - BiTangent.Dot(NewVert.normal) * BiTangent; //내가봤을땐 여기는 BiTangent가 맞는거 같다.
+				//NormalOrth.Normalize();
+				//NewVert.tangent = BiTangent.Cross(NormalOrth);
+
+				//BiTangent는 Normal에 수직이여야 한다. 그래서 바이 탄젠트에 normal법선 위로 projection 한 값을 빼준다.
+				BiTangent = BiTangent - BiTangent.Dot(NewVert.normal) * NewVert.normal;
+				BiTangent.Normalize();
+				//BiTangent가 왼쪽을 기준을 잡고, Normal과 크로스 하면 왼손좌표계 의거 화면쪽으로 날아오는 CrossProduct Vector가 만들어진다. 3D공간상에 대보면 이게 양수로 가는길.
+				NewVert.tangent = BiTangent.Cross(NewVert.normal);
 				NewVert.tangent.Normalize();
 			}
 
