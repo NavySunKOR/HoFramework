@@ -25,12 +25,11 @@ bool HCustomRenderModule::Initialize(Application* pAppContext)
 
 	SkyBoxObject = std::make_shared<HSkyBoxRenderingObject>(this);
 
-	Mesh mesh;
-	HRenderingLibrary::MakeBox(&mesh, 20.f);
-	SkyBoxObject->ApplyMesh(mesh);
-	SkyBoxObject->SetSkyboxResources(L"./skybox/clearSky/CloudCommon_diffuseIBL.dds", L"./skybox/clearSky/CloudCommons_specularIBL.dds");
+	SkyBoxObject->ApplyMesh(EPrimitiveType::Sphere);
+	SkyBoxObject->SetSkyboxResources(L"./skybox/outdoorHDR/OutdoorDiffuseHDR.dds", L"./skybox/outdoorHDR/OutdoorSpecularHDR.dds");
 	SkyBoxObject->SetVertexShader(L"./Shaders/Skybox/VertexShaderSkybox.hlsl", "main");
 	SkyBoxObject->SetPixelShader(L"./Shaders/Skybox/PixelShaderSkybox.hlsl", "main");
+	SkyBoxObject->Scale(Vector3(10.f, 10.f, 10.f));
 
 
 	std::shared_ptr<HFBXRenderingObject> ZeldaObject = std::make_shared<HFBXRenderingObject>(this);
@@ -39,6 +38,7 @@ bool HCustomRenderModule::Initialize(Application* pAppContext)
 	ZeldaObject->SetPixelShader(L"./Shaders/Lit/LitPixelShader.hlsl", "main");
 	ZeldaObject->Scale(Vector3(0.01f, 0.01f, 0.01f));
 	ZeldaObject->Translate(Vector3(0.f, -1.f, 0.f));
+	ZeldaObject->GetMaterialPSConstBuffer()->Mat.Roughness = 0.f;
 
 
 	std::shared_ptr<HDefaultRenderingObject> SphereObject = std::make_shared<HDefaultRenderingObject>(this);

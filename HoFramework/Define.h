@@ -67,21 +67,15 @@ struct Light
 //48
 struct Material
 {
-	//16
-	//주의 - 16byte씩 페어 일때 
-	Vector3 diffuse = Vector3(1.f, 1.f, 1.f);
-	float shiness = 1.f;
-	
-	//이렇게 한 쌍이 16바이트로 묶여 있어야 한다 Vector3를 연달아 쓰면 다음 Vector3 변수의 x 파트에 덮어 씌우게 된다.
+	Vector3 Ambient = Vector3(0.f);
+	float Roughness = 1.f; 
 
-	//16
-	Vector3 ambient = Vector3(0.1f, 0.1f, 0.1f);
+	Vector3 Diffuse = Vector3(1.f);
+	float Dummy1 = 0.f; 
 
-	//16
-	Vector3 specular = Vector3(1.f);
+	Vector3 Specular = Vector3(1.f);
+	float Dummy2 = 0.f;
 
-	float Dummy1;
-	float Dummy2;
 };
 
 
@@ -119,7 +113,10 @@ struct MaterialPSConstantBuffer
 struct ViewPSConstantBuffer
 {
 	Vector3 UsingViewPosition;
-	float Dummy;
+	float exposure;
+
+	Vector3 Dummy1;
+	float gamma = 2.2f;
 };
 
 static_assert((sizeof(LightingPSConstantBuffer) % 16) == 0,

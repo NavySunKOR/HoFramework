@@ -159,7 +159,7 @@ bool HBaseRenderModule::InitSwapChain()
     ZeroMemory(&sd, sizeof(sd));
     sd.BufferDesc.Width = m_AppContext->GetScreenWidth();   // set the back buffer width
     sd.BufferDesc.Height = m_AppContext->GetScreenHeight(); // set the back buffer height
-    sd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM; // use 32-bit color
+    sd.BufferDesc.Format = DXGI_FORMAT_R16G16B16A16_FLOAT; // floats로 변경 <-HDRI 랑 아닌거 구분 하려면 나중에 바꿔줌
     sd.BufferCount = 2;                                // Double-buffering
     sd.BufferDesc.RefreshRate.Numerator = 120;
     sd.BufferDesc.RefreshRate.Denominator = 1;

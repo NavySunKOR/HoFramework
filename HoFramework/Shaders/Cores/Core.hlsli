@@ -5,11 +5,12 @@ struct Light
 {
     float3 LightPos ; 
     float LightIntensity;
+    
     float3 LightDir ; 
     float FalloffStart;
+    
     float FalloffEnd; 
     float SpotFactor; 
-    
     float Dummy1;
     float Dummy2;
 };
@@ -17,12 +18,13 @@ struct Light
 
 struct Material
 {
-    float3 diffuse;
-    float shiness;
     float3 ambient;
-    float3 specular;
+    float roughness;
     
+    float3 diffuse;
     float Dummy1;
+    
+    float3 specular;
     float Dummy2;
 };
 
@@ -38,7 +40,7 @@ float3 BlinnPhongModel(float3 pLightDir, float3 pToViewDirection, float3 pNormal
 {
     float3 halfWay = normalize(pToViewDirection + pLightDir);
     float hdotN = dot(halfWay, pNormalVector);
-    float specular = pMat.specular * pow(max(hdotN, 0.f), pMat.shiness);
+    float specular = pMat.specular * pow(max(hdotN, 0.f), pMat.roughness);
     
     return pMat.ambient + (pMat.diffuse + specular) * pLightIntensity;
 }
@@ -105,6 +107,33 @@ float3 ComputeSchlickFresnel(float3 fresnel0, float3 normal, float3 toEye)
 // 90도 -> f0 = 1.0 -> float3(1.0) 반환
 // 0도에 가까운 가장자리는 Specular 색상, 90도에 가까운 안쪽은 고유 색상(fresnelR0)
     return fresnel0 + (1.f - fresnel0) * pow(f0, 5.0);
+}
+
+
+//InNormalMapValues <- 0~1 사이로 넣을것.
+float3 RecalculateNormal(float3 InNormalMapValues, float3 InNormalWorld, float3 InTangentWorld)
+{
+    InNormalMapValues = InNormalMapValues * 2.f - 1;
+    
+    float3 N = InNormalWorld;
+    float3 T = normalize(InTangentWorld - dot(InTangentWorld, N) * N); //Normal 쪽에 프로젝션한 값을 탄젠트에 빼준다.
+    float3 B = cross(N, T);
+    
+    float3x3 TBN = float3x3(T, B, N);
+    float3 newNormal = mul(InNormalMapValues, TBN);
+    newNormal = normalize(newNormal);
+    
+    return newNormal;
+}
+
+float3 LinearToneMapping(float3 InColor,float InExposure, float InGamma)
+{
+    float3 invGamma = float3(1.f,1.f,1.f) / InGamma;
+    
+    InColor = clamp(InColor * InExposure, 0, 1) ;
+    InColor = pow(InColor, invGamma);
+
+    return InColor;
 }
 
 struct VSInput

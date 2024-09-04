@@ -1,21 +1,4 @@
-#include "../Cores/Core.hlsli"
-
-cbuffer MaterialPSBuffer : register(b0)
-{
-    Material Mat;
-};
-
-cbuffer ViewPixelBuffer : register(b1)
-{
-    float3 ViewPosition;
-    float Dummy;
-};
-
-cbuffer LightingPixelBuffer : register(b2)
-{
-    Light Lights[3];
-};
-
+#include "../Cores/MeshRenderPSCore.hlsli"
 
 Texture2D g_texture0 : register(t0);
 TextureCube SkyboxDiffuse : register(t1);
@@ -53,16 +36,8 @@ float4 main(PSInput input) : SV_TARGET
    
     float3 reflection = reflect(toViewDirection, input.Normal);
 
-    LightColor += SkyboxDiffuse.Sample(g_sampler, input.Normal) + SkyboxSpecular.Sample(g_sampler, normalize(reflection));
+    LightColor += (SkyboxDiffuse.Sample(g_sampler, input.Normal) + SkyboxSpecular.Sample(g_sampler, normalize(reflection))) * Mat.roughness;
     
-    //스카이 박스
-    
-    
-    //림처리
-    //float Dot = dot(toViewDirection, input.Normal);
-    //Dot = smoothstep(0.f, 1.f, 1.f - Dot);
-    //Dot = pow(abs(Dot), RimPow);
-    //LightColor += Dot * RimIntensity;
 
     return LightColor * textureColor;
 

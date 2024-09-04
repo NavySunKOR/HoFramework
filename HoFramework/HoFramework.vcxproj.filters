@@ -124,5 +124,6 @@
     <None Include="Shaders\Cores\Core.hlsli" />
     <None Include="Shaders\Cores\VSHeader.hlsli" />
     <None Include="Shaders\ImageFilters\Base\ImageFilterHeader.hlsli" />
+    <None Include="Shaders\Cores\MeshRenderPSCore.hlsli" />
   </ItemGroup>
 </Project>

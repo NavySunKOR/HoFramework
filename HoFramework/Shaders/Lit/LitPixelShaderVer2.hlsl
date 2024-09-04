@@ -1,20 +1,6 @@
-#include "../Cores/Core.hlsli"
+#include "../Cores/MeshRenderPSCore.hlsli"
 
-cbuffer MaterialPSBuffer : register(b0)
-{
-    Material Mat;
-};
 
-cbuffer ViewPixelBuffer : register(b1)
-{
-    float3 ViewPosition;
-    float Dummy;
-};
-
-cbuffer LightingPixelBuffer : register(b2)
-{
-    Light Lights[3];
-};
 
 
 Texture2D g_textureBaseColor : register(t0);
@@ -31,19 +17,9 @@ float4 main(PSInput input) : SV_TARGET
 {
     float3 toViewDirection = normalize(ViewPosition - input.WorldPosition);
     float4 textureColor = g_textureBaseColor.Sample(g_sampler, input.TexCoord);
-    float3 textureNormal = g_textureNormal.Sample(g_sampler, input.TexCoord) * 2.f - 1;
+    float3 textureNormal = g_textureNormal.Sample(g_sampler, input.TexCoord) ;
     
-    float3 N = input.Normal;
-    
-    //Normal 쪽에 프로젝션한 값을 탄젠트에 빼준다.
-    float3 T = normalize(input.Tangent - dot(input.Tangent, N) * N );
-    float3 B = cross(N, T);
-        
-    
-    float3x3 TBN = float3x3(T,B,N);
-    float3 newNormal = mul(textureNormal, TBN);
-    newNormal = normalize(newNormal);
-    input.Normal = newNormal;
+    input.Normal = RecalculateNormal(textureNormal, input.Normal, input.Tangent);
     
     
     float4 LightColor = float4(0, 0, 0, 1);
