@@ -115,6 +115,9 @@ void HBaseRenderingObject::UpdateInternal()
 		m_viewConstBufferData.UsingViewPosition = Vector3::Transform(Vector3(0.f, 0.f, 0.f), m_basicVertexConstBufferData.ViewTransform.Transpose().Invert());
 	}
 
+	m_viewConstBufferData.exposure = *m_ParentRenderModule->GetExposure();
+		m_viewConstBufferData.gamma = *m_ParentRenderModule->GetGamma();
+
 	HRenderingLibrary::UpdateConstantBuffer(m_basicVertexConstBufferData, m_basicVertexConstBuffer, m_ParentRenderModule->GetContext());
 	HRenderingLibrary::UpdateConstantBuffer(m_materialConstBufferData, m_materialConstBuffer, m_ParentRenderModule->GetContext());
 	HRenderingLibrary::UpdateConstantBuffer(m_viewConstBufferData, m_viewConstBuffer, m_ParentRenderModule->GetContext());

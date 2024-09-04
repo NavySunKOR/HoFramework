@@ -129,6 +129,16 @@ public:
 		return m_MainView;
 	}
 
+	inline float* GetGamma()
+	{
+		return &Gamma;
+	}
+
+	inline float* GetExposure()
+	{
+		return &Exposure;
+	}
+
 	ComPtr<ID3D11Buffer> m_LightPSConstantBuffer;
 	LightingPSConstantBuffer m_LightPSConstant;
 
@@ -166,6 +176,9 @@ protected:
 	//Camera
 	HCamera m_MainView;
 	std::vector<HCamera> m_Views;
+
+	float Gamma = 2.2f;
+	float Exposure = 1;
 
 
 #pragma endregion

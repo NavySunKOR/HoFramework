@@ -22,6 +22,14 @@ public:
 		return Keys[(int)pKeyCode];
 	}
 
+	bool GetKeyDown(WPARAM pKeyCode) 
+	{
+		const bool isKeyDown = Keys[(int)pKeyCode];
+		if (isKeyDown)
+			Keys[(int)pKeyCode] = false;
+		return isKeyDown;
+	}
+
 	inline Vector2 GetMousePositionNDC() const
 	{
 		return m_MouseNDCPos;

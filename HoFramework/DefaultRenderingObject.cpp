@@ -25,8 +25,8 @@ void HDefaultRenderingObject::Render()
 
 	if (UsingShaderResources.size() > 0)
 	{
-		ID3D11ShaderResourceView* Array[2] = { UsingShaderResources[0].Get(),UsingShaderResources[1].Get()};
-		context->PSSetShaderResources(0, UsingShaderResources.size(), Array);
+		ID3D11ShaderResourceView* Array[4] = { UsingShaderResources[0].Get(),UsingShaderResources[1].Get(),UsingShaderResources[2].Get(), UsingShaderResources[3].Get()};
+		context->PSSetShaderResources(0, 4, Array);
 	}
 	context->PSSetSamplers(0, 1, m_ParentRenderModule->GetSampler().GetAddressOf());
 
@@ -46,6 +46,18 @@ void HDefaultRenderingObject::SetExternalResource(vector<string> textureLocation
 		HRenderingLibrary::CreateTexture(device,context,textureLocations[i], Texture, SRV);
 		UsingTextures.push_back(Texture);
 		UsingShaderResources.push_back(SRV.Get());
+	}
+
+}
+
+
+
+//외부에 있는 텍스쳐를 이 메쉬에 적용되는 텍스쳐가 아니므로 따로 적용한다.
+void HDefaultRenderingObject::AddShaderResources(vector<ComPtr<ID3D11ShaderResourceView>> texturesToAdd)
+{
+	for (int i = 0; i < texturesToAdd.size(); ++i)
+	{
+		UsingShaderResources.push_back(texturesToAdd[i].Get());
 	}
 
 }

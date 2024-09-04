@@ -38,7 +38,9 @@ float4 main(PSInput input) : SV_TARGET
 
     LightColor += (SkyboxDiffuse.Sample(g_sampler, input.Normal) + SkyboxSpecular.Sample(g_sampler, normalize(reflection))) * Mat.roughness;
     
+    float4 Color = LightColor * textureColor;
+    Color = LinearToneMapping(Color, exposure, gamma);
 
-    return LightColor * textureColor;
+    return Color;
 
 }

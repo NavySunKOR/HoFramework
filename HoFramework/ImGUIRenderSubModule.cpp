@@ -81,6 +81,11 @@ void HImGUIRenderSubModule::Render()
 	ImGui::SliderFloat("Spot Light Falloff End ", &m_ParentRenderModule->m_LightPSConstant.Lights[2].FalloffEnd, 0.f, 20.f);
 	ImGui::SliderFloat("Spot Light Spot Factor ", &m_ParentRenderModule->m_LightPSConstant.Lights[2].SpotFactor, 0.f, 5.f);
 
+	float* gamma = m_ParentRenderModule->GetGamma();
+	float* exposure = m_ParentRenderModule->GetExposure();
+	ImGui::SliderFloat("Gamma ", gamma, 0.f, 10.f);
+	ImGui::SliderFloat("Exposure ", exposure, 0.f, 10.f);
+
 	ImGui::Checkbox("Wireframe", &m_ParentRenderModule->GetIsWireframe());
 
 	ImGui::End();

@@ -126,13 +126,13 @@ float3 RecalculateNormal(float3 InNormalMapValues, float3 InNormalWorld, float3 
     return newNormal;
 }
 
-float3 LinearToneMapping(float3 InColor,float InExposure, float InGamma)
+float4 LinearToneMapping(float4 InColor,float InExposure, float InGamma)
 {
-    float3 invGamma = float3(1.f,1.f,1.f) / InGamma;
-    
+    float4 invGamma = float4(1.f,1.f,1.f,1.f) / InGamma;
     InColor = clamp(InColor * InExposure, 0, 1) ;
     InColor = pow(InColor, invGamma);
 
+    InColor.a = 1.f;
     return InColor;
 }
 

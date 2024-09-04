@@ -51,6 +51,8 @@ bool HCustomRenderModule::Initialize(Application* pAppContext)
 	Resources.push_back(string("./skybox/clearSky/CloudCommons_specularIBL.dds"));*/
 
 	SphereObject->SetExternalResource(Resources);
+	std::vector<ComPtr<ID3D11ShaderResourceView>> Skyboxes = { SkyBoxObject->GetSkyboxDiffuse(),SkyBoxObject->GetSkyboxSpecular() };
+	SphereObject->AddShaderResources(Skyboxes);
 	SphereObject->ApplyMesh(EPrimitiveType::Sphere);
 	SphereObject->SetVertexShader(L"./Shaders/Lit/LitVertexShader.hlsl", "main");
 	SphereObject->SetPixelShader(L"./Shaders/Lit/LitPixelShaderVer2.hlsl", "main");
@@ -66,6 +68,9 @@ bool HCustomRenderModule::Initialize(Application* pAppContext)
 	SkyBoxObject->Initialize();
 
 	m_LightPSConstant.Lights[0].LightIntensity = 2.f;
+	
+	Gamma = 2.2f;
+	Exposure = 1.f;
 
 	for (size_t i = 0; i < RenderingObjects.size(); ++i)
 	{
@@ -173,8 +178,10 @@ void HCustomRenderModule::UpdateInput()
 
 
 
-	if (Input.GetKey(KeyF))
+	if (Input.GetKeyDown(KeyF))
+	{
 		m_MoveFPP = !m_MoveFPP;
+	}
 
 	if(Input.GetKey(KeyW) && m_MoveFPP)
 		m_MainView.Translate(m_MainView.GetForward() * 0.016f * 10.f);
