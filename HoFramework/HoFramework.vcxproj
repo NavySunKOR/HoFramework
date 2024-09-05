@@ -145,6 +145,7 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
     </None>
     <None Include="Shaders\Cores\MeshRenderPSCore.hlsli" />
+    <None Include="Shaders\Cores\SkyboxRenderPSCore.hlsli" />
     <None Include="Shaders\Cores\VSHeader.hlsli" />
     <None Include="Shaders\ImageFilters\Base\ImageFilterHeader.hlsli" />
   </ItemGroup>

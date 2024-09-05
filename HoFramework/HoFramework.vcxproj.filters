@@ -125,5 +125,6 @@
     <None Include="Shaders\Cores\VSHeader.hlsli" />
     <None Include="Shaders\ImageFilters\Base\ImageFilterHeader.hlsli" />
     <None Include="Shaders\Cores\MeshRenderPSCore.hlsli" />
+    <None Include="Shaders\Cores\SkyboxRenderPSCore.hlsli" />
   </ItemGroup>
 </Project>
