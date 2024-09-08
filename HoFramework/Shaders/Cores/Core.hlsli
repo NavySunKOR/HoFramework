@@ -16,6 +16,8 @@ struct Light
 };
 
 
+//TODO : albedo,metalic,fresnel0,shiness 추가 
+//Shiness는 Roughness의 Inverse로도 대체할 수는 있었으나, 그러기엔 1 이상의 값이 필요 할 경우가 생겨서 아예 별도 추가.
 struct Material
 {
     float3 ambient;
@@ -36,6 +38,7 @@ float GetFallOffAttenutation(float CurrentValue, float InFalloffStart, float InF
     return saturate((InFalloffEnd - CurrentValue) / (InFalloffEnd - InFalloffStart));
 }
 
+//
 float3 BlinnPhongModel(float3 pLightDir, float3 pToViewDirection, float3 pNormalVector, float pLightIntensity, Material pMat)
 {
     float3 halfWay = normalize(pToViewDirection + pLightDir);
@@ -43,6 +46,36 @@ float3 BlinnPhongModel(float3 pLightDir, float3 pToViewDirection, float3 pNormal
     float specular = pMat.specular * pow(max(hdotN, 0.f), pMat.roughness);
     
     return pMat.ambient + (pMat.diffuse + specular) * pLightIntensity;
+}
+
+
+//InRadiance는 포인트라이트 계열에만 동작함. 아닌경우 1,1,1 이다.
+float4 PBR(float3 InLightVec, float3 InPixelToViewVector, Material inMat, float3 InRadiance)
+{
+    float4 DiffuseBRDF = float4(1.f, 1.f, 1.f, 1.f);
+    float4 SpecularBRDF = float4(1.f, 1.f, 1.f, 1.f);
+    
+    //float3 halfway = normalize(pixelToEye + lightVec);
+        
+    //float NdotI = max(0.0, dot(normalWorld, lightVec));
+    //float NdotH = max(0.0, dot(normalWorld, halfway));
+    //float NdotO = max(0.0, dot(normalWorld, pixelToEye));
+        
+    //const float3 Fdielectric = 0.04; // 비금속(Dielectric) 재질의 F0
+    //float3 F0 = lerp(Fdielectric, albedo, metallic);
+    //float3 F = SchlickFresnel(F0, max(0.0, dot(halfway, pixelToEye)));
+    //float3 kd = lerp(float3(1, 1, 1) - F, float3(0, 0, 0), metallic);
+    //float3 diffuseBRDF = kd * albedo;
+
+    //float D = NdfGGX(NdotH, roughness);
+    //float3 G = SchlickGGX(NdotI, NdotO, roughness);
+        
+    //    // 방정식 (2), 0으로 나누기 방지
+    //float3 specularBRDF = (F * D * G) / max(1e-5, 4.0 * NdotI * NdotO);
+
+    //float3 radiance = light[i].radiance * saturate((light[i].fallOffEnd - length(lightVec)) / (light[i].fallOffEnd - light[i].fallOffStart));
+    
+    return float4(1, 1, 1, 1);
 }
 
 float3 ComputeDirectionalLight(Light pLight, float3 pToViewDirection, float3 pNormalVector, Material pMat)
