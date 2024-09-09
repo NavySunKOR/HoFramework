@@ -25,27 +25,27 @@ struct Material
 {
     float ambientStrength;
     float roughness;
-    float Dummy1;
-    float Dummy2;
-
-    float3 fresnelR0;
     float metalic;
-
-    float3 specular;
     float shiness;
 
+    float3 fresnelR0;
+    float Dummy1;
+    
+
+    float3 specular;
+    float Dummy2;
+    
     bool useAlbedoMap;
     bool useNormalMap;
     bool useHeightMap;
     bool useAmbientOcclusionMap;
-
+    
     bool useMetallicMap;
     bool useRoughnessMap;
     bool useIBL;
-    bool Dummy3;
-
     uint shadingModel; // 0 : PBR, 1 : Blinn Phong
-
+    
+    bool Dummy3;
     float Dummy4;
 };
 
@@ -110,8 +110,8 @@ float3 ComputeDirectionalLight(Light pLight, float3 pToViewDirection, float3 pNo
     float3 LightVec = -pLight.LightDir;
     float AppliedIntensity = pLight.LightIntensity * max(dot(LightVec, pNormalVector), 0.f);
     
-    float Ambient = pMat.ambientStrength;
-    float Diffuse = max(dot(pNormalVector, LightVec), 0.0);
+    float Ambient = pMat.ambientStrength * AppliedIntensity;
+    float Diffuse = max(dot(pNormalVector, LightVec), 0.0) * AppliedIntensity;
     float Specular = BRDFSpecularBlinnPhong(LightVec, pToViewDirection, pNormalVector, AppliedIntensity, pMat);
     
     return PhongEquation(Ambient, Diffuse, Specular,pLight.LightColor);
@@ -132,8 +132,8 @@ float3 ComputePointLight(Light pLight, float3 pObjectPos,float3 pToViewDirection
     float AppliedIntensity = pLight.LightIntensity * max(dot(LightVec, pNormalVector), 0.f) * Attenutation;
     
     
-    float Ambient = pMat.ambientStrength;
-    float Diffuse = max(dot(pNormalVector, LightVec), 0.0);
+    float Ambient = pMat.ambientStrength * AppliedIntensity;
+    float Diffuse = max(dot(pNormalVector, LightVec), 0.0) * AppliedIntensity;
     float Specular = BRDFSpecularBlinnPhong(LightVec, pToViewDirection, pNormalVector, AppliedIntensity, pMat);
     
     
@@ -157,8 +157,8 @@ float3 ComputeSpotLight(Light pLight, float3 pObjectPos, float3 pToViewDirection
     
     float AppliedIntensity = pLight.LightIntensity * max(dot(LightVec, pNormalVector), 0.f) * Attenutation * SpotFactor;
     
-    float Ambient = pMat.ambientStrength;
-    float Diffuse = max(dot(pNormalVector, LightVec), 0.0);
+    float Ambient = pMat.ambientStrength * AppliedIntensity;
+    float Diffuse = max(dot(pNormalVector, LightVec), 0.0) * AppliedIntensity;
     float Specular = BRDFSpecularBlinnPhong(LightVec, pToViewDirection, pNormalVector, AppliedIntensity, pMat);
     
     return PhongEquation(Ambient, Diffuse, Specular, pLight.LightColor);
