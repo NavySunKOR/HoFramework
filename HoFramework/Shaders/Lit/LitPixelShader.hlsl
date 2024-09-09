@@ -1,17 +1,25 @@
 #include "../Cores/MeshRenderPSCore.hlsli"
 
 
+
 float4 main(PSInput input) : SV_TARGET
 {
     float3 toViewDirection = normalize(ViewPosition - input.WorldPosition);
-    
-    
     float4 textureColor = float4(1.f, 1.f, 1.f, 1.f);
     
-    if(Mat.useAlbedoMap)
+    
+    
+    if (Mat.useAlbedoMap)
         textureColor = g_textureAlbedo.Sample(g_sampler, input.TexCoord);
     else
         textureColor = float4(Mat.albedo, 1.f);
+    
+    if(Mat.useNormalMap)
+    {
+        float3 textureNormal = g_textureNormal.Sample(g_sampler, input.TexCoord);
+        input.Normal = RecalculateNormal(textureNormal, input.Normal, input.Tangent);
+    }
+    
     
     float4 LightColor = float4(0, 0, 0, 1);
     
@@ -31,14 +39,15 @@ float4 main(PSInput input) : SV_TARGET
         LightColor += float4(ComputeSpotLight(Lights[2], input.WorldPosition, toViewDirection, input.Normal, Mat), 1.f);
     }
     
-   
-    float3 reflection = reflect(toViewDirection, input.Normal);
 
-    LightColor += (SkyboxDiffuse.Sample(g_sampler, input.Normal) + SkyboxSpecular.Sample(g_sampler, normalize(reflection))) * Mat.roughness;
+    if (Mat.useIBL)
+    {
+        float3 reflection = reflect(toViewDirection, input.Normal);
+        LightColor += (SkyboxDiffuse.Sample(g_sampler, input.Normal) + SkyboxSpecular.Sample(g_sampler, normalize(reflection))) * Mat.roughness;
+    }
     
     float4 Color = LightColor * textureColor;
     Color = LinearToneMapping(Color, exposure, gamma);
-
     return Color;
 
 }

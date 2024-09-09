@@ -35,7 +35,7 @@ bool HCustomRenderModule::Initialize(Application* pAppContext)
 	std::shared_ptr<HFBXRenderingObject> ZeldaObject = std::make_shared<HFBXRenderingObject>(this);
 	ZeldaObject->ApplyMesh("./Meshes/zeldaPosed001/", "zeldaPosed001.fbx");
 	ZeldaObject->SetVertexShader(L"./Shaders/Lit/LitVertexShader.hlsl", "main");
-	ZeldaObject->SetPixelShader(L"./Shaders/Lit/LitPixelShaderVer2.hlsl", "main");
+	ZeldaObject->SetPixelShader(L"./Shaders/Lit/LitPixelShader.hlsl", "main");
 	ZeldaObject->Scale(Vector3(0.01f, 0.01f, 0.01f));
 	ZeldaObject->Translate(Vector3(0.f, -1.f, 0.f));
 
@@ -52,7 +52,7 @@ bool HCustomRenderModule::Initialize(Application* pAppContext)
 	SphereObject->SetExternalResource(0, EModelTexture2DType::Normal, string("./SampleTexture/brick-wall/brick-wall_normal-dx.png"));
 	SphereObject->SetSkyboxSRVs(SkyBoxObject->GetSkyboxDiffuse(), SkyBoxObject->GetSkyboxSpecular());
 	SphereObject->SetVertexShader(L"./Shaders/Lit/LitVertexShader.hlsl", "main");
-	SphereObject->SetPixelShader(L"./Shaders/Lit/LitPixelShaderVer2.hlsl", "main");
+	SphereObject->SetPixelShader(L"./Shaders/Lit/LitPixelShader.hlsl", "main");
 	SphereObject->Scale(Vector3(1.f, 1.f, 1.f));
 	SphereObject->Translate(Vector3(0.f, -1.f, -2.f));
 
