@@ -62,19 +62,24 @@ struct Light
 
 	float Dummy1;
 	float Dummy2;
+
+	Vector3 LightColor = Vector3(0.75f,0.2f,0.1f);
+	float Dummy3;
 };
 
 //48
 struct Material
 {
-	Vector3 Albedo = Vector3(0.1f, 0.1f, 0.1f);
+	float AmbientStrength = 0.1f;
 	float Roughness = 0.f;
+	float Dummy1 = 0.f;
+	float Dummy2 = 0.f;
 
 	Vector3 FresnelR0 = Vector3(0.4f,0.4f,0.4f);
 	float Metalic = 0.f;
 
 	Vector3 Specular = Vector3(0.5f, 0.5f, 0.5f);
-	float Shiness = 1.f;
+	float Shiness = 3.f;
 
 	bool UseAlbedoMap;
 	bool UseNormalMap;
@@ -84,11 +89,12 @@ struct Material
 	bool UseMetallicMap;
 	bool UseRoughnessMap;
 	bool UseIBL;
+	bool Dummy3;
 
 	uint8_t ShadingModel = 0; // 0 : PBR, 1 : Blinn Phong
 
-	float Dummy1;
-	float Dummy2;
+	float Dummy4 = 0.f;
+
 };
 
 

@@ -13,6 +13,9 @@ struct Light
     float SpotFactor; 
     float Dummy1;
     float Dummy2;
+    
+    float3 LightColor;
+    float Dummy3;
 };
 
 
@@ -20,28 +23,30 @@ struct Light
 //Shiness는 Roughness의 Inverse로도 대체할 수는 있었으나, 그러기엔 1 이상의 값이 필요 할 경우가 생겨서 아예 별도 추가.
 struct Material
 {
-    float3 albedo;
+    float ambientStrength;
     float roughness;
-    
-    float3 fresnelR0;
-    float metalic;
-    
-    float3 specular;
-    float shiness;
-    
-    bool useAlbedoMap; 
-    bool useNormalMap; 
-    bool useHeightMap; 
-    bool useAmbientOcclusionMap;
-    
-    bool useMetallicMap; 
-    bool useRoughnessMap;
-    bool useIBL;
-    
-    uint shadingModel;
-    
     float Dummy1;
     float Dummy2;
+
+    float3 fresnelR0;
+    float metalic;
+
+    float3 specular;
+    float shiness;
+
+    bool useAlbedoMap;
+    bool useNormalMap;
+    bool useHeightMap;
+    bool useAmbientOcclusionMap;
+
+    bool useMetallicMap;
+    bool useRoughnessMap;
+    bool useIBL;
+    bool Dummy3;
+
+    uint shadingModel; // 0 : PBR, 1 : Blinn Phong
+
+    float Dummy4;
 };
 
 
@@ -56,14 +61,13 @@ float GetFallOffAttenutation(float CurrentValue, float InFalloffStart, float InF
 }
 
 //
-float3 BlinnPhongModel(float3 pLightDir, float3 pToViewDirection, float3 pNormalVector, float pLightIntensity, Material pMat)
+float BRDFSpecularBlinnPhong(float3 pLightDir, float3 pToViewDirection, float3 pNormalVector, float pLightIntensity, Material pMat)
 {
     float3 halfWay = normalize(pToViewDirection + pLightDir);
     float hdotN = dot(halfWay, pNormalVector);
-    float specular = pMat.specular * pow(max(hdotN, 0.f), pMat.roughness);
+    float specular = pow(max(hdotN, 0.f), pMat.shiness); //Specular 에서 라이트 컬러로 변경
     
-    return float3(0.1f, 0.1f, 0.1f) + 
-    (pMat.albedo + specular * pLightIntensity);
+    return specular * pLightIntensity;
 }
 
 
@@ -96,11 +100,21 @@ float4 PBR(float3 InLightVec, float3 InPixelToViewVector, Material inMat, float3
     return float4(1, 1, 1, 1);
 }
 
+float3 PhongEquation(float ambient, float diffuse, float specular, float3 lightColor)
+{
+    return (ambient + diffuse + specular) * lightColor;
+}
+
 float3 ComputeDirectionalLight(Light pLight, float3 pToViewDirection, float3 pNormalVector, Material pMat)
 {
     float3 LightVec = -pLight.LightDir;
     float AppliedIntensity = pLight.LightIntensity * max(dot(LightVec, pNormalVector), 0.f);
-    return BlinnPhongModel(LightVec, pToViewDirection, pNormalVector, AppliedIntensity, pMat);
+    
+    float Ambient = pMat.ambientStrength;
+    float Diffuse = max(dot(pNormalVector, LightVec), 0.0);
+    float Specular = BRDFSpecularBlinnPhong(LightVec, pToViewDirection, pNormalVector, AppliedIntensity, pMat);
+    
+    return PhongEquation(Ambient, Diffuse, Specular,pLight.LightColor);
 }
 
 float3 ComputePointLight(Light pLight, float3 pObjectPos,float3 pToViewDirection, float3 pNormalVector, Material pMat)
@@ -116,7 +130,14 @@ float3 ComputePointLight(Light pLight, float3 pObjectPos,float3 pToViewDirection
     float Attenutation = GetFallOffAttenutation(D, pLight.FalloffStart, pLight.FalloffEnd);
     
     float AppliedIntensity = pLight.LightIntensity * max(dot(LightVec, pNormalVector), 0.f) * Attenutation;
-    return BlinnPhongModel(LightVec, pToViewDirection, pNormalVector, AppliedIntensity, pMat);
+    
+    
+    float Ambient = pMat.ambientStrength;
+    float Diffuse = max(dot(pNormalVector, LightVec), 0.0);
+    float Specular = BRDFSpecularBlinnPhong(LightVec, pToViewDirection, pNormalVector, AppliedIntensity, pMat);
+    
+    
+    return PhongEquation(Ambient, Diffuse, Specular, pLight.LightColor);
 }
 
 float3 ComputeSpotLight(Light pLight, float3 pObjectPos, float3 pToViewDirection, float3 pNormalVector, Material pMat)
@@ -135,7 +156,12 @@ float3 ComputeSpotLight(Light pLight, float3 pObjectPos, float3 pToViewDirection
     float SpotFactor = pow(max(dot(-LightVec, pLight.LightDir), 0.f), pLight.SpotFactor);
     
     float AppliedIntensity = pLight.LightIntensity * max(dot(LightVec, pNormalVector), 0.f) * Attenutation * SpotFactor;
-    return BlinnPhongModel(LightVec, pToViewDirection, pNormalVector, AppliedIntensity, pMat);
+    
+    float Ambient = pMat.ambientStrength;
+    float Diffuse = max(dot(pNormalVector, LightVec), 0.0);
+    float Specular = BRDFSpecularBlinnPhong(LightVec, pToViewDirection, pNormalVector, AppliedIntensity, pMat);
+    
+    return PhongEquation(Ambient, Diffuse, Specular, pLight.LightColor);
 }
 
 // Schlick approximation: Eq. 9.17 in "Real-Time Rendering 4th Ed."

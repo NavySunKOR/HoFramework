@@ -7,12 +7,10 @@ float4 main(PSInput input) : SV_TARGET
     float3 toViewDirection = normalize(ViewPosition - input.WorldPosition);
     float4 textureColor = float4(1.f, 1.f, 1.f, 1.f);
     
-    
-    
     if (Mat.useAlbedoMap)
         textureColor = g_textureAlbedo.Sample(g_sampler, input.TexCoord);
     else
-        textureColor = float4(Mat.albedo, 1.f);
+        textureColor = float4(1.f,1.f,1.f, 1.f); //TODO : 나중에 Custom base color 넣기.
     
     if(Mat.useNormalMap)
     {
