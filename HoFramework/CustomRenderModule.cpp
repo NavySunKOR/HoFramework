@@ -35,10 +35,9 @@ bool HCustomRenderModule::Initialize(Application* pAppContext)
 	std::shared_ptr<HFBXRenderingObject> ZeldaObject = std::make_shared<HFBXRenderingObject>(this);
 	ZeldaObject->ApplyMesh("./Meshes/zeldaPosed001/", "zeldaPosed001.fbx");
 	ZeldaObject->SetVertexShader(L"./Shaders/Lit/LitVertexShader.hlsl", "main");
-	ZeldaObject->SetPixelShader(L"./Shaders/Lit/LitPixelShader.hlsl", "main");
+	ZeldaObject->SetPixelShader(L"./Shaders/Lit/LitPixelShaderVer2.hlsl", "main");
 	ZeldaObject->Scale(Vector3(0.01f, 0.01f, 0.01f));
 	ZeldaObject->Translate(Vector3(0.f, -1.f, 0.f));
-	ZeldaObject->GetMaterialPSConstBuffer()->Mat.Roughness = 0.f;
 
 
 	std::shared_ptr<HDefaultRenderingObject> SphereObject = std::make_shared<HDefaultRenderingObject>(this);
@@ -47,13 +46,11 @@ bool HCustomRenderModule::Initialize(Application* pAppContext)
 	Resources.reserve(2);
 	Resources.push_back(string("./SampleTexture/brick-wall/brick-wall_albedo.png"));
 	Resources.push_back(string("./SampleTexture/brick-wall/brick-wall_normal-dx.png"));
-	/*Resources.push_back(string("./skybox/clearSky/CloudCommon_diffuseIBL.dds"));
-	Resources.push_back(string("./skybox/clearSky/CloudCommons_specularIBL.dds"));*/
 
-	SphereObject->SetExternalResource(Resources);
-	std::vector<ComPtr<ID3D11ShaderResourceView>> Skyboxes = { SkyBoxObject->GetSkyboxDiffuse(),SkyBoxObject->GetSkyboxSpecular() };
-	SphereObject->AddShaderResources(Skyboxes);
 	SphereObject->ApplyMesh(EPrimitiveType::Sphere);
+	SphereObject->SetExternalResource(0, EModelTexture2DType::Albedo, string("./SampleTexture/brick-wall/brick-wall_albedo.png"));
+	SphereObject->SetExternalResource(0, EModelTexture2DType::Normal, string("./SampleTexture/brick-wall/brick-wall_normal-dx.png"));
+	SphereObject->SetSkyboxSRVs(SkyBoxObject->GetSkyboxDiffuse(), SkyBoxObject->GetSkyboxSpecular());
 	SphereObject->SetVertexShader(L"./Shaders/Lit/LitVertexShader.hlsl", "main");
 	SphereObject->SetPixelShader(L"./Shaders/Lit/LitPixelShaderVer2.hlsl", "main");
 	SphereObject->Scale(Vector3(1.f, 1.f, 1.f));

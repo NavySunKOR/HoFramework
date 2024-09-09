@@ -20,3 +20,22 @@ cbuffer LightingPixelBuffer : register(b2)
 {
     Light Lights[3];
 };
+
+
+
+
+Texture2D g_textureAlbedo : register(t0);
+Texture2D g_textureNormal : register(t1);
+Texture2D g_textureHeightMap : register(t2);
+Texture2D g_textureAmbientOcclusion : register(t3);
+Texture2D g_textureMetallic : register(t4);
+Texture2D g_textureRoughness : register(t5);
+TextureCube SkyboxDiffuse : register(t6);
+TextureCube SkyboxSpecular : register(t7);
+
+
+SamplerState g_sampler : register(s0);
+
+
+static const int NUM_POINT_LIGHT = 1;
+static const int NUM_SPOTLIGHT = 1;

@@ -18,11 +18,29 @@ void HSkyBoxRenderingObject::Update()
 
 void HSkyBoxRenderingObject::Render()
 {
+	UINT stride = sizeof(Vertex);
+	UINT offset = 0;
 	ComPtr<ID3D11DeviceContext> Context = m_ParentRenderModule->GetContext();
 	ID3D11ShaderResourceView* resources[1] = { m_SkyboxSpecularResourceView.Get()};
 	Context->PSSetShaderResources(0, 1, resources);
 	Context->PSSetSamplers(0, 1, m_ParentRenderModule->GetSampler().GetAddressOf());
-	RenderInternal();
+
+
+	Context->IASetInputLayout(m_vertexInputLayout.Get());
+	Context->IASetVertexBuffers(0, 1, m_meshObjects[0].vertexBuffer.GetAddressOf(), &stride, &offset);
+	Context->IASetIndexBuffer(m_meshObjects[0].indexBuffer.Get(), DXGI_FORMAT_R32_UINT, 0);
+	Context->IASetPrimitiveTopology(PrimitiveTopology);
+
+	// 어떤 쉐이더를 사용할지 설정
+	Context->VSSetShader(m_vertexShader.Get(), 0, 0);
+	Context->VSSetConstantBuffers(0, 1, m_meshObjects[0].vertexConstantBuffer.GetAddressOf());
+	Context->PSSetShader(m_pixelShader.Get(), 0, 0);
+
+
+	Context->PSSetConstantBuffers(0, 1, m_meshObjects[0].materialPSConstantBuffer.GetAddressOf());
+	Context->PSSetConstantBuffers(1, 1, m_viewConstBuffer.GetAddressOf());
+	Context->PSSetConstantBuffers(2, 1, m_ParentRenderModule->m_LightPSConstantBuffer.GetAddressOf());
+	Context->DrawIndexed((UINT)m_meshObjects[0].mesh.indices.size(), 0, 0);
 }
 
 void HSkyBoxRenderingObject::SetSkyboxResources(LPCWSTR InDiffuseDDSLoc, LPCWSTR InSpecularDDSLoc)

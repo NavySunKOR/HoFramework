@@ -1,19 +1,17 @@
 #include "../Cores/MeshRenderPSCore.hlsli"
 
-Texture2D g_texture0 : register(t0);
-TextureCube SkyboxDiffuse : register(t1);
-TextureCube SkyboxSpecular : register(t2);
-SamplerState g_sampler : register(s0);
-
-static const int NUM_POINT_LIGHT = 1;
-static const int NUM_SPOTLIGHT = 1;
-
 
 float4 main(PSInput input) : SV_TARGET
 {
     float3 toViewDirection = normalize(ViewPosition - input.WorldPosition);
-    float4 textureColor = g_texture0.Sample(g_sampler, input.TexCoord);
-
+    
+    
+    float4 textureColor = float4(1.f, 1.f, 1.f, 1.f);
+    
+    if(Mat.useAlbedoMap)
+        textureColor = g_textureAlbedo.Sample(g_sampler, input.TexCoord);
+    else
+        textureColor = float4(Mat.albedo, 1.f);
     
     float4 LightColor = float4(0, 0, 0, 1);
     

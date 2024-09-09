@@ -939,8 +939,45 @@ Mesh HRenderingLibrary::ProcessAIMesh(aiMesh* InAIMesh, const aiScene* InScene, 
 			aiString filepath;
 			material->GetTexture(aiTextureType_DIFFUSE, 0, &filepath);
 			
-			NewMesh.textureSourceName = InDir + filesystem::path(filepath.C_Str()).filename().string();
+			NewMesh.textureNames[EModelTexture2DType::Albedo] = InDir + filesystem::path(filepath.C_Str()).filename().string();
 		}
+
+		if (material->GetTextureCount(aiTextureType_NORMALS) > 0) {
+			aiString filepath;
+			material->GetTexture(aiTextureType_NORMALS, 0, &filepath);
+
+			NewMesh.textureNames[EModelTexture2DType::Normal] = InDir + filesystem::path(filepath.C_Str()).filename().string();
+		}
+
+		if (material->GetTextureCount(aiTextureType_HEIGHT) > 0) {
+			aiString filepath;
+			material->GetTexture(aiTextureType_HEIGHT, 0, &filepath);
+
+			NewMesh.textureNames[EModelTexture2DType::Height] = InDir + filesystem::path(filepath.C_Str()).filename().string();
+		}
+
+		if (material->GetTextureCount(aiTextureType_AMBIENT_OCCLUSION) > 0) {
+			aiString filepath;
+			material->GetTexture(aiTextureType_AMBIENT_OCCLUSION, 0, &filepath);
+
+			NewMesh.textureNames[EModelTexture2DType::AmbientOcclusion] = InDir + filesystem::path(filepath.C_Str()).filename().string();
+		}
+
+		if (material->GetTextureCount(aiTextureType_METALNESS) > 0) {
+			aiString filepath;
+			material->GetTexture(aiTextureType_METALNESS, 0, &filepath);
+
+			NewMesh.textureNames[EModelTexture2DType::Metallic] = InDir + filesystem::path(filepath.C_Str()).filename().string();
+		}
+
+
+		if (material->GetTextureCount(aiTextureType_DIFFUSE_ROUGHNESS) > 0) {
+			aiString filepath;
+			material->GetTexture(aiTextureType_DIFFUSE_ROUGHNESS, 0, &filepath);
+
+			NewMesh.textureNames[EModelTexture2DType::Roughness] = InDir + filesystem::path(filepath.C_Str()).filename().string();
+		}
+
 	}
 	return NewMesh;
 }

@@ -65,6 +65,24 @@ void HBaseRenderingObject::ApplyMesh(const LPCSTR InDirName, const LPCSTR InFile
 	}
 }
 
+void HBaseRenderingObject::SetExternalResource(int InApplyMeshIndex, EModelTexture2DType InTextureType, string textureLocation)
+{
+	m_meshObjects[InApplyMeshIndex].mesh.textureNames[(int)InTextureType] = textureLocation;
+}
+
+void HBaseRenderingObject::SetSkyboxSRVs(ComPtr<ID3D11ShaderResourceView> InDiffuse, ComPtr<ID3D11ShaderResourceView> InSpecular)
+{
+	IBLSRVs[0] = InDiffuse;
+	IBLSRVs[1] = InSpecular;
+
+
+	for (int i = 0; i < m_meshObjects.size(); ++i)
+	{
+		if (IBLSRVs[0].Get() && IBLSRVs[1].Get())
+			m_meshObjects[i].materialPSConstantData.Mat.UseIBL = true;
+	}
+}
+
 void HBaseRenderingObject::InitializeInternal()
 {
 	ComPtr<ID3D11Device>& device = m_ParentRenderModule->GetDevice();
@@ -74,7 +92,8 @@ void HBaseRenderingObject::InitializeInternal()
 	HRenderingLibrary::CreateConstantBuffer<BasicVSConstantBuffer>(device, m_basicVertexConstBufferData, m_basicVertexConstBuffer);
 
 	//Constant Buffers
-	HRenderingLibrary::CreateConstantBuffer<MaterialPSConstantBuffer>(device, m_materialConstBufferData, m_materialConstBuffer);
+	MaterialPSConstantBuffer emptyData;
+	HRenderingLibrary::CreateConstantBuffer<MaterialPSConstantBuffer>(device, emptyData, m_materialConstBuffer);
 
 
 	HRenderingLibrary::CreateConstantBuffer<ViewPSConstantBuffer>(device, m_viewConstBufferData, m_viewConstBuffer);
@@ -91,9 +110,40 @@ void HBaseRenderingObject::InitializeInternal()
 		m_meshObjects[i].vertexConstantBuffer = m_basicVertexConstBuffer;
 		m_meshObjects[i].materialPSConstantBuffer = m_materialConstBuffer;
 
- 		if (m_meshObjects[i].mesh.textureSourceName.length() > 0)
-			HRenderingLibrary::CreateTexture(device,context, m_meshObjects[i].mesh.textureSourceName, m_meshObjects[i].texture, m_meshObjects[i].textureResourceView);
-
+		for (int j = 0; j < 6; ++j)
+		{
+			if (m_meshObjects[i].mesh.textureNames[j].size() > 0)
+			{
+				HRenderingLibrary::CreateTexture(device, context, m_meshObjects[i].mesh.textureNames[j], m_meshObjects[i].textures[j], m_meshObjects[i].textureResourceViews[j]);
+				
+				switch (j)
+				{
+					case EModelTexture2DType::Albedo:
+						m_meshObjects[i].materialPSConstantData.Mat.UseAlbedoMap = true;
+						break;
+					case EModelTexture2DType::Normal: 
+						m_meshObjects[i].materialPSConstantData.Mat.UseNormalMap = true;
+						break;
+					case EModelTexture2DType::Height:
+						m_meshObjects[i].materialPSConstantData.Mat.UseHeightMap = true;
+						break;
+					case EModelTexture2DType::AmbientOcclusion:
+						m_meshObjects[i].materialPSConstantData.Mat.UseAmbientOcclusionMap = true;
+						break;
+					case EModelTexture2DType::Roughness:
+						m_meshObjects[i].materialPSConstantData.Mat.UseRoughnessMap = true;
+						break;
+					case EModelTexture2DType::Metallic: 
+						m_meshObjects[i].materialPSConstantData.Mat.UseMetallicMap = true;
+						break;
+					default:
+						cout << "No texture define" << endl;
+					break;
+				}
+				
+			}
+				
+		}
 	}
 
 }
@@ -116,10 +166,9 @@ void HBaseRenderingObject::UpdateInternal()
 	}
 
 	m_viewConstBufferData.exposure = *m_ParentRenderModule->GetExposure();
-		m_viewConstBufferData.gamma = *m_ParentRenderModule->GetGamma();
+	m_viewConstBufferData.gamma = *m_ParentRenderModule->GetGamma();
 
 	HRenderingLibrary::UpdateConstantBuffer(m_basicVertexConstBufferData, m_basicVertexConstBuffer, m_ParentRenderModule->GetContext());
-	HRenderingLibrary::UpdateConstantBuffer(m_materialConstBufferData, m_materialConstBuffer, m_ParentRenderModule->GetContext());
 	HRenderingLibrary::UpdateConstantBuffer(m_viewConstBufferData, m_viewConstBuffer, m_ParentRenderModule->GetContext());
 
 }
@@ -135,16 +184,21 @@ void HBaseRenderingObject::RenderInternal()
 		context->IASetIndexBuffer(meshObj.indexBuffer.Get(), DXGI_FORMAT_R32_UINT, 0);
 		context->IASetPrimitiveTopology(PrimitiveTopology);
 
+
+		HRenderingLibrary::UpdateConstantBuffer(meshObj.materialPSConstantData, m_materialConstBuffer, m_ParentRenderModule->GetContext());
+
 		// 어떤 쉐이더를 사용할지 설정
 		context->VSSetShader(m_vertexShader.Get(), 0, 0);
 		context->VSSetConstantBuffers(0, 1, meshObj.vertexConstantBuffer.GetAddressOf());
 		context->PSSetShader(m_pixelShader.Get(), 0, 0);
 
-		if (meshObj.textureResourceView.Get())
-		{
-			ID3D11ShaderResourceView* pixelResources[1] = { meshObj.textureResourceView.Get() };
-			context->PSSetShaderResources(0, 1, pixelResources);
-		}
+		ID3D11ShaderResourceView* pixelResources[8] = 
+		{ meshObj.textureResourceViews[0].Get() ,meshObj.textureResourceViews[1].Get() ,meshObj.textureResourceViews[2].Get(), 
+		  meshObj.textureResourceViews[3].Get() ,meshObj.textureResourceViews[4].Get() ,meshObj.textureResourceViews[5].Get(),
+		  IBLSRVs[0].Get(),IBLSRVs[1].Get()
+		};
+
+		context->PSSetShaderResources(0, 8, pixelResources);
 
 		context->PSSetConstantBuffers(0, 1, meshObj.materialPSConstantBuffer.GetAddressOf());
 		context->PSSetConstantBuffers(1, 1, m_viewConstBuffer.GetAddressOf());

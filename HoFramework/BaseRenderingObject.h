@@ -28,7 +28,6 @@ public:
 
 	inline vector<MeshObject>* GetDrawingMeshes() { return &m_meshObjects; };
 	inline BasicVSConstantBuffer* GetVSConstBuffer(){return &m_basicVertexConstBufferData;}
-	inline MaterialPSConstantBuffer* GetMaterialPSConstBuffer() { return &m_materialConstBufferData; }
 
 	void SetVertexShader(const LPCWSTR InShaderLoc, const LPCSTR InShaderMainName);
 	void SetPixelShader(const LPCWSTR InShaderLoc, const LPCSTR InShaderMainName);
@@ -41,6 +40,11 @@ public:
 
 	//경로로 로드 하고 싶다면 이걸 사용하면 된다.
 	void ApplyMesh(const LPCSTR InDirName,  const LPCSTR InFileName);
+
+
+	//보통 메쉬가 하나 뿐일 때 사용한다.
+	void SetExternalResource(int InApplyMeshIndex, EModelTexture2DType InTextureType, string textureLocation);
+	void SetSkyboxSRVs(ComPtr<ID3D11ShaderResourceView> InDiffuse, ComPtr<ID3D11ShaderResourceView> InSpecular);
 
 protected:
 
@@ -56,16 +60,19 @@ protected:
 
 	ComPtr<ID3D11Buffer> m_basicVertexConstBuffer;
 	ComPtr<ID3D11Buffer> m_viewConstBuffer;
-	ComPtr<ID3D11Buffer> m_materialConstBuffer;
+	ComPtr<ID3D11Buffer> m_materialConstBuffer; //메쉬 별로 머터리얼 데이터는 다 다른데, 한번에 한번씩 그릴때 버퍼는 똑같은 버퍼를 사용하기 위하여 버퍼는 한번 만 만든다.
 
 	vector<ComPtr<ID3D11Buffer>> m_extraVertexConstBuffers;
 	vector<ComPtr<ID3D11Buffer>> m_extraPixelConstBuffers;
 
 	BasicVSConstantBuffer m_basicVertexConstBufferData;
 	ViewPSConstantBuffer m_viewConstBufferData;
-	MaterialPSConstantBuffer m_materialConstBufferData;
 
 	HBaseRenderModule* m_ParentRenderModule;
+
+
+	ComPtr<ID3D11ShaderResourceView> IBLSRVs[2]; 
+	//vector< ComPtr<ID3D11ShaderResourceView>> UsingShaderResources;
 
 
 	//오브젝트 별 FOV 설정(FPS게임에서 건 카메라 같은 역할)

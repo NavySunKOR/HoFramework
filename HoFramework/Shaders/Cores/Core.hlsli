@@ -20,16 +20,33 @@ struct Light
 //Shiness는 Roughness의 Inverse로도 대체할 수는 있었으나, 그러기엔 1 이상의 값이 필요 할 경우가 생겨서 아예 별도 추가.
 struct Material
 {
-    float3 ambient;
+    float3 albedo;
     float roughness;
     
-    float3 diffuse;
-    float Dummy1;
+    float3 fresnelR0;
+    float metalic;
     
     float3 specular;
+    float shiness;
+    
+    bool useAlbedoMap; 
+    bool useNormalMap; 
+    bool useHeightMap; 
+    bool useAmbientOcclusionMap;
+    
+    bool useMetallicMap; 
+    bool useRoughnessMap;
+    bool useIBL;
+    
+    uint shadingModel;
+    
+    float Dummy1;
     float Dummy2;
 };
 
+
+const uint SHADINGMODEL_PBR = 0;
+const uint SHADINGMODEL_BLINNPHONG = 1;
 
 
 //Falloff를 0~1사이로 리턴
@@ -45,7 +62,8 @@ float3 BlinnPhongModel(float3 pLightDir, float3 pToViewDirection, float3 pNormal
     float hdotN = dot(halfWay, pNormalVector);
     float specular = pMat.specular * pow(max(hdotN, 0.f), pMat.roughness);
     
-    return pMat.ambient + (pMat.diffuse + specular) * pLightIntensity;
+    return float3(0.1f, 0.1f, 0.1f) + 
+    (pMat.albedo + specular * pLightIntensity);
 }
 
 
