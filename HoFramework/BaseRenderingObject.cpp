@@ -68,6 +68,31 @@ void HBaseRenderingObject::ApplyMesh(const LPCSTR InDirName, const LPCSTR InFile
 void HBaseRenderingObject::SetExternalResource(int InApplyMeshIndex, EModelTexture2DType InTextureType, string textureLocation)
 {
 	m_meshObjects[InApplyMeshIndex].mesh.textureNames[(int)InTextureType] = textureLocation;
+
+	switch (InTextureType)
+	{
+		case EModelTexture2DType::Albedo:
+			m_meshObjects[InApplyMeshIndex].materialPSConstantData.Mat.UseAlbedoMap = true;
+			break;
+		case EModelTexture2DType::Normal:
+			m_meshObjects[InApplyMeshIndex].materialPSConstantData.Mat.UseNormalMap = true;
+			break;
+		case EModelTexture2DType::Height:
+			m_meshObjects[InApplyMeshIndex].materialPSConstantData.Mat.UseHeightMap = true;
+			break;
+		case EModelTexture2DType::AmbientOcclusion:
+			m_meshObjects[InApplyMeshIndex].materialPSConstantData.Mat.UseAmbientOcclusionMap = true;
+			break;
+		case EModelTexture2DType::Roughness:
+			m_meshObjects[InApplyMeshIndex].materialPSConstantData.Mat.UseRoughnessMap = true;
+			break;
+		case EModelTexture2DType::Metallic:
+			m_meshObjects[InApplyMeshIndex].materialPSConstantData.Mat.UseMetallicMap = true;
+			break;
+		default:
+			cout << "No texture define" << endl;
+			break;
+	}
 }
 
 void HBaseRenderingObject::SetSkyboxSRVs(ComPtr<ID3D11ShaderResourceView> InDiffuse, ComPtr<ID3D11ShaderResourceView> InSpecular)
