@@ -103,11 +103,8 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Shaders\Grid\PixelShaderGridDraw.hlsl" />
     <FxCompile Include="Shaders\Grid\VertexShaderGridWave.hlsl" />
     <FxCompile Include="Shaders\Normal\PixelShaderNormal.hlsl" />
-    <FxCompile Include="Shaders\Cylinder\PixelShaderCylinder.hlsl" />
-    <FxCompile Include="Shaders\Subdiv\PixelShaderSubdivision.hlsl" />
     <FxCompile Include="Shaders\Subdiv\VertexShaderSubdivision.hlsl" />
     <FxCompile Include="Shaders\Skybox\VertexShaderSkybox.hlsl" />
     <FxCompile Include="Shaders\Skybox\PixelShaderSkybox.hlsl" />

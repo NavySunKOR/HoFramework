@@ -19,33 +19,55 @@ float4 main(PSInput input) : SV_TARGET
     }
     
     
-    float4 LightColor = float4(0, 0, 0, 1);
+    float4 FinalColor = float4(0, 0, 0, 1);
     
-    LightColor += float4(ComputeDirectionalLight(Lights[0], toViewDirection, input.Normal, Mat), 1.f);
-    
-    int i = 1;
-    [unroll]
-    for (i = 1; i < 1 + NUM_POINT_LIGHT; ++i)
+    if (Mat.shadingModel == SHADINGMODEL_PHONG)
     {
-        LightColor += float4(ComputePointLight(Lights[1], input.WorldPosition, toViewDirection, input.Normal, Mat), 1.f);
-    }
+        float4 LightColor = (0, 0, 0, 1);
+        LightColor += float4(ComputeDirectionalLightPhongModel(Lights[0], toViewDirection, input.Normal, Mat), 1.f);
+    
+        int i = 1;
+        [unroll]
+        for (i = 1; i < 1 + NUM_POINT_LIGHT; ++i)
+        {
+            LightColor += float4(ComputePointLightPhongModel(Lights[i], input.WorldPosition, toViewDirection, input.Normal, Mat), 1.f);
+        }
     
     
-    [unroll]
-    for (i = 1 + NUM_POINT_LIGHT; i < 1 + NUM_POINT_LIGHT + NUM_SPOTLIGHT; ++i)
-    {
-        LightColor += float4(ComputeSpotLight(Lights[2], input.WorldPosition, toViewDirection, input.Normal, Mat), 1.f);
-    }
+        [unroll]
+        for (i = 1 + NUM_POINT_LIGHT; i < 1 + NUM_POINT_LIGHT + NUM_SPOTLIGHT; ++i)
+        {
+            LightColor += float4(ComputeSpotLightPhongModel(Lights[i], input.WorldPosition, toViewDirection, input.Normal, Mat), 1.f);
+        }
     
 
-    if (Mat.useIBL)
-    {
-        float3 reflection = reflect(toViewDirection, input.Normal);
-        LightColor += (SkyboxDiffuse.Sample(g_sampler, input.Normal) + SkyboxSpecular.Sample(g_sampler, normalize(reflection))) * Mat.roughness;
-    }
+        if (Mat.useIBL)
+        {
+            float3 reflection = reflect(toViewDirection, input.Normal);
+            LightColor += (SkyboxDiffuse.Sample(g_sampler, input.Normal) + SkyboxSpecular.Sample(g_sampler, normalize(reflection))) * Mat.roughness;
+        }
     
-    float4 Color = LightColor * textureColor;
-    Color = LinearToneMapping(Color, exposure, gamma);
-    return Color;
+        FinalColor = LightColor * textureColor;
+    }
+    else //PBRÀÌ¸é
+    {
+        float roughness = (Mat.useRoughnessMap) ? g_textureRoughness.Sample(g_sampler, input.TexCoord) : Mat.roughness;
+        float metalic = (Mat.useMetallicMap) ? g_textureMetallic.Sample(g_sampler, input.TexCoord) : Mat.metalic;
+        
+        int i = 0;
+        
+        [unroll]
+        for (i = 1; i < 1 + NUM_POINT_LIGHT + NUM_SPOTLIGHT; ++i)
+        {
+            float3 lightVec = Lights[i].LightPos - input.WorldPosition;
+            float3 radiance = Lights[i].LightIntensity * saturate(GetFallOffAttenutation(length(lightVec), Lights[0].FalloffStart, Lights[0].FalloffEnd));
+            
+            FinalColor.rgb += PBR(lightVec, toViewDirection, input.Normal, textureColor.rgb, metalic,roughness, radiance);
+        }
+        
+    }
+
+    FinalColor = LinearToneMapping(FinalColor, exposure, gamma);
+    return FinalColor;
 
 }

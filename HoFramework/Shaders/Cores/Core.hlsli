@@ -51,13 +51,44 @@ struct Material
 
 
 const uint SHADINGMODEL_PBR = 0;
-const uint SHADINGMODEL_BLINNPHONG = 1;
+const uint SHADINGMODEL_PHONG = 1;
 
 
 //Falloff를 0~1사이로 리턴
 float GetFallOffAttenutation(float CurrentValue, float InFalloffStart, float InFalloffEnd)
 {
     return saturate((InFalloffEnd - CurrentValue) / (InFalloffEnd - InFalloffStart));
+}
+
+float3 SchlickFresnel(float3 F0, float NdotH)
+{
+    // TODO: 방정식 (5)
+    float3 ResultFresnel = F0 + (1 - F0) * pow(2.f, (-5.55473 * NdotH - 6.98316) * NdotH);
+    
+    return ResultFresnel;
+}
+
+// GGX/Towbridge-Reitz normal distribution function.
+// Uses Disney's reparametrization of alpha = roughness^2.
+float NdfGGX(float NdotH, float roughness)
+{
+    // TODO: 방정식 (3)
+    
+    float a = roughness * roughness;
+    float dh = (a * a) / (3.141592 * ((NdotH * NdotH) * (a * a - 1) + 1) * ((NdotH * NdotH) * (a * a - 1) + 1));
+    
+    return dh;
+}
+
+float SchlickGGX(float NdotI, float NdotO, float roughness)
+{
+    
+    float k = ((roughness + 1) * (roughness + 1)) / 8;
+    float g1l = NdotI / (NdotI * (1 - k) + k);
+    float g1v = NdotO / (NdotO * (1 - k) + k);
+    
+    
+    return g1l * g1v;
 }
 
 //
@@ -72,32 +103,29 @@ float BRDFSpecularBlinnPhong(float3 pLightDir, float3 pToViewDirection, float3 p
 
 
 //InRadiance는 포인트라이트 계열에만 동작함. 아닌경우 1,1,1 이다.
-float4 PBR(float3 InLightVec, float3 InPixelToViewVector, Material inMat, float3 InRadiance)
+float3 PBR(float3 InLightVec, float3 InPixelToViewVector, float3 InNormalWorld, float3 InAlbedo, float InMetalic, float InRoughness, float3 InRadiance)
 {
-    float4 DiffuseBRDF = float4(1.f, 1.f, 1.f, 1.f);
-    float4 SpecularBRDF = float4(1.f, 1.f, 1.f, 1.f);
-    
-    //float3 halfway = normalize(pixelToEye + lightVec);
+    float3 halfway = normalize(InPixelToViewVector + InLightVec);
         
-    //float NdotI = max(0.0, dot(normalWorld, lightVec));
-    //float NdotH = max(0.0, dot(normalWorld, halfway));
-    //float NdotO = max(0.0, dot(normalWorld, pixelToEye));
+    float NdotI = max(0.0, dot(InNormalWorld, InLightVec));
+    float NdotH = max(0.0, dot(InNormalWorld, halfway));
+    float NdotO = max(0.0, dot(InNormalWorld, InPixelToViewVector));
         
-    //const float3 Fdielectric = 0.04; // 비금속(Dielectric) 재질의 F0
-    //float3 F0 = lerp(Fdielectric, albedo, metallic);
-    //float3 F = SchlickFresnel(F0, max(0.0, dot(halfway, pixelToEye)));
-    //float3 kd = lerp(float3(1, 1, 1) - F, float3(0, 0, 0), metallic);
-    //float3 diffuseBRDF = kd * albedo;
+    const float3 Fdielectric = 0.04; // 비금속(Dielectric) 재질의 F0
+    float3 F0 = lerp(Fdielectric, InAlbedo, InMetalic);
+    float3 F = SchlickFresnel(F0, max(0.0, dot(halfway, InPixelToViewVector)));
+    float3 kd = lerp(float3(1, 1, 1) - F, float3(0, 0, 0), InMetalic);
+    float3 diffuseBRDF = kd * InAlbedo;
 
-    //float D = NdfGGX(NdotH, roughness);
-    //float3 G = SchlickGGX(NdotI, NdotO, roughness);
+    float D = NdfGGX(NdotH, InRoughness);
+    float3 G = SchlickGGX(NdotI, NdotO, InRoughness);
         
-    //    // 방정식 (2), 0으로 나누기 방지
-    //float3 specularBRDF = (F * D * G) / max(1e-5, 4.0 * NdotI * NdotO);
+        // 방정식 (2), 0으로 나누기 방지
+    float3 specularBRDF = (F * D * G) / max(1e-5, 4.0 * NdotI * NdotO);
 
     //float3 radiance = light[i].radiance * saturate((light[i].fallOffEnd - length(lightVec)) / (light[i].fallOffEnd - light[i].fallOffStart));
     
-    return float4(1, 1, 1, 1);
+    return (diffuseBRDF + specularBRDF) * InRadiance * NdotI, 1.f;
 }
 
 float3 PhongEquation(float ambient, float diffuse, float specular, float3 lightColor)
@@ -105,19 +133,19 @@ float3 PhongEquation(float ambient, float diffuse, float specular, float3 lightC
     return (ambient + diffuse + specular) * lightColor;
 }
 
-float3 ComputeDirectionalLight(Light pLight, float3 pToViewDirection, float3 pNormalVector, Material pMat)
+float3 ComputeDirectionalLightPhongModel(Light pLight, float3 pToViewDirection, float3 pNormalVector, Material pMat)
 {
     float3 LightVec = -pLight.LightDir;
     float AppliedIntensity = pLight.LightIntensity * max(dot(LightVec, pNormalVector), 0.f);
-    
+ 
     float Ambient = pMat.ambientStrength * AppliedIntensity;
     float Diffuse = max(dot(pNormalVector, LightVec), 0.0) * AppliedIntensity;
     float Specular = BRDFSpecularBlinnPhong(LightVec, pToViewDirection, pNormalVector, AppliedIntensity, pMat);
     
-    return PhongEquation(Ambient, Diffuse, Specular,pLight.LightColor);
+    return PhongEquation(Ambient, Diffuse, Specular, pLight.LightColor);
 }
 
-float3 ComputePointLight(Light pLight, float3 pObjectPos,float3 pToViewDirection, float3 pNormalVector, Material pMat)
+float3 ComputePointLightPhongModel(Light pLight, float3 pObjectPos, float3 pToViewDirection, float3 pNormalVector, Material pMat)
 {
     float3 LightVec = pLight.LightPos - pObjectPos;
     float D = length(LightVec);
@@ -140,7 +168,7 @@ float3 ComputePointLight(Light pLight, float3 pObjectPos,float3 pToViewDirection
     return PhongEquation(Ambient, Diffuse, Specular, pLight.LightColor);
 }
 
-float3 ComputeSpotLight(Light pLight, float3 pObjectPos, float3 pToViewDirection, float3 pNormalVector, Material pMat)
+float3 ComputeSpotLightPhongModel(Light pLight, float3 pObjectPos, float3 pToViewDirection, float3 pNormalVector, Material pMat)
 {
     float3 LightVec = pLight.LightPos - pObjectPos;
     float D = length(LightVec);
