@@ -28,12 +28,9 @@ struct Material
     float metalic;
     float shiness;
 
-    float3 fresnelR0;
-    float Dummy1;
+    float4 fresnelR0;
     
-
-    float3 specular;
-    float Dummy2;
+    float4 specular;
     
     bool useAlbedoMap;
     bool useNormalMap;
@@ -44,8 +41,6 @@ struct Material
     bool useRoughnessMap;
     bool useIBL;
     bool usePBR;
-    
-    float2 Dummy3;
 };
 
 

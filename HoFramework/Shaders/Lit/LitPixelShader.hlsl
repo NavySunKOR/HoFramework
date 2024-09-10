@@ -23,6 +23,27 @@ float4 main(PSInput input) : SV_TARGET
     
     if (Mat.usePBR)
     {
+        float roughness = (Mat.useRoughnessMap) ? g_textureRoughness.Sample(g_sampler, input.TexCoord) : float3(Mat.roughness, Mat.roughness, Mat.roughness);
+        float metalic = (Mat.useMetallicMap) ? g_textureMetallic.Sample(g_sampler, input.TexCoord) : Mat.metalic;
+        
+        int i = 0;
+        
+        {
+            float3 lightVec = Lights[0].LightPos - input.WorldPosition;
+            FinalColor.rgb += PBR(lightVec, toViewDirection, input.Normal, textureColor.rgb, metalic, roughness, float3(1.f, 1.f, 1.f));
+        }
+        
+        [unroll]
+        for (i = 1; i < 1 + NUM_POINT_LIGHT + NUM_SPOTLIGHT; ++i)
+        {
+            float3 lightVec = Lights[i].LightPos - input.WorldPosition;
+            float3 radiance = Lights[i].LightIntensity * saturate(GetFallOffAttenutation(length(lightVec), Lights[0].FalloffStart, Lights[0].FalloffEnd));
+
+            FinalColor.rgb += PBR(lightVec, toViewDirection, input.Normal, textureColor.rgb, metalic, roughness, radiance);
+        }
+    }
+    else //PBR이면
+    { 
         float4 LightColor = (0, 0, 0, 1);
         LightColor += float4(ComputeDirectionalLightPhongModel(Lights[0], toViewDirection, input.Normal, Mat), 1.f);
     
@@ -48,23 +69,6 @@ float4 main(PSInput input) : SV_TARGET
         }
     
         FinalColor = LightColor * textureColor;
-    }
-    else //PBR이면
-    {
-        float roughness = (Mat.useRoughnessMap) ? g_textureRoughness.Sample(g_sampler, input.TexCoord) : Mat.roughness;
-        float metalic = (Mat.useMetallicMap) ? g_textureMetallic.Sample(g_sampler, input.TexCoord) : Mat.metalic;
-        
-        int i = 0;
-        
-        [unroll]
-        for (i = 1; i < 1 + NUM_POINT_LIGHT + NUM_SPOTLIGHT; ++i)
-        {
-            float3 lightVec = Lights[i].LightPos - input.WorldPosition;
-            float3 radiance = Lights[i].LightIntensity * saturate(GetFallOffAttenutation(length(lightVec), Lights[0].FalloffStart, Lights[0].FalloffEnd));
-            
-            FinalColor.rgb += PBR(lightVec, toViewDirection, input.Normal, textureColor.rgb, metalic,roughness, radiance);
-        }
-        
     }
 
     FinalColor = LinearToneMapping(FinalColor, exposure, gamma);

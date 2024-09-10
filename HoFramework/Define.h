@@ -12,6 +12,7 @@ using namespace std;
 using Microsoft::WRL::ComPtr;
 using DirectX::SimpleMath::Vector2;
 using DirectX::SimpleMath::Vector3;
+using DirectX::SimpleMath::Vector4;
 using DirectX::SimpleMath::Matrix;
 
 
@@ -75,24 +76,19 @@ struct Material
 	float Metalic = 0.f;
 	float Shiness = 3.f;
 
-	Vector3 FresnelR0 = Vector3(0.4f,0.4f,0.4f);
-	float Dummy1 = 0.f;
+	Vector4 FresnelR0 = Vector4(0.4f,0.4f,0.4f,1.f);
 
-	Vector3 Specular = Vector3(0.5f, 0.5f, 0.5f);
-	float Dummy2 = 0.f;
+	Vector4 Specular = Vector4(0.5f, 0.5f, 0.5f,1.f);
 
-	bool UseAlbedoMap = false;
-	bool UseNormalMap = false;
-	bool UseHeightMap = false;
-	bool UseAmbientOcclusionMap = false;
+	int UseAlbedoMap = 0;
+	int UseNormalMap = 0;
+	int UseHeightMap = 0;
+	int UseAmbientOcclusionMap = 0;
 
-	bool UseMetallicMap = false;
-	bool UseRoughnessMap = false;
-	bool UseIBL = false;
-	bool UsePBR = true; 
-
-	Vector2 Dummy3 = Vector2(0.f,0.f);
-
+	int UseMetallicMap = 0;
+	int UseRoughnessMap = 0;
+	int UseIBL = 0;
+	int UsePBR = 1;
 };
 
 

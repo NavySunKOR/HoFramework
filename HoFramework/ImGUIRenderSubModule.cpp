@@ -98,52 +98,58 @@ void HImGUIRenderSubModule::Render()
 	}
 
 
-	if (ImGui::TreeNode("Zelda Object")) {
+	//if (ImGui::TreeNode("Zelda Object")) {
 
-		std::shared_ptr<HBaseRenderingObject> RenderingObject = m_ParentRenderModule->GetRenderingObjects()[0];
+	//	std::shared_ptr<HBaseRenderingObject> RenderingObject = m_ParentRenderModule->GetRenderingObjects()[0];
 
-		vector<MeshObject> Meshes =  RenderingObject->GetDrawingMeshes();
-			
-		
+	//	vector<MeshObject> Meshes =  RenderingObject->GetDrawingMeshes();
+	//		
+	//	
 
-		for (int i = 0; i < Meshes.size(); ++i)
-		{
-			string name = "Zelda Object : " + i;
-			if (ImGui::TreeNode(name.c_str()))
-			{
-				Material& MatInfo = Meshes[i].materialPSConstantData.Mat;
-				ImGui::SliderFloat("Ambient Strength", &MatInfo.AmbientStrength, 0.f, 10.f);
-				ImGui::SliderFloat3("FresnelR0", &MatInfo.FresnelR0.x, 0.f, 1.f);
+	//	for (int i = 0; i < Meshes.size(); ++i)
+	//	{
+	//		string name = "Zelda Object : " + i;
+	//		if (ImGui::TreeNode(name.c_str()))
+	//		{
+	//			Material& MatInfo = Meshes[i].materialPSConstantData.Mat;
+	//			ImGui::SliderFloat("Ambient Strength", &MatInfo.AmbientStrength, 0.f, 10.f);
+	//			ImGui::SliderFloat3("FresnelR0", &MatInfo.FresnelR0.x, 0.f, 1.f);
 
-				//ImGui::SliderInt("Shading Model", &MatInfo.ShadingModel, 0, 1);
-				ImGui::Checkbox("Shading Model", &MatInfo.UsePBR);
-				ImGui::SliderFloat("Shiness", &MatInfo.Shiness, 0, 10);
-				ImGui::Checkbox("NormalMap", &MatInfo.UseNormalMap);
-				ImGui::Checkbox("MetallicMap", &MatInfo.UseMetallicMap);
-				ImGui::Checkbox("RoughnessMap", &MatInfo.UseRoughnessMap);
-				ImGui::TreePop();
-			}
-		}
+	//			//ImGui::SliderInt("Shading Model", &MatInfo.ShadingModel, 0, 1);
+	//			ImGui::Checkbox("Shading Model", &MatInfo.UsePBR);
+	//			ImGui::SliderFloat("Shiness", &MatInfo.Shiness, 0, 10);
+	//			ImGui::Checkbox("NormalMap", &MatInfo.UseNormalMap);
+	//			ImGui::Checkbox("MetallicMap", &MatInfo.UseMetallicMap);
+	//			ImGui::Checkbox("RoughnessMap", &MatInfo.UseRoughnessMap);
+	//			ImGui::TreePop();
+	//		}
+	//	}
 
 
-		ImGui::TreePop();
-	}
+	//	ImGui::TreePop();
+	//}
 
 
 	if (ImGui::TreeNode("Sphere Object")) {
 
-		std::shared_ptr<HBaseRenderingObject> RenderingObject = m_ParentRenderModule->GetRenderingObjects()[1];
+		std::shared_ptr<HBaseRenderingObject> RenderingObject = m_ParentRenderModule->GetRenderingObjects()[0];
 		Material& MatInfo = RenderingObject->GetDrawingMeshes()[0].materialPSConstantData.Mat;
-		ImGui::Checkbox("Shading Model", &MatInfo.UsePBR);
 
 		ImGui::SliderFloat("Ambient Strength", &MatInfo.AmbientStrength, 0.f, 10.f);
-		ImGui::SliderFloat3("FresnelR0", &MatInfo.FresnelR0.x, 0.f, 1.f);
+		ImGui::SliderFloat("Roughness", &MatInfo.Roughness, 0.f, 10.f);
+		ImGui::SliderFloat("Metalic", &MatInfo.Metalic, 0.f, 10.f);
+		ImGui::SliderFloat("Shiness", &MatInfo.Shiness, 0, 10);
+		ImGui::SliderFloat4("FresnelR0", &MatInfo.FresnelR0.x, 0.f, 1.f);
+		ImGui::SliderFloat4("Specular", &MatInfo.Specular.x, 0.f, 1.f);
 
 		//ImGui::SliderInt("Shading Model", &MatInfo.ShadingModel, 0, 1);
-		ImGui::SliderFloat("Shiness", &MatInfo.Shiness, 0, 10);
-		ImGui::Checkbox("NormalMap", &MatInfo.UseNormalMap);
-		ImGui::Checkbox("MetallicMap", &MatInfo.UseMetallicMap);
-		ImGui::Checkbox("RoughnessMap", &MatInfo.UseRoughnessMap);
+
+		ImGui::SliderInt("AlbedoMap", &MatInfo.UseAlbedoMap,0,1);
+		ImGui::SliderInt("NormalMap", &MatInfo.UseNormalMap, 0, 1);
+		ImGui::SliderInt("MetallicMap", &MatInfo.UseMetallicMap, 0, 1);
+		ImGui::SliderInt("RoughnessMap", &MatInfo.UseRoughnessMap, 0, 1);
+		ImGui::SliderInt("UseIBL", &MatInfo.UseIBL, 0, 1);
+		ImGui::SliderInt("UsePBR", &MatInfo.UsePBR, 0, 1);
 
 		ImGui::TreePop();
 	}
