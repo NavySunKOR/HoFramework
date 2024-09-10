@@ -26,7 +26,7 @@ public:
 	void Rotate(Vector3 pTranslate);
 	void Scale(Vector3 pTranslate);
 
-	inline vector<MeshObject>* GetDrawingMeshes() { return &m_meshObjects; };
+	inline vector<MeshObject>& GetDrawingMeshes() { return m_meshObjects; };
 	inline BasicVSConstantBuffer* GetVSConstBuffer(){return &m_basicVertexConstBufferData;}
 
 	void SetVertexShader(const LPCWSTR InShaderLoc, const LPCSTR InShaderMainName);

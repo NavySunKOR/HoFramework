@@ -48,8 +48,10 @@ bool HCustomRenderModule::Initialize(Application* pAppContext)
 	Resources.push_back(string("./SampleTexture/brick-wall/brick-wall_normal-dx.png"));
 
 	SphereObject->ApplyMesh(EPrimitiveType::Sphere);
-	SphereObject->SetExternalResource(0, EModelTexture2DType::Albedo, string("./SampleTexture/brick-wall/brick-wall_albedo.png"));
-	SphereObject->SetExternalResource(0, EModelTexture2DType::Normal, string("./SampleTexture/brick-wall/brick-wall_normal-dx.png"));
+	SphereObject->SetExternalResource(0, EModelTexture2DType::Albedo, string("./SampleTexture/cloudy-veined-quartz/cloudy-veined-quartz_albedo.png"));
+	SphereObject->SetExternalResource(0, EModelTexture2DType::Normal, string("./SampleTexture/cloudy-veined-quartz/cloudy-veined-quartz_normal-dx.png"));
+	SphereObject->SetExternalResource(0, EModelTexture2DType::Metallic, string("./SampleTexture/cloudy-veined-quartz/cloudy-veined-quartz_metallic.png"));
+	SphereObject->SetExternalResource(0, EModelTexture2DType::Roughness, string("./SampleTexture/cloudy-veined-quartz/cloudy-veined-quartz_roughness.png"));
 	SphereObject->SetSkyboxSRVs(SkyBoxObject->GetSkyboxDiffuse(), SkyBoxObject->GetSkyboxSpecular());
 	SphereObject->SetVertexShader(L"./Shaders/Lit/LitVertexShader.hlsl", "main");
 	SphereObject->SetPixelShader(L"./Shaders/Lit/LitPixelShader.hlsl", "main");

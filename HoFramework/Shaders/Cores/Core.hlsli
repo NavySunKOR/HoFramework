@@ -43,15 +43,10 @@ struct Material
     bool useMetallicMap;
     bool useRoughnessMap;
     bool useIBL;
-    uint shadingModel; // 0 : PBR, 1 : Blinn Phong
+    bool usePBR;
     
-    bool Dummy3;
-    float Dummy4;
+    float2 Dummy3;
 };
-
-
-const uint SHADINGMODEL_PBR = 0;
-const uint SHADINGMODEL_PHONG = 1;
 
 
 //Falloff를 0~1사이로 리턴

@@ -20,6 +20,10 @@ public:
 
 private:
 
+	int ShadingModel = 0;
+
+	int ShadingModelSphere = 0;
+
 
 	HBaseRenderModule* m_ParentRenderModule;
 };

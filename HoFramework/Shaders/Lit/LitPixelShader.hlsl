@@ -21,7 +21,7 @@ float4 main(PSInput input) : SV_TARGET
     
     float4 FinalColor = float4(0, 0, 0, 1);
     
-    if (Mat.shadingModel == SHADINGMODEL_PHONG)
+    if (Mat.usePBR)
     {
         float4 LightColor = (0, 0, 0, 1);
         LightColor += float4(ComputeDirectionalLightPhongModel(Lights[0], toViewDirection, input.Normal, Mat), 1.f);

@@ -89,10 +89,9 @@ struct Material
 	bool UseMetallicMap = false;
 	bool UseRoughnessMap = false;
 	bool UseIBL = false;
-	uint8_t ShadingModel = 0; // 0 : PBR, 1 : Blinn Phong
+	bool UsePBR = true; 
 
-	bool Dummy3 = false;
-	float Dummy4 = 0.f;
+	Vector2 Dummy3 = Vector2(0.f,0.f);
 
 };
 
