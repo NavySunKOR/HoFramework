@@ -42,11 +42,6 @@ bool HCustomRenderModule::Initialize(Application* pAppContext)
 
 	std::shared_ptr<HDefaultRenderingObject> SphereObject = std::make_shared<HDefaultRenderingObject>(this);
 
-	std::vector<string> Resources;
-	Resources.reserve(2);
-	Resources.push_back(string("./SampleTexture/brick-wall/brick-wall_albedo.png"));
-	Resources.push_back(string("./SampleTexture/brick-wall/brick-wall_normal-dx.png"));
-
 	SphereObject->ApplyMesh(EPrimitiveType::Sphere);
 	SphereObject->SetExternalResource(0, EModelTexture2DType::Albedo, string("./SampleTexture/brick-wall/brick-wall_albedo.png"));
 	SphereObject->SetExternalResource(0, EModelTexture2DType::Normal, string("./SampleTexture/brick-wall/brick-wall_normal-dx.png"));
@@ -66,9 +61,12 @@ bool HCustomRenderModule::Initialize(Application* pAppContext)
 
 	SkyBoxObject->Initialize();
 
-	m_LightPSConstant.Lights[0].LightIntensity = 2.f;
+
+	m_LightPSConstant.Lights[1].LightIntensity = 2.f; 
+
 	
-	Gamma = 2.2f;
+	
+	Gamma = 0.5f;
 	Exposure = 1.f;
 
 	for (size_t i = 0; i < RenderingObjects.size(); ++i)

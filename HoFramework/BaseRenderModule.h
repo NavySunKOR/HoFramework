@@ -177,7 +177,7 @@ protected:
 	HCamera m_MainView;
 	std::vector<HCamera> m_Views;
 
-	float Gamma = 2.2f;
+	float Gamma = 0.5f;
 	float Exposure = 1;
 
 
