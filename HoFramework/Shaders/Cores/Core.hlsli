@@ -44,7 +44,7 @@ struct Material
     bool usePBR;
 };
 
-const float PI = 3.14159265359f;
+static const float PI = 3.14159265359f;
 
 //Falloff를 0~1사이로 리턴
 float GetFallOffAttenutation(float CurrentValue, float InFalloffStart, float InFalloffEnd)
