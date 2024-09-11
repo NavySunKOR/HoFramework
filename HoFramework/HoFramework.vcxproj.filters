@@ -122,5 +122,8 @@
     <None Include="Shaders\ImageFilters\Base\ImageFilterHeader.hlsli" />
     <None Include="Shaders\Cores\MeshRenderPSCore.hlsli" />
     <None Include="Shaders\Cores\SkyboxRenderPSCore.hlsli" />
+    <None Include="Shading.hlsli" />
+    <None Include="Shaders\Cores\Shading.hlsli" />
+    <None Include="Shaders\Cores\Lighting.hlsli" />
   </ItemGroup>
 </Project>

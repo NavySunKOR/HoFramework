@@ -29,36 +29,36 @@ float4 main(PSInput input) : SV_TARGET
         int i = 0;
         
         {
-            float3 lightVec = Lights[0].LightPos - input.WorldPosition;
-            FinalColor.rgb += PBR(lightVec, toViewDirection, input.Normal, textureColor.rgb, metalic, roughness, float3(1.f, 1.f, 1.f));
+            float3 lightVec = Lights[1].LightPos - input.WorldPosition;
+            float3 radiance = Lights[1].LightIntensity * saturate(GetFallOffAttenutation(length(lightVec), Lights[1].FalloffStart, Lights[1].FalloffEnd)) * Lights[1].LightColor;
+            FinalColor.rgb += Shading::PBR::PBR(lightVec, toViewDirection, input.Normal, textureColor.rgb, metalic, roughness, radiance);
         }
-        
-        [unroll]
-        for (i = 1; i < 1 + NUM_POINT_LIGHT + NUM_SPOTLIGHT; ++i)
-        {
-            float3 lightVec = Lights[i].LightPos - input.WorldPosition;
-            float3 radiance = Lights[i].LightIntensity * saturate(GetFallOffAttenutation(length(lightVec), Lights[0].FalloffStart, Lights[0].FalloffEnd));
+        //[unroll]
+        //for (i = 1; i < 1 + NUM_POINT_LIGHT + NUM_SPOTLIGHT; ++i)
+        //{
+        //    float3 lightVec = Lights[i].LightPos - input.WorldPosition;
+        //    float3 radiance = Lights[i].LightIntensity * saturate(GetFallOffAttenutation(length(lightVec), Lights[0].FalloffStart, Lights[0].FalloffEnd));
 
-            FinalColor.rgb += PBR(lightVec, toViewDirection, input.Normal, textureColor.rgb, metalic, roughness, radiance);
-        }
+        //    FinalColor.rgb += PBR(lightVec, toViewDirection, input.Normal, textureColor.rgb, metalic, roughness, radiance);
+        //}
     }
     else //PBRÀÌ¸é
     { 
         float4 LightColor = (0, 0, 0, 1);
-        LightColor += float4(ComputeDirectionalLightPhongModel(Lights[0], toViewDirection, input.Normal, Mat), 1.f);
+        LightColor += float4(Lighting::ComputeDirectionalLightPhongModel(Lights[0], toViewDirection, input.Normal, Mat), 1.f);
     
         int i = 1;
         [unroll]
         for (i = 1; i < 1 + NUM_POINT_LIGHT; ++i)
         {
-            LightColor += float4(ComputePointLightPhongModel(Lights[i], input.WorldPosition, toViewDirection, input.Normal, Mat), 1.f);
+            LightColor += float4(Lighting::ComputePointLightPhongModel(Lights[i], input.WorldPosition, toViewDirection, input.Normal, Mat), 1.f);
         }
     
     
         [unroll]
         for (i = 1 + NUM_POINT_LIGHT; i < 1 + NUM_POINT_LIGHT + NUM_SPOTLIGHT; ++i)
         {
-            LightColor += float4(ComputeSpotLightPhongModel(Lights[i], input.WorldPosition, toViewDirection, input.Normal, Mat), 1.f);
+            LightColor += float4(Lighting::ComputeSpotLightPhongModel(Lights[i], input.WorldPosition, toViewDirection, input.Normal, Mat), 1.f);
         }
     
 

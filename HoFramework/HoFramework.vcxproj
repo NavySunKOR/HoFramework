@@ -123,10 +123,13 @@
       <FileType>Document</FileType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
     </None>
+    <None Include="Shaders\Cores\Lighting.hlsli" />
     <None Include="Shaders\Cores\MeshRenderPSCore.hlsli" />
+    <None Include="Shaders\Cores\Shading.hlsli" />
     <None Include="Shaders\Cores\SkyboxRenderPSCore.hlsli" />
     <None Include="Shaders\Cores\VSHeader.hlsli" />
     <None Include="Shaders\ImageFilters\Base\ImageFilterHeader.hlsli" />
+    <None Include="Shading.hlsli" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
