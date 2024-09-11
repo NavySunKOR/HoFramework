@@ -78,7 +78,7 @@ struct Material
 
 	Vector4 FresnelR0 = Vector4(0.4f,0.4f,0.4f,1.f);
 
-	Vector4 Specular = Vector4(0.5f, 0.5f, 0.5f,1.f);
+	Vector4 CustomAlbedo = Vector4(0.5f, 0.5f, 0.5f,1.f);
 
 	int UseAlbedoMap = 0;
 	int UseNormalMap = 0;
@@ -113,10 +113,7 @@ struct MaterialPSConstantBuffer
 struct ViewPSConstantBuffer
 {
 	Vector3 UsingViewPosition;
-	float exposure;
-
-	Vector3 Dummy1;
-	float gamma = 2.2f;
+	float Dummy;
 };
 
 static_assert((sizeof(LightingPSConstantBuffer) % 16) == 0,

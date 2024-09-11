@@ -31,7 +31,7 @@ struct Material
 
     float4 fresnelR0;
     
-    float4 specular;
+    float4 customAlbedo;
     
     bool useAlbedoMap;
     bool useNormalMap;
@@ -54,9 +54,7 @@ float GetFallOffAttenutation(float CurrentValue, float InFalloffStart, float InF
 
 float3 SchlickFresnel(float3 F0, float NdotH)
 {
-    // TODO: ¹æÁ¤½Ä (5)
-    float3 ResultFresnel = F0 + (1 - F0) * pow(2.f, (-5.55473 * NdotH - 6.98316) * NdotH);
-    
+    float3 ResultFresnel = F0 + (1 - F0) * pow(clamp(1.f - NdotH, 0.F, 1.f),5.f);
     return ResultFresnel;
 }
 
@@ -98,16 +96,6 @@ float3 ComputeSchlickFresnel(float3 fresnel0, float3 normal, float3 toEye)
     return fresnel0 + (1.f - fresnel0) * pow(f0, 5.0);
 }
 
-
-float4 LinearToneMapping(float4 InColor,float InExposure, float InGamma)
-{
-    float4 invGamma = float4(1.f,1.f,1.f,1.f) / InGamma;
-    InColor = clamp(InColor * InExposure, 0, 1) ;
-    InColor = pow(InColor, invGamma);
-
-    InColor.a = 1.f;
-    return InColor;
-}
 
 struct VSInput
 {

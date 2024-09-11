@@ -44,7 +44,11 @@ public:
         float dy;
         float threshold;
         float strength;
-        Vector4 options;
+
+        float gamma;
+        float exposure;
+        float dummy1;
+        float dummy2;
     };
 
     SamplingPixelConstantData m_pixelConstData;

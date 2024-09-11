@@ -74,7 +74,7 @@ bool HCustomRenderModule::Initialize(Application* pAppContext)
 		RenderingObjects[i]->Initialize();
 	}
 
-	//InitImageFilters();
+	InitImageFilters();
 
 	if (!GUIRenderSubModule.Initialize(this))
 		return true;
@@ -228,7 +228,7 @@ void HCustomRenderModule::Render()
 	ComPtr<ID3D11Texture2D> backBuffer;
 	m_swapChain->GetBuffer(0, IID_PPV_ARGS(backBuffer.GetAddressOf()));
 	m_context->ResolveSubresource(m_tempTexture.Get(), 0, backBuffer.Get(), 0,
-		DXGI_FORMAT_R8G8B8A8_UNORM);
+		DXGI_FORMAT_R16G16B16A16_FLOAT);
 
 	for (size_t i = 0; i < ImageFilters.size(); ++i)
 	{

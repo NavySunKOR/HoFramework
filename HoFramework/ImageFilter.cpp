@@ -65,7 +65,7 @@ void HImageFilter::Initialize(HBaseRenderModule* ParentModule, const wstring ver
     txtDesc.Width = width;
     txtDesc.Height = height;
     txtDesc.MipLevels = txtDesc.ArraySize = 1;
-    txtDesc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT; //  이미지 처리용도
+    txtDesc.Format = DXGI_FORMAT_R16G16B16A16_FLOAT; //  이미지 처리용도
     txtDesc.SampleDesc.Count = 1;
     txtDesc.Usage = D3D11_USAGE_DEFAULT;
     txtDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE |
@@ -91,6 +91,8 @@ void HImageFilter::Initialize(HBaseRenderModule* ParentModule, const wstring ver
 
 void HImageFilter::Update()
 {
+    m_pixelConstData.gamma = *m_parentRenderModule->GetGamma();
+    m_pixelConstData.exposure = *m_parentRenderModule->GetExposure();
     UpdateConstantBuffers(m_parentRenderModule->GetContext());
 }
 

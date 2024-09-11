@@ -10,7 +10,7 @@ float4 main(PSInput input) : SV_TARGET
     if (Mat.useAlbedoMap)
         textureColor = g_textureAlbedo.Sample(g_sampler, input.TexCoord);
     else
-        textureColor = float4(1.f,1.f,1.f, 1.f); //TODO : 나중에 Custom base color 넣기.
+        textureColor = Mat.customAlbedo; //TODO : 나중에 Custom base color 넣기.
     
     if(Mat.useNormalMap)
     {
@@ -19,28 +19,19 @@ float4 main(PSInput input) : SV_TARGET
     }
     
     
-    float4 FinalColor = float4(0, 0, 0, 1);
+    float4 FinalColor = float4(0.f, 0.f, 0.f, 1);
     
     if (Mat.usePBR)
     {
-        float roughness = (Mat.useRoughnessMap) ? g_textureRoughness.Sample(g_sampler, input.TexCoord) : float3(Mat.roughness, Mat.roughness, Mat.roughness);
-        float metalic = (Mat.useMetallicMap) ? g_textureMetallic.Sample(g_sampler, input.TexCoord) : Mat.metalic;
+        float roughness = (Mat.useRoughnessMap) ? g_textureRoughness.Sample(g_sampler, input.TexCoord).r : Mat.roughness;
+        float metalic = (Mat.useMetallicMap) ? g_textureMetallic.Sample(g_sampler, input.TexCoord).r : Mat.metalic;
         
-        int i = 0;
-        
-        {
-            float3 lightVec = Lights[1].LightPos - input.WorldPosition;
-            float3 radiance = Lights[1].LightIntensity * saturate(GetFallOffAttenutation(length(lightVec), Lights[1].FalloffStart, Lights[1].FalloffEnd)) * Lights[1].LightColor;
-            FinalColor.rgb += Shading::PBR::PBR(lightVec, toViewDirection, input.Normal, textureColor.rgb, metalic, roughness, radiance);
-        }
-        //[unroll]
-        //for (i = 1; i < 1 + NUM_POINT_LIGHT + NUM_SPOTLIGHT; ++i)
-        //{
-        //    float3 lightVec = Lights[i].LightPos - input.WorldPosition;
-        //    float3 radiance = Lights[i].LightIntensity * saturate(GetFallOffAttenutation(length(lightVec), Lights[0].FalloffStart, Lights[0].FalloffEnd));
-
-        //    FinalColor.rgb += PBR(lightVec, toViewDirection, input.Normal, textureColor.rgb, metalic, roughness, radiance);
-        //}
+        float3 ambientColor = Mat.ambientStrength * textureColor.rgb;
+        float3 lightVec = Lights[1].LightPos - input.WorldPosition;
+        float3 radiance = GetFallOffAttenutation(length(lightVec), Lights[1].FalloffStart, Lights[1].FalloffEnd) * Lights[1].LightColor * Lights[1].LightIntensity;
+        //float3 radiance = 1.f / (length(lightVec) * length(lightVec)) *Lights[1].LightColor;
+        FinalColor.rgb = ambientColor + Shading::PBR::PBR(normalize(lightVec), toViewDirection, input.Normal, textureColor.rgb, metalic, roughness, radiance);
+        //FinalColor = clamp(FinalColor, 0, 1000.f);
     }
     else //PBR이면
     { 
@@ -70,8 +61,7 @@ float4 main(PSInput input) : SV_TARGET
     
         FinalColor = LightColor * textureColor;
     }
-
-    FinalColor = LinearToneMapping(FinalColor, exposure, gamma);
+    
     return FinalColor;
 
 }

@@ -7,13 +7,19 @@ cbuffer SamplingPixelConstantData : register(b0)
     float dy;
     float threshold;
     float strength;
-    float4 options;
+    
+    float gamma;
+    float exposure;
+    float dummy1;
+    float dummy2;
 };
 
 
 
 float4 main(SamplingPixelShaderInput input) : SV_TARGET
 {
-    return g_texture0.Sample(g_sampler,input.texcoord);
-    //return float4(0,0,1,1);
+    float4 color = g_texture0.Sample(g_sampler, input.texcoord);
+    color = LinearToneMapping(color, exposure, gamma);
+    
+    return color;
 }

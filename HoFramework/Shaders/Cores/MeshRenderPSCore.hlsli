@@ -10,11 +10,7 @@ cbuffer MaterialPSBuffer : register(b0)
 cbuffer ViewPixelBuffer : register(b1)
 {
     float3 ViewPosition;
-    float exposure;
-
-    float3 Dummy1;
-    float gamma;
-    
+    float Dummy1;
 };
 
 cbuffer LightingPixelBuffer : register(b2)

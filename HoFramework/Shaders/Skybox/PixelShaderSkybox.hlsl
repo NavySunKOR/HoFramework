@@ -9,7 +9,6 @@ float4 main(PSInput input) : SV_TARGET
 {
     //float4 textureColor = float4(1.f,0.25f,0.25f,0.25f);
     float4 textureColor = g_texture0.Sample(g_sampler, input.ModelPosition.xyz);
-    float4 newColor = LinearToneMapping(textureColor, exposure, gamma);
-    return newColor;
+    return textureColor;
 
 }

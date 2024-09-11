@@ -8,12 +8,11 @@ namespace Shading
         namespace Distribution
         {
             //Normal Distribution
-            float NDFGGX(float NdotH, float roughness)
+            float DistributionGGX(float NdotH, float roughness)
             {
-                float a = roughness * roughness;
-                float a2 = (a * a);
+                float a2 = (roughness * roughness);
                 float NdotH2 = NdotH * NdotH;
-                float denom = (NdotH2 * (a2 - 1) + 1);
+                float denom = (NdotH2 * (a2 - 1.f) + 1.f);
                 float dh = a2 / (PI * denom * denom);
     
                 return dh;
@@ -27,7 +26,7 @@ namespace Shading
             float SchlickGGX(float dotResult, float roughness)
             {
     
-                float r = (roughness + 1);
+                float r = (roughness + 1.f);
                 float k = (r * r) / 8.f;
     
                 return dotResult / (dotResult * (1.f - k) + k);
@@ -54,9 +53,9 @@ namespace Shading
         {
             float3 CookTorranceSpecular(float HdotO, float NdotL, float NdotH, float NdotO, float InRoughness, float3 F)
             {
-                float D = Distribution::NDFGGX(NdotH, InRoughness);
+                float D = Distribution::DistributionGGX(NdotH, InRoughness);
                 float3 G = Geometry::GeometrySmith(NdotL, NdotO, InRoughness);
-                float3 specularBRDF = (F * D * G) / max(1e-5, 4.0 * NdotL * NdotO);
+                float3 specularBRDF = (F * D * G) / max(1e-5, 4.0f * NdotL * NdotO);
                 return specularBRDF;
             }
         }
@@ -71,21 +70,16 @@ namespace Shading
             float NdotH = max(0.0, dot(InNormalWorld, halfway));
             float NdotO = max(0.0, dot(InNormalWorld, InPixelToViewVector));
         
-            const float3 Fdielectric = 0.04; // 비금속(Dielectric) 재질의 F0
+            const float3 Fdielectric = 0.04f; // 비금속(Dielectric) 재질의 F0
+            float3 F0 = lerp(Fdielectric, InAlbedo, InMetalic);
+            float3 F = SchlickFresnel(F0, HdotO);
                 
-            float3 F = SchlickFresnel(Fdielectric, HdotO);
+            float3 kD = (1.f - F) * (1.f - InMetalic);
                 
-                
-            float3 diffuseBRDF = Diffuse::LambertDiffuse(InAlbedo);
+            float3 diffuseBRDF = kD * Diffuse::LambertDiffuse(InAlbedo);
             float3 specularBRDF = Specular::CookTorranceSpecular(HdotO, NdotL, NdotH, NdotO, InRoughness, F);
-                
-            float3 kS = F;
-            float3 kD = float3(1.f, 1.f, 1.f) - kS;
-                
-            kD *= 1.f - InMetalic;
-           return (kD * diffuseBRDF + specularBRDF) * InRadiance * NdotL;
-            //return kD * diffuseBRDF;
-
+           
+            return (diffuseBRDF + specularBRDF) * InRadiance * NdotL;
         }
     }
     

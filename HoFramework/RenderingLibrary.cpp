@@ -754,7 +754,7 @@ bool HRenderingLibrary::CreatePixelShader(ComPtr<ID3D11Device> pDeviceContext, C
 	return true;
 }
 
-bool HRenderingLibrary::CreateTexture(ComPtr<ID3D11Device> pDevice, ComPtr<ID3D11DeviceContext> pDeviceContext, string pTextureFileLocation, ComPtr<ID3D11Texture2D>& OutTexture, ComPtr<ID3D11ShaderResourceView>& OutResourceView)
+bool HRenderingLibrary::CreateTexture(ComPtr<ID3D11Device> pDevice, ComPtr<ID3D11DeviceContext> pDeviceContext, string pTextureFileLocation, ComPtr<ID3D11Texture2D>& OutTexture, ComPtr<ID3D11ShaderResourceView>& OutResourceView, DXGI_FORMAT Format)
 {
 	int width, height, channels;
 	unsigned char* img = stbi_load(pTextureFileLocation.c_str(), &width, &height, &channels,0);
@@ -814,7 +814,7 @@ bool HRenderingLibrary::CreateTexture(ComPtr<ID3D11Device> pDevice, ComPtr<ID3D1
 	txtDesc.Height = height;
 	txtDesc.MipLevels = 1;
 	txtDesc.ArraySize = 1;
-	txtDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	txtDesc.Format = Format;
 	txtDesc.SampleDesc.Count = 1;
 	txtDesc.Usage = D3D11_USAGE_IMMUTABLE;
 	txtDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE ;

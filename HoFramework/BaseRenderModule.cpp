@@ -130,7 +130,7 @@ bool HBaseRenderModule::InitDeviceAndContext()
 
     // 4X MSAA 지원하는지 확인
     UINT numQualityLevels; // Resize 처리를 위해 멤버 변수로 변경
-    device->CheckMultisampleQualityLevels(DXGI_FORMAT_R8G8B8A8_UNORM, 4,
+    device->CheckMultisampleQualityLevels(DXGI_FORMAT_R16G16B16A16_FLOAT, 4,
         &numQualityLevels);
     if (numQualityLevels <= 0) {
         cout << "MSAA not supported." << endl;
