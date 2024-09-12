@@ -99,5 +99,7 @@ namespace Shading
             return (ambient + diffuse + specular) * lightColor;
         }
     }
+    
+
 }
 #endif

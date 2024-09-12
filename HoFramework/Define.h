@@ -71,7 +71,7 @@ struct Light
 //48
 struct Material
 {
-	float AmbientStrength = 0.1f;
+	float AmbientStrength = 0.f;
 	float Roughness = 0.f;
 	float Metalic = 0.f;
 	float Shiness = 3.f;

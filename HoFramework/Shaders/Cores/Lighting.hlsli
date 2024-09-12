@@ -10,8 +10,11 @@ namespace Lighting
     {
         float3 LightVec = -pLight.LightDir;
         float AppliedIntensity = pLight.LightIntensity * max(dot(LightVec, pNormalVector), 0.f);
+        
+        LightVec = normalize(LightVec);
+    
  
-        float Ambient = pMat.ambientStrength * AppliedIntensity;
+        float Ambient = pMat.ambientStrength ;
         float Diffuse = max(dot(pNormalVector, LightVec), 0.0) * AppliedIntensity;
         float Specular = Shading::Phong::BRDFSpecularBlinnPhong(LightVec, pToViewDirection, pNormalVector, AppliedIntensity, pMat);
     
@@ -27,13 +30,15 @@ namespace Lighting
         {
             return float3(0, 0, 0);
         }
+        
+        LightVec = normalize(LightVec);
     
         float Attenutation = GetFallOffAttenutation(D, pLight.FalloffStart, pLight.FalloffEnd);
     
         float AppliedIntensity = pLight.LightIntensity * max(dot(LightVec, pNormalVector), 0.f) * Attenutation;
     
     
-        float Ambient = pMat.ambientStrength * AppliedIntensity;
+        float Ambient = pMat.ambientStrength;
         float Diffuse = max(dot(pNormalVector, LightVec), 0.0) * AppliedIntensity;
         float Specular = Shading::Phong::BRDFSpecularBlinnPhong(LightVec, pToViewDirection, pNormalVector, AppliedIntensity, pMat);
     
@@ -51,18 +56,18 @@ namespace Lighting
             return float3(0, 0, 0);
         }
     
-        LightVec /= D;
+        LightVec = normalize(LightVec);
     
         float Attenutation = GetFallOffAttenutation(D, pLight.FalloffStart, pLight.FalloffEnd);
         float SpotFactor = pow(max(dot(-LightVec, pLight.LightDir), 0.f), pLight.SpotFactor);
     
         float AppliedIntensity = pLight.LightIntensity * max(dot(LightVec, pNormalVector), 0.f) * Attenutation * SpotFactor;
     
-        float Ambient = pMat.ambientStrength * AppliedIntensity;
+        float Ambient = pMat.ambientStrength ;
         float Diffuse = max(dot(pNormalVector, LightVec), 0.0) * AppliedIntensity;
         float Specular = Shading::Phong::BRDFSpecularBlinnPhong(LightVec, pToViewDirection, pNormalVector, AppliedIntensity, pMat);
     
-        return Shading::Phong::PhongEquation(Ambient, Diffuse, Specular, pLight.LightColor);
+        return Shading::Phong::PhongEquation(Ambient, Diffuse, Specular, pLight.LightColor);  
     }
 }
 

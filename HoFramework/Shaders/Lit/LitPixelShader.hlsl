@@ -35,7 +35,9 @@ float4 main(PSInput input) : SV_TARGET
     }
     else //PBR¿Ã∏È
     { 
-        float4 LightColor = (0, 0, 0, 1);
+        float3 AmbientColor = textureColor.rgb * Mat.ambientStrength;
+        float4 LightColor = float4(0, 0, 0, 1);
+        
         LightColor += float4(Lighting::ComputeDirectionalLightPhongModel(Lights[0], toViewDirection, input.Normal, Mat), 1.f);
     
         int i = 1;
@@ -55,8 +57,7 @@ float4 main(PSInput input) : SV_TARGET
 
         if (Mat.useIBL)
         {
-            float3 reflection = reflect(toViewDirection, input.Normal);
-            LightColor += (SkyboxDiffuse.Sample(g_sampler, input.Normal) + SkyboxSpecular.Sample(g_sampler, normalize(reflection))) * Mat.roughness;
+            LightColor += IBLUsingMat(input.Normal, toViewDirection, Mat);
         }
     
         FinalColor = LightColor * textureColor;

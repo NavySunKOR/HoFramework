@@ -36,3 +36,21 @@ SamplerState g_sampler : register(s0);
 
 static const int NUM_POINT_LIGHT = 1;
 static const int NUM_SPOTLIGHT = 1;
+
+
+        
+float4 IBLUsingMat(float3 InNormal, float3 InViewDir,Material InMat)
+{
+    float4 diffuse = SkyboxDiffuse.Sample(g_sampler, InNormal);
+    
+    float3 reflection = normalize(reflect(InViewDir, InNormal));
+    float4 specular = SkyboxSpecular.Sample(g_sampler, reflection);
+    specular *= pow((specular.r + specular.g + specular.b) / 3.f, InMat.shiness);
+    specular.rgb *= SchlickFresnel(InMat.fresnelR0.rgb, dot(InNormal, InViewDir));
+    specular.w = 1.f;
+    
+    
+    float3 IBLColor = (diffuse.rgb + specular.rgb) * InMat.shiness;
+    return float4(IBLColor, 1.f);
+
+}
