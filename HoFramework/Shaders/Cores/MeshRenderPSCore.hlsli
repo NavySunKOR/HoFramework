@@ -39,7 +39,7 @@ static const int NUM_SPOTLIGHT = 1;
 
 
         
-float4 IBLUsingMat(float3 InNormal, float3 InViewDir,Material InMat)
+float4 IBLUsingPhong(float3 InNormal, float3 InViewDir,Material InMat)
 {
     float4 diffuse = SkyboxDiffuse.Sample(g_sampler, InNormal);
     

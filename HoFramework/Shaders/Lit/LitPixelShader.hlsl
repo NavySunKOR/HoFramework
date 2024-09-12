@@ -57,7 +57,7 @@ float4 main(PSInput input) : SV_TARGET
 
         if (Mat.useIBL)
         {
-            LightColor += IBLUsingMat(input.Normal, toViewDirection, Mat);
+            LightColor += IBLUsingPhong(input.Normal, toViewDirection, Mat);
         }
     
         FinalColor = LightColor * textureColor;
