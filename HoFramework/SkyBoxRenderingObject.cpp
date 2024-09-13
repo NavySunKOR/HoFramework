@@ -21,7 +21,7 @@ void HSkyBoxRenderingObject::Render()
 	UINT stride = sizeof(Vertex);
 	UINT offset = 0;
 	ComPtr<ID3D11DeviceContext> Context = m_ParentRenderModule->GetContext();
-	ID3D11ShaderResourceView* resources[1] = { m_SkyboxSpecularResourceView.Get()};
+	ID3D11ShaderResourceView* resources[1] = { m_SkyboxOriginalResourceView.Get()};
 	Context->PSSetShaderResources(0, 1, resources);
 	Context->PSSetSamplers(0, 1, m_ParentRenderModule->GetSampler().GetAddressOf());
 
@@ -43,20 +43,33 @@ void HSkyBoxRenderingObject::Render()
 	Context->DrawIndexed((UINT)m_meshObjects[0].mesh.indices.size(), 0, 0);
 }
 
-void HSkyBoxRenderingObject::SetSkyboxResources(LPCWSTR InDiffuseDDSLoc, LPCWSTR InSpecularDDSLoc)
+void HSkyBoxRenderingObject::SetSkyboxResources(LPCWSTR InOriginalDDSLoc, LPCWSTR InDiffuseDDSLoc, LPCWSTR InSpecularDDSLoc, LPCWSTR InBRDFDDSLoc)
 {
 	auto hr = CreateDDSTextureFromFileEx(
+		m_ParentRenderModule->GetDevice().Get(), InOriginalDDSLoc, 0, D3D11_USAGE_DEFAULT,
+		D3D11_BIND_SHADER_RESOURCE, 0,
+		D3D11_RESOURCE_MISC_TEXTURECUBE, // Å¥ºê¸Ê¿ë ÅØ½ºÃç
+		DDS_LOADER_FLAGS(false), (ID3D11Resource**)m_SkyboxOriginalResource.GetAddressOf(),
+		m_SkyboxOriginalResourceView.GetAddressOf(), nullptr);
+
+	auto hr2 = CreateDDSTextureFromFileEx(
 		m_ParentRenderModule->GetDevice().Get(), InDiffuseDDSLoc, 0, D3D11_USAGE_DEFAULT,
 		D3D11_BIND_SHADER_RESOURCE, 0,
 		D3D11_RESOURCE_MISC_TEXTURECUBE, // Å¥ºê¸Ê¿ë ÅØ½ºÃç
 		DDS_LOADER_FLAGS(false), (ID3D11Resource**)m_SkyboxDiffuseResource.GetAddressOf(),
 		m_SkyboxDiffuseResourceView.GetAddressOf(), nullptr);
 
-	auto hr2 = CreateDDSTextureFromFileEx(
+	auto hr3 = CreateDDSTextureFromFileEx(
 		m_ParentRenderModule->GetDevice().Get(), InSpecularDDSLoc, 0, D3D11_USAGE_DEFAULT,
 		D3D11_BIND_SHADER_RESOURCE, 0,
 		D3D11_RESOURCE_MISC_TEXTURECUBE, // Å¥ºê¸Ê¿ë ÅØ½ºÃç
 		DDS_LOADER_FLAGS(false), (ID3D11Resource**)m_SkyboxSpecularResource.GetAddressOf(),
 		m_SkyboxSpecularResourceView.GetAddressOf(), nullptr);
 
+	auto hr4 = CreateDDSTextureFromFileEx(
+		m_ParentRenderModule->GetDevice().Get(), InBRDFDDSLoc, 0, D3D11_USAGE_DEFAULT,
+		D3D11_BIND_SHADER_RESOURCE, 0,
+		0, // Texture2D
+		DDS_LOADER_FLAGS(false), (ID3D11Resource**)m_SkyboxBRDFResource.GetAddressOf(),
+		m_SkyboxBRDFResourceView.GetAddressOf(), nullptr);
 }

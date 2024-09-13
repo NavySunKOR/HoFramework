@@ -21,12 +21,23 @@ public:
 		return m_SkyboxSpecularResourceView;
 	};
 
-	void SetSkyboxResources(LPCWSTR InDiffuseDDSLoc, LPCWSTR InSpecularDDSLoc);
+	ComPtr<ID3D11ShaderResourceView> GetSkyboxBRDF() {
+		return m_SkyboxBRDFResourceView;
+	};
+
+	void SetSkyboxResources(LPCWSTR InOriginalDDSLoc, LPCWSTR InDiffuseDDSLoc, LPCWSTR InSpecularDDSLoc, LPCWSTR InBRDFDDSLoc);
 
 
 private:
+	ComPtr<ID3D11Resource> m_SkyboxOriginalResource;
+	ComPtr<ID3D11ShaderResourceView> m_SkyboxOriginalResourceView;
 	ComPtr<ID3D11Resource> m_SkyboxDiffuseResource;
 	ComPtr<ID3D11ShaderResourceView> m_SkyboxDiffuseResourceView;
 	ComPtr<ID3D11Resource> m_SkyboxSpecularResource;
 	ComPtr<ID3D11ShaderResourceView> m_SkyboxSpecularResourceView;
+
+	ComPtr<ID3D11Resource> m_SkyboxBRDFResource;
+	ComPtr<ID3D11ShaderResourceView> m_SkyboxBRDFResourceView;
+
+
 };

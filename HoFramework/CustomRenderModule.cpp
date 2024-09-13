@@ -26,7 +26,7 @@ bool HCustomRenderModule::Initialize(Application* pAppContext)
 	SkyBoxObject = std::make_shared<HSkyBoxRenderingObject>(this);
 
 	SkyBoxObject->ApplyMesh(EPrimitiveType::Sphere);
-	SkyBoxObject->SetSkyboxResources(L"./skybox/outdoorHDR/OutdoorDiffuseHDR.dds", L"./skybox/outdoorHDR/OutdoorSpecularHDR.dds");
+	SkyBoxObject->SetSkyboxResources(L"./skybox/ForestWall/ForestWallEnvHDR.dds",L"./skybox/ForestWall/ForestWallDiffuseHDR.dds", L"./skybox/ForestWall/ForestWallSpecularHDR.dds", L"./skybox/ForestWall/ForestWallBrdf.dds");
 	SkyBoxObject->SetVertexShader(L"./Shaders/Skybox/VertexShaderSkybox.hlsl", "main");
 	SkyBoxObject->SetPixelShader(L"./Shaders/Skybox/PixelShaderSkybox.hlsl", "main");
 	SkyBoxObject->Scale(Vector3(10.f, 10.f, 10.f));
@@ -47,7 +47,7 @@ bool HCustomRenderModule::Initialize(Application* pAppContext)
 	SphereObject->SetExternalResource(0, EModelTexture2DType::Normal, string("./SampleTexture/brick-wall/brick-wall_normal-dx.png"));
 	SphereObject->SetExternalResource(0, EModelTexture2DType::Metallic, string("./SampleTexture/brick-wall/brick-wall_metallic.png"));
 	SphereObject->SetExternalResource(0, EModelTexture2DType::Roughness, string("./SampleTexture/brick-wall/brick-wall_roughness.png"));
-	SphereObject->SetSkyboxSRVs(SkyBoxObject->GetSkyboxDiffuse(), SkyBoxObject->GetSkyboxSpecular());
+	SphereObject->SetSkyboxSRVs(SkyBoxObject->GetSkyboxDiffuse(), SkyBoxObject->GetSkyboxSpecular(),SkyBoxObject->GetSkyboxBRDF());
 	SphereObject->SetVertexShader(L"./Shaders/Lit/LitVertexShader.hlsl", "main");
 	SphereObject->SetPixelShader(L"./Shaders/Lit/LitPixelShader.hlsl", "main");
 	SphereObject->Scale(Vector3(1.f, 1.f, 1.f));
@@ -180,24 +180,21 @@ void HCustomRenderModule::UpdateInput()
 		m_MoveFPP = !m_MoveFPP;
 	}
 
-	if(Input.GetKey(KeyW) && m_MoveFPP)
-		m_MainView.Translate(m_MainView.GetForward() * 0.016f * 10.f);
-
-	if (Input.GetKey(KeyS) && m_MoveFPP)
-		m_MainView.Translate(m_MainView.GetForward() * -1.f * 0.016f * 10.f);
-
-	if (Input.GetKey(KeyA) && m_MoveFPP)
-		m_MainView.Translate(m_MainView.GetRight() * -1.f * 0.016f * 10.f);
-
-	if (Input.GetKey(KeyD) && m_MoveFPP)
-		m_MainView.Translate(m_MainView.GetRight() * 0.016f * 10.f);
-
-
-
 	if (m_MoveFPP)
 	{
+		if (Input.GetKey(KeyW))
+			m_MainView.Translate(m_MainView.GetForward() * 0.016f * 10.f);
+
+		if (Input.GetKey(KeyS))
+			m_MainView.Translate(m_MainView.GetForward() * -1.f * 0.016f * 10.f);
+
+		if (Input.GetKey(KeyA))
+			m_MainView.Translate(m_MainView.GetRight() * -1.f * 0.016f * 10.f);
+
+		if (Input.GetKey(KeyD))
+			m_MainView.Translate(m_MainView.GetRight() * 0.016f * 10.f);
+
 		Vector2 Mouse = m_AppContext->GetInputModule().GetMousePositionNDC();
-		//Mouse.y * (DirectX::XM_PI / 2)
 		m_MainView.Rotate(Vector3(Mouse.y * (DirectX::XM_PIDIV2), Mouse.x * (DirectX::XM_2PI), 0));
 	}
 

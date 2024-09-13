@@ -44,7 +44,7 @@ public:
 
 	//보통 메쉬가 하나 뿐일 때 사용한다.
 	void SetExternalResource(int InApplyMeshIndex, EModelTexture2DType InTextureType, string textureLocation);
-	void SetSkyboxSRVs(ComPtr<ID3D11ShaderResourceView> InDiffuse, ComPtr<ID3D11ShaderResourceView> InSpecular);
+	void SetSkyboxSRVs(ComPtr<ID3D11ShaderResourceView> InDiffuse, ComPtr<ID3D11ShaderResourceView> InSpecular, ComPtr<ID3D11ShaderResourceView> InBRDF);
 
 protected:
 
@@ -71,7 +71,7 @@ protected:
 	HBaseRenderModule* m_ParentRenderModule;
 
 
-	ComPtr<ID3D11ShaderResourceView> IBLSRVs[2]; 
+	ComPtr<ID3D11ShaderResourceView> IBLSRVs[3]; 
 	//vector< ComPtr<ID3D11ShaderResourceView>> UsingShaderResources;
 
 

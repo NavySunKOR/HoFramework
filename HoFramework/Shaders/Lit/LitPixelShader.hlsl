@@ -21,19 +21,23 @@ float4 main(PSInput input) : SV_TARGET
     
     float4 FinalColor = float4(0.f, 0.f, 0.f, 1);
     
-    if (Mat.usePBR)
+    if (Mat.usePBR)//PBR이면
     {
         float roughness = (Mat.useRoughnessMap) ? g_textureRoughness.Sample(g_sampler, input.TexCoord).r : Mat.roughness;
         float metalic = (Mat.useMetallicMap) ? g_textureMetallic.Sample(g_sampler, input.TexCoord).r : Mat.metalic;
         
-        float3 ambientColor = Mat.ambientStrength * textureColor.rgb;
+        
+        
+        float3 ambientColor = (Mat.useIBL)? IBLUsingBRDF(textureColor, input.Normal, toViewDirection, metalic, roughness) : Mat.ambientStrength * textureColor;
+        
+        
         float3 lightVec = Lights[1].LightPos - input.WorldPosition;
         float3 radiance = GetFallOffAttenutation(length(lightVec), Lights[1].FalloffStart, Lights[1].FalloffEnd) * Lights[1].LightColor * Lights[1].LightIntensity;
         //float3 radiance = 1.f / (length(lightVec) * length(lightVec)) *Lights[1].LightColor;
         FinalColor.rgb = ambientColor + Shading::PBR::PBR(normalize(lightVec), toViewDirection, input.Normal, textureColor.rgb, metalic, roughness, radiance);
         //FinalColor = clamp(FinalColor, 0, 1000.f);
     }
-    else //PBR이면
+    else 
     { 
         float3 AmbientColor = textureColor.rgb * Mat.ambientStrength;
         float4 LightColor = float4(0, 0, 0, 1);

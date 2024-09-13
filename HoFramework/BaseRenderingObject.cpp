@@ -95,15 +95,18 @@ void HBaseRenderingObject::SetExternalResource(int InApplyMeshIndex, EModelTextu
 	}
 }
 
-void HBaseRenderingObject::SetSkyboxSRVs(ComPtr<ID3D11ShaderResourceView> InDiffuse, ComPtr<ID3D11ShaderResourceView> InSpecular)
+void HBaseRenderingObject::SetSkyboxSRVs(ComPtr<ID3D11ShaderResourceView> InDiffuse, ComPtr<ID3D11ShaderResourceView> InSpecular, ComPtr<ID3D11ShaderResourceView> InBRDF)
 {
 	IBLSRVs[0] = InDiffuse;
 	IBLSRVs[1] = InSpecular;
+	IBLSRVs[2] = InBRDF;
 
 
 	for (int i = 0; i < m_meshObjects.size(); ++i)
 	{
-		if (IBLSRVs[0].Get() && IBLSRVs[1].Get())
+		//PBR On이면 BRDF포함 , 아니면 미포함
+		if ( (m_meshObjects[i].materialPSConstantData.Mat.UsePBR && IBLSRVs[0].Get() && IBLSRVs[1].Get() && IBLSRVs[2].Get())
+			|| (!m_meshObjects[i].materialPSConstantData.Mat.UsePBR && IBLSRVs[0].Get() && IBLSRVs[1].Get()))
 			m_meshObjects[i].materialPSConstantData.Mat.UseIBL = true;
 	}
 }
@@ -214,13 +217,13 @@ void HBaseRenderingObject::RenderInternal()
 		context->VSSetConstantBuffers(0, 1, meshObj.vertexConstantBuffer.GetAddressOf());
 		context->PSSetShader(m_pixelShader.Get(), 0, 0);
 
-		ID3D11ShaderResourceView* pixelResources[8] = 
+		ID3D11ShaderResourceView* pixelResources[9] = 
 		{ meshObj.textureResourceViews[0].Get() ,meshObj.textureResourceViews[1].Get() ,meshObj.textureResourceViews[2].Get(), 
 		  meshObj.textureResourceViews[3].Get() ,meshObj.textureResourceViews[4].Get() ,meshObj.textureResourceViews[5].Get(),
-		  IBLSRVs[0].Get(),IBLSRVs[1].Get()
+		  IBLSRVs[0].Get(),IBLSRVs[1].Get(),IBLSRVs[2].Get()
 		};
 
-		context->PSSetShaderResources(0, 8, pixelResources);
+		context->PSSetShaderResources(0, 9, pixelResources);
 
 		context->PSSetConstantBuffers(0, 1, meshObj.materialPSConstantBuffer.GetAddressOf());
 		context->PSSetConstantBuffers(1, 1, m_viewConstBuffer.GetAddressOf());
