@@ -30,6 +30,8 @@ protected:
 
 private:
 
+	void RenderFinalColor();
+
 	void UpdateInput();
 	HImGUIRenderSubModule GUIRenderSubModule;
 	bool m_MoveFPP = false;

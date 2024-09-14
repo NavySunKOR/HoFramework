@@ -16,9 +16,10 @@ void HDefaultRenderingObject::Update()
 	UpdateInternal();
 }
 
-void HDefaultRenderingObject::Render()
+void HDefaultRenderingObject::Render(HCamera InCamera)
 {
 	//TODO: 콘스탄트 버퍼 설정할 방법 찾아볼것
 	/**/
-	RenderInternal();
+
+	RenderInternal(InCamera);
 }

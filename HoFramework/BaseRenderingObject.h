@@ -19,7 +19,7 @@ public:
 
 	virtual void Initialize() = 0;
 	virtual void Update() = 0;
-	virtual void Render() = 0;
+	virtual void Render(HCamera InCamera) = 0;
 
 public:
 	void Translate(Vector3 pTranslate);
@@ -46,11 +46,12 @@ public:
 	void SetExternalResource(int InApplyMeshIndex, EModelTexture2DType InTextureType, string textureLocation);
 	void SetSkyboxSRVs(ComPtr<ID3D11ShaderResourceView> InDiffuse, ComPtr<ID3D11ShaderResourceView> InSpecular, ComPtr<ID3D11ShaderResourceView> InBRDF);
 
-protected:
 
+protected:
 	void InitializeInternal();
 	void UpdateInternal();
-	void RenderInternal();
+	void RenderInternal(HCamera InCamera);
+	void UpdateBuffer(HCamera InCamera);
 
 	vector<MeshObject> m_meshObjects;
 	ComPtr<ID3D11VertexShader> m_vertexShader;
@@ -77,6 +78,8 @@ protected:
 
 	//오브젝트 별 FOV 설정(FPS게임에서 건 카메라 같은 역할)
 	bool m_IsUsingCustomView = false;
+
+	HCamera m_CustomViewport;
 
 	bool m_CustomIsPerspective = true;
 	float m_CustomFOVInDeg = 70.f;

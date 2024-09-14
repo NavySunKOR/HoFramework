@@ -16,8 +16,10 @@ void HSkyBoxRenderingObject::Update()
 	UpdateInternal();
 }
 
-void HSkyBoxRenderingObject::Render()
+void HSkyBoxRenderingObject::Render(HCamera InCamera)
 {
+	UpdateBuffer(InCamera);
+
 	UINT stride = sizeof(Vertex);
 	UINT offset = 0;
 	ComPtr<ID3D11DeviceContext> Context = m_ParentRenderModule->GetContext();

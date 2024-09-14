@@ -111,6 +111,32 @@ void HBaseRenderingObject::SetSkyboxSRVs(ComPtr<ID3D11ShaderResourceView> InDiff
 	}
 }
 
+void HBaseRenderingObject::UpdateBuffer(HCamera InCamera)
+{
+	m_basicVertexConstBufferData.ModelTransform = (ScaleMatrix * RotationMatrix * TranslationMatrix);
+	m_basicVertexConstBufferData.ModelTransform = m_basicVertexConstBufferData.ModelTransform.Transpose();
+	m_basicVertexConstBufferData.InverseTransform = m_basicVertexConstBufferData.ModelTransform;
+	m_basicVertexConstBufferData.InverseTransform.Translation(Vector3(0.0f));
+	m_basicVertexConstBufferData.InverseTransform = m_basicVertexConstBufferData.InverseTransform.Transpose().Invert();
+
+
+	if (m_IsUsingCustomView == false)
+	{
+		m_basicVertexConstBufferData.ViewTransform = InCamera.GetViewMatrix();
+		m_basicVertexConstBufferData.ProjectionTransform = InCamera.GetProjectionMatrix();
+		m_viewConstBufferData.UsingViewPosition = Vector3::Transform(Vector3(0.f, 0.f, 0.f), m_basicVertexConstBufferData.ViewTransform.Transpose().Invert());
+	}
+	else
+	{
+		m_basicVertexConstBufferData.ViewTransform = m_CustomViewport.GetViewMatrix();
+		m_basicVertexConstBufferData.ProjectionTransform = m_CustomViewport.GetProjectionMatrix();
+		m_viewConstBufferData.UsingViewPosition = Vector3::Transform(Vector3(0.f, 0.f, 0.f), m_basicVertexConstBufferData.ViewTransform.Transpose().Invert());
+	}
+
+	HRenderingLibrary::UpdateConstantBuffer(m_basicVertexConstBufferData, m_basicVertexConstBuffer, m_ParentRenderModule->GetContext());
+	HRenderingLibrary::UpdateConstantBuffer(m_viewConstBufferData, m_viewConstBuffer, m_ParentRenderModule->GetContext());
+}
+
 void HBaseRenderingObject::InitializeInternal()
 {
 	ComPtr<ID3D11Device>& device = m_ParentRenderModule->GetDevice();
@@ -178,27 +204,11 @@ void HBaseRenderingObject::InitializeInternal()
 void HBaseRenderingObject::UpdateInternal()
 {
 	using namespace DirectX;
-
-	m_basicVertexConstBufferData.ModelTransform = (ScaleMatrix * RotationMatrix * TranslationMatrix);
-	m_basicVertexConstBufferData.ModelTransform = m_basicVertexConstBufferData.ModelTransform.Transpose();
-	m_basicVertexConstBufferData.InverseTransform = m_basicVertexConstBufferData.ModelTransform;
-	m_basicVertexConstBufferData.InverseTransform.Translation(Vector3(0.0f));
-	m_basicVertexConstBufferData.InverseTransform = m_basicVertexConstBufferData.InverseTransform.Transpose().Invert();
-
-
-	if (m_IsUsingCustomView == false)
-	{
-		m_basicVertexConstBufferData.ViewTransform = m_ParentRenderModule->GetMainView().GetViewMatrix();
-		m_basicVertexConstBufferData.ProjectionTransform = m_ParentRenderModule->GetMainView().GetProjectionMatrix();
-		m_viewConstBufferData.UsingViewPosition = Vector3::Transform(Vector3(0.f, 0.f, 0.f), m_basicVertexConstBufferData.ViewTransform.Transpose().Invert());
-	}
-
-	HRenderingLibrary::UpdateConstantBuffer(m_basicVertexConstBufferData, m_basicVertexConstBuffer, m_ParentRenderModule->GetContext());
-	HRenderingLibrary::UpdateConstantBuffer(m_viewConstBufferData, m_viewConstBuffer, m_ParentRenderModule->GetContext());
-
+	
 }
-void HBaseRenderingObject::RenderInternal()
+void HBaseRenderingObject::RenderInternal(HCamera InCamera)
 {
+	UpdateBuffer(InCamera);
 	ComPtr<ID3D11DeviceContext>& context = m_ParentRenderModule->GetContext();
 	for (MeshObject meshObj : m_meshObjects)
 	{

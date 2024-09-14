@@ -163,6 +163,44 @@ void HCustomRenderModule::Update()
 
 
 
+void HCustomRenderModule::RenderFinalColor()
+{
+	m_context->RSSetViewports(1, &m_screenViewport);
+	float clearColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
+	m_context->ClearRenderTargetView(m_renderTargetView.Get(), clearColor);
+	m_context->ClearDepthStencilView(m_depthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+
+	//이거 매 프레임마다 클리어 해줄 것.
+	if (m_depthStencilView)
+		m_context->OMSetRenderTargets(1, m_renderTargetView.GetAddressOf(), m_depthStencilView.Get());
+	else
+		m_context->OMSetRenderTargets(1, m_renderTargetView.GetAddressOf(), nullptr);
+
+	m_context->OMSetDepthStencilState(m_depthStencilState.Get(), 0);
+
+	if (SkyBoxObject)
+		SkyBoxObject->Render(m_MainView);
+
+	for (size_t i = 0; i < RenderingObjects.size(); ++i)
+	{
+		RenderingObjects[i]->Render(m_MainView);
+	}
+
+	ComPtr<ID3D11Texture2D> backBuffer;
+	m_swapChain->GetBuffer(0, IID_PPV_ARGS(backBuffer.GetAddressOf()));
+	m_context->ResolveSubresource(m_tempTexture.Get(), 0, backBuffer.Get(), 0,
+		DXGI_FORMAT_R16G16B16A16_FLOAT);
+
+	for (size_t i = 0; i < ImageFilters.size(); ++i)
+	{
+		ImageFilters[i]->Render();
+	}
+
+	GUIRenderSubModule.Render();
+
+	m_swapChain->Present(1, 0);
+}
+
 void HCustomRenderModule::UpdateInput()
 {
 	//std::shared_ptr<HFBXRenderingObject> Zelda = (std::shared_ptr<HFBXRenderingObject>)(RenderingObjects[0]);
@@ -214,26 +252,5 @@ void HCustomRenderModule::Render()
 	// RS: Rasterizer stage
 	// OM: Output-Merger stage.
 
-	if(SkyBoxObject)
-	SkyBoxObject->Render();
-
-	for (size_t i = 0; i < RenderingObjects.size(); ++i)
-	{
-		RenderingObjects[i]->Render();
-	}
-
-	ComPtr<ID3D11Texture2D> backBuffer;
-	m_swapChain->GetBuffer(0, IID_PPV_ARGS(backBuffer.GetAddressOf()));
-	m_context->ResolveSubresource(m_tempTexture.Get(), 0, backBuffer.Get(), 0,
-		DXGI_FORMAT_R16G16B16A16_FLOAT);
-
-	for (size_t i = 0; i < ImageFilters.size(); ++i)
-	{
-		ImageFilters[i]->Render();
-	}
-
-	GUIRenderSubModule.Render();
-
-	m_swapChain->Present(1, 0);
-
+	RenderFinalColor();
 }

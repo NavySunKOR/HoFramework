@@ -15,7 +15,7 @@ void HFBXRenderingObject::Update()
 	UpdateInternal();
 }
 
-void HFBXRenderingObject::Render()
+void HFBXRenderingObject::Render(HCamera InCamera)
 {
-	RenderInternal();
+	RenderInternal(InCamera);
 }

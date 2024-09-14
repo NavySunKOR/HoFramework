@@ -56,18 +56,6 @@ void HBaseRenderModule::Update() {
 };
 void HBaseRenderModule::Render() {
 
-    m_context->RSSetViewports(1, &m_screenViewport);
-    float clearColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
-    m_context->ClearRenderTargetView(m_renderTargetView.Get(), clearColor);
-    m_context->ClearDepthStencilView(m_depthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
-
-    //이거 매 프레임마다 클리어 해줄 것.
-    if (m_depthStencilView)
-        m_context->OMSetRenderTargets(1, m_renderTargetView.GetAddressOf(), m_depthStencilView.Get());
-    else
-        m_context->OMSetRenderTargets(1, m_renderTargetView.GetAddressOf(), nullptr);
-
-    m_context->OMSetDepthStencilState(m_depthStencilState.Get(), 0);
 };
 
 bool HBaseRenderModule::InitSampler()
