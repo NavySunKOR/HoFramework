@@ -37,6 +37,13 @@ namespace States {
     ComPtr<ID3D11InputLayout> skyboxIL;
     ComPtr<ID3D11InputLayout> postProcessBaseIL;
 
+    ComPtr<ID3D11DepthStencilState> depthStencilState;
+
+    GraphicsPSO basicSolidPSO;
+    GraphicsPSO basicWirePSO;
+
+    GraphicsPSO postProcessBasePSO;
+    GraphicsPSO skyboxPSO;
 };
 
 
@@ -52,6 +59,55 @@ void States::InitStates(ComPtr<ID3D11Device>& device)
     InitPixelShaders(device);
 
 
+    D3D11_DEPTH_STENCIL_DESC depthStencilDesc;
+    ZeroMemory(&depthStencilDesc, sizeof(D3D11_DEPTH_STENCIL_DESC));
+    depthStencilDesc.DepthEnable = true; // false
+    depthStencilDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK::D3D11_DEPTH_WRITE_MASK_ALL;
+    depthStencilDesc.DepthFunc = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_LESS_EQUAL;
+    device->CreateDepthStencilState(&depthStencilDesc, depthStencilState.GetAddressOf());
+
+    basicSolidPSO.m_vertexShader = basicVS;
+    basicSolidPSO.m_pixelShader = basicPS;
+    basicSolidPSO.m_inputLayout = basicIL;
+    basicSolidPSO.m_primitiveTopology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+    basicSolidPSO.m_rasterizerState = solidRS;
+    basicSolidPSO.m_depthStencilState = depthStencilState;
+    basicSolidPSO.m_samplerState = linearClampSS;
+
+    basicWirePSO = basicSolidPSO;
+    basicWirePSO.m_rasterizerState = wireRS;
+
+    skyboxPSO = basicSolidPSO;
+    skyboxPSO.m_vertexShader = skyboxVS;
+    skyboxPSO.m_pixelShader = skyboxPS;
+    skyboxPSO.m_inputLayout = skyboxIL;
+
+    postProcessBasePSO = basicSolidPSO;
+    postProcessBasePSO.m_vertexShader = postProcessBaseVS;
+    postProcessBasePSO.m_pixelShader = postProcessBasePS;
+
+    postProcessBasePSO.m_samplerState = linearClampSS;
+    postProcessBasePSO.m_rasterizerState = solidRS;
+}
+
+
+void GraphicsPSO::operator=(const GraphicsPSO& pso) {
+
+    m_vertexShader = pso.m_vertexShader;
+    m_pixelShader = pso.m_pixelShader;
+    m_hullShader = pso.m_hullShader;
+    m_domainShader = pso.m_domainShader;
+    m_geometryShader = pso.m_geometryShader;
+    m_inputLayout = pso.m_inputLayout;
+    m_blendState = pso.m_blendState;
+    m_depthStencilState = pso.m_depthStencilState;
+    m_rasterizerState = pso.m_rasterizerState;
+
+    for (int i = 0; i < 4; i++)
+        m_blendFactor[i] = pso.m_blendFactor[i];
+    m_primitiveTopology = pso.m_primitiveTopology;
+
+    m_stencilRef = pso.m_stencilRef;
 }
 
 void States::InitSamplerStates(ComPtr<ID3D11Device>& device)
@@ -80,7 +136,6 @@ void States::InitSamplerStates(ComPtr<ID3D11Device>& device)
 
     // Create the Sample State
     device->CreateSamplerState(&linearClampSampDesc, linearWrapSS.GetAddressOf());
-
 
 }
 

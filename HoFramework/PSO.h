@@ -4,21 +4,9 @@
 class GraphicsPSO
 {
 public:
-	GraphicsPSO();
+	GraphicsPSO();  
+    void operator=(const GraphicsPSO& pso);
 
-    void SetBlendState(ComPtr<ID3D11BlendState> InState) { m_blendState = InState; }
-    void SetRasterizerState(ComPtr<ID3D11RasterizerState> InState) { m_rasterizerState = InState; }
-    void SetDepthStencilState(ComPtr<ID3D11DepthStencilState> InDepthStencilState) { m_depthStencilState = InDepthStencilState; }
-
-    // These const_casts shouldn't be necessary, but we need to fix the API to accept "const void* pShaderBytecode"
-    void SetVertexShader(ComPtr<ID3D11VertexShader> InShader) { m_vertexShader = InShader; }
-    void SetPixelShader(ComPtr<ID3D11PixelShader> InShader) { m_pixelShader = InShader; }
-    void SetGeometryShader(ComPtr<ID3D11GeometryShader> InShader) { m_geometryShader = InShader; }
-    void SetHullShader(ComPtr<ID3D11HullShader> InShader) { m_hullShader = InShader; }
-    void SetDomainShader(ComPtr<ID3D11DomainShader> InShader) { m_domainShader = InShader; }
-
-private:
-	wchar_t* m_Name = nullptr;
 
     ComPtr<ID3D11VertexShader> m_vertexShader;
     ComPtr<ID3D11PixelShader> m_pixelShader;
@@ -26,11 +14,11 @@ private:
     ComPtr<ID3D11DomainShader> m_domainShader;
     ComPtr<ID3D11GeometryShader> m_geometryShader;
     ComPtr<ID3D11InputLayout> m_inputLayout;
+    ComPtr<ID3D11SamplerState> m_samplerState;
 
     ComPtr<ID3D11BlendState> m_blendState;
     ComPtr<ID3D11DepthStencilState> m_depthStencilState;
     ComPtr<ID3D11RasterizerState> m_rasterizerState;
-
 
     float m_blendFactor[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
     UINT m_stencilRef = 0;
@@ -78,8 +66,11 @@ namespace States {
    extern ComPtr<ID3D11InputLayout> postProcessingIL;
 
 
-   extern GraphicsPSO defaultSolidPSO;
-   extern GraphicsPSO defaultWirePSO;
+   extern GraphicsPSO basicSolidPSO;
+   extern GraphicsPSO basicWirePSO;
+
+   extern GraphicsPSO postProcessBasePSO;
+   extern GraphicsPSO skyboxPSO;
 
    void InitStates(ComPtr<ID3D11Device>& device);
 
