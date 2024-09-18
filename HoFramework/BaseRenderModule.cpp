@@ -1,6 +1,7 @@
 #include "BaseRenderModule.h"
 #include "Application.h"
 #include "imgui.h"
+#include "PSO.h"
 
 using namespace std;
 #pragma comment(lib,"d3d11.lib")
@@ -17,6 +18,7 @@ bool HBaseRenderModule::Initialize(Application* pAppContext)
 
     if (!InitDeviceAndContext())
         return false;
+
 
     if (!InitSwapChain())
         return false;
@@ -41,6 +43,8 @@ bool HBaseRenderModule::Initialize(Application* pAppContext)
 
     m_MainView.SetApplication(m_AppContext);
 
+    States::InitStates(m_device);
+
     m_IsInitialized = true;
 
     return true;
@@ -55,6 +59,23 @@ void HBaseRenderModule::Update() {
 
 };
 void HBaseRenderModule::Render() {
+
+}
+void HBaseRenderModule::SetPSO(const HGraphicsPSO& InPSO)
+{
+    m_context->IASetPrimitiveTopology(InPSO.m_primitiveTopology);
+    m_context->OMSetBlendState(InPSO.m_blendState.Get(),InPSO.m_blendFactor, 0xffffffff);
+
+    m_context->OMSetDepthStencilState(InPSO.m_depthStencilState.Get(), 0);
+
+    m_context->DSSetShader(InPSO.m_domainShader.Get(), nullptr, 0);
+    m_context->GSSetShader(InPSO.m_geometryShader.Get(), nullptr, 0);
+    m_context->HSSetShader(InPSO.m_hullShader.Get(), nullptr, 0);
+    m_context->VSSetShader( InPSO.m_vertexShader.Get(), 0, 0);
+    m_context->PSSetShader(InPSO.m_pixelShader.Get(),0,0);
+    m_context->RSSetState( InPSO.m_rasterizerState.Get());
+    if(InPSO.m_samplerState)
+        m_context->PSSetSamplers(0,1,InPSO.m_samplerState.GetAddressOf()); //TODO : 나중에 Samplers도 Resource 취급하여 스태틱으로 만들고 각 오브젝트 별로 넣는 파라미터로 취급할것. 지금은 파라미터 하나만 사용하므로 패스
 
 };
 

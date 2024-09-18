@@ -6,6 +6,7 @@
 #include "DefaultRenderingObject.h"
 #include "ImageFilter.h"
 #include "SeaImageFilter.h"
+#include "PSO.h"
 
 #pragma comment(lib,"d3d11.lib")
 #pragma comment(lib,"d3dcompiler.lib")
@@ -176,11 +177,13 @@ void HCustomRenderModule::RenderFinalColor()
 	else
 		m_context->OMSetRenderTargets(1, m_renderTargetView.GetAddressOf(), nullptr);
 
-	m_context->OMSetDepthStencilState(m_depthStencilState.Get(), 0);
 
+	SetPSO(States::skyboxPSO);
 	if (SkyBoxObject)
 		SkyBoxObject->Render(m_MainView);
 
+
+	SetPSO((GetIsWireframe()) ? States::basicWirePSO : States::basicSolidPSO);
 	for (size_t i = 0; i < RenderingObjects.size(); ++i)
 	{
 		RenderingObjects[i]->Render(m_MainView);
@@ -191,6 +194,9 @@ void HCustomRenderModule::RenderFinalColor()
 	m_context->ResolveSubresource(m_tempTexture.Get(), 0, backBuffer.Get(), 0,
 		DXGI_FORMAT_R16G16B16A16_FLOAT);
 
+
+	//TODO: 여기에 Blur나 Bloom 섞으면 조절필요.
+	SetPSO(States::postProcessBasePSO);
 	for (size_t i = 0; i < ImageFilters.size(); ++i)
 	{
 		ImageFilters[i]->Render();

@@ -51,6 +51,8 @@ protected:
 	virtual void Update();
 	virtual void Render();
 
+	void SetPSO(const class HGraphicsPSO& InPSO);
+
 #pragma endregion 
 
 #pragma region Components

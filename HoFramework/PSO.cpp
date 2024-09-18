@@ -1,7 +1,7 @@
 #include "PSO.h"
 #include "RenderingLibrary.h"
 
-GraphicsPSO::GraphicsPSO()
+HGraphicsPSO::HGraphicsPSO()
 {
 }
 
@@ -39,11 +39,11 @@ namespace States {
 
     ComPtr<ID3D11DepthStencilState> depthStencilState;
 
-    GraphicsPSO basicSolidPSO;
-    GraphicsPSO basicWirePSO;
+    HGraphicsPSO basicSolidPSO;
+    HGraphicsPSO basicWirePSO;
 
-    GraphicsPSO postProcessBasePSO;
-    GraphicsPSO skyboxPSO;
+    HGraphicsPSO postProcessBasePSO;
+    HGraphicsPSO skyboxPSO;
 };
 
 
@@ -77,10 +77,18 @@ void States::InitStates(ComPtr<ID3D11Device>& device)
     basicWirePSO = basicSolidPSO;
     basicWirePSO.m_rasterizerState = wireRS;
 
-    skyboxPSO = basicSolidPSO;
+    //skyboxPSO = basicSolidPSO;
+    //skyboxPSO.m_vertexShader = skyboxVS;
+    //skyboxPSO.m_pixelShader = skyboxPS;
+    //skyboxPSO.m_inputLayout = skyboxIL;
+
     skyboxPSO.m_vertexShader = skyboxVS;
     skyboxPSO.m_pixelShader = skyboxPS;
     skyboxPSO.m_inputLayout = skyboxIL;
+    skyboxPSO.m_primitiveTopology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+    skyboxPSO.m_rasterizerState = solidRS;
+    skyboxPSO.m_depthStencilState = depthStencilState;
+    skyboxPSO.m_samplerState = linearWrapSS;
 
     postProcessBasePSO = basicSolidPSO;
     postProcessBasePSO.m_vertexShader = postProcessBaseVS;
@@ -91,7 +99,7 @@ void States::InitStates(ComPtr<ID3D11Device>& device)
 }
 
 
-void GraphicsPSO::operator=(const GraphicsPSO& pso) {
+void HGraphicsPSO::operator=(const HGraphicsPSO& pso) {
 
     m_vertexShader = pso.m_vertexShader;
     m_pixelShader = pso.m_pixelShader;
@@ -129,13 +137,13 @@ void States::InitSamplerStates(ComPtr<ID3D11Device>& device)
 
     D3D11_SAMPLER_DESC linearWrapSampDesc;
     linearWrapSampDesc = linearClampSampDesc;
-    linearClampSampDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
-    linearClampSampDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
-    linearClampSampDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+    linearWrapSampDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+    linearWrapSampDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+    linearWrapSampDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
 
 
     // Create the Sample State
-    device->CreateSamplerState(&linearClampSampDesc, linearWrapSS.GetAddressOf());
+    device->CreateSamplerState(&linearWrapSampDesc, linearWrapSS.GetAddressOf());
 
 }
 
@@ -199,8 +207,7 @@ void States::InitBlendStates(ComPtr<ID3D11Device>& device)
     blendDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
 
     // 필요하면 RGBA 각각에 대해서도 조절 가능
-    blendDesc.RenderTarget[0].RenderTargetWriteMask =
-        D3D11_COLOR_WRITE_ENABLE_ALL;
+    blendDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
 
     device->CreateBlendState(&blendDesc, translucentBS.GetAddressOf());
       
@@ -215,7 +222,7 @@ void States::InitVertexShaders(ComPtr<ID3D11Device>& device)
     //skyboxVS
     HRenderingLibrary::CreateVertexShader(device, skyboxVS, skyboxIL, L"./Shaders/Skybox/VertexShaderSkybox.hlsl", "main", HRenderingLibrary::GetVSInputLayout());
     //postProcessBaseVS
-    HRenderingLibrary::CreateVertexShader(device, skyboxVS, skyboxIL, L"./Shaders/ImageFilters/Base/ImageVertexShader.hlsl", "main", HRenderingLibrary::GetVSInputLayout());
+    HRenderingLibrary::CreateVertexShader(device, postProcessBaseVS, postProcessBaseIL, L"./Shaders/ImageFilters/Base/ImageVertexShader.hlsl", "main", HRenderingLibrary::GetVSInputLayout());
 
 
 }
@@ -225,7 +232,6 @@ void States::InitPixelShaders(ComPtr<ID3D11Device>& device)
     HRenderingLibrary::CreatePixelShader(device, basicPS, L"./Shaders/Lit/LitPixelShader.hlsl", "main");
     HRenderingLibrary::CreatePixelShader(device, skyboxPS, L"./Shaders/Skybox/PixelShaderSkybox.hlsl", "main");
     HRenderingLibrary::CreatePixelShader(device, postProcessBasePS, L"./Shaders/ImageFilters/Base/ImagePixelShader.hlsl", "main");
-    HRenderingLibrary::CreatePixelShader(device, basicPS, L"./Shaders/Skybox/PixelShaderSkybox.hlsl", "main");
     HRenderingLibrary::CreatePixelShader(device, blurXPPPS, L"./Shaders/ImageFilters/Blur/BlurXPixelShader.hlsl", "main");
     HRenderingLibrary::CreatePixelShader(device, blurYPPPS, L"./Shaders/ImageFilters/Blur/BlurYPixelShader.hlsl", "main");
 }

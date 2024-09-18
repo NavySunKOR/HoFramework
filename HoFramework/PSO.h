@@ -1,11 +1,11 @@
 #pragma once
 #include "Define.h"
 
-class GraphicsPSO
+class HGraphicsPSO
 {
 public:
-	GraphicsPSO();  
-    void operator=(const GraphicsPSO& pso);
+    HGraphicsPSO();
+    void operator=(const HGraphicsPSO& pso);
 
 
     ComPtr<ID3D11VertexShader> m_vertexShader;
@@ -29,48 +29,39 @@ public:
 
 
 namespace States {
+    extern ComPtr<ID3D11SamplerState> linearWrapSS;
+    extern ComPtr<ID3D11SamplerState> linearClampSS;
 
-    //SamplerStates
-   extern ComPtr<ID3D11SamplerState> linearWrapSS;
-   extern ComPtr<ID3D11SamplerState> linearClampSS;
+    extern ComPtr<ID3D11RasterizerState> solidRS;
+    extern ComPtr<ID3D11RasterizerState> wireRS;
+    extern ComPtr<ID3D11RasterizerState> solidCCWRS;
+    extern ComPtr<ID3D11RasterizerState> wireCCWRS;
 
-   //RasterizeState
-   extern ComPtr<ID3D11RasterizerState> solidRS;
-   extern ComPtr<ID3D11RasterizerState> wireRS;
-   extern ComPtr<ID3D11RasterizerState> solidCCWRS;
-   extern ComPtr<ID3D11RasterizerState> wireCCWRS;
-   extern ComPtr<ID3D11RasterizerState> postProcessingRS;
+    extern ComPtr<ID3D11BlendState> translucentBS;
 
-   //BlendState
-   extern ComPtr<ID3D11BlendState> translucentBS;
+    extern ComPtr<ID3D11VertexShader> basicVS;
+    extern ComPtr<ID3D11VertexShader> skyboxVS;
+    extern ComPtr<ID3D11VertexShader> postProcessBaseVS;
+    extern ComPtr<ID3D11VertexShader> depthOnlyVS;
 
-   //VertexShaders
-   extern ComPtr<ID3D11VertexShader> basicVS;
-   extern ComPtr<ID3D11VertexShader> skyboxVS;
-   extern ComPtr<ID3D11VertexShader> samplingVS;
-   extern ComPtr<ID3D11VertexShader> normalVS;
-   extern ComPtr<ID3D11VertexShader> depthOnlyVS;
+    extern ComPtr<ID3D11PixelShader> basicPS;
+    extern ComPtr<ID3D11PixelShader> skyboxPS;
+    extern ComPtr<ID3D11PixelShader> postProcessBasePS;
+    extern ComPtr<ID3D11PixelShader> depthOnlyPS;
+    extern ComPtr<ID3D11PixelShader> blurXPPPS;
+    extern ComPtr<ID3D11PixelShader> blurYPPPS;
 
-   //PixelShaders
-   extern ComPtr<ID3D11PixelShader> basicPS;
-   extern ComPtr<ID3D11PixelShader> skyboxPS;
-   extern ComPtr<ID3D11PixelShader> combinePS;
-   extern ComPtr<ID3D11PixelShader> normalPS;
-   extern ComPtr<ID3D11PixelShader> depthOnlyPS;
-   extern ComPtr<ID3D11PixelShader> postEffectsPS;
+    extern ComPtr<ID3D11InputLayout> basicIL;
+    extern ComPtr<ID3D11InputLayout> skyboxIL;
+    extern ComPtr<ID3D11InputLayout> postProcessBaseIL;
 
-   //InputLayout
-   extern ComPtr<ID3D11InputLayout> basicIL;
-   extern ComPtr<ID3D11InputLayout> samplingIL;
-   extern ComPtr<ID3D11InputLayout> skyboxIL;
-   extern ComPtr<ID3D11InputLayout> postProcessingIL;
+    extern ComPtr<ID3D11DepthStencilState> depthStencilState;
 
+    extern HGraphicsPSO basicSolidPSO;
+    extern HGraphicsPSO basicWirePSO;
 
-   extern GraphicsPSO basicSolidPSO;
-   extern GraphicsPSO basicWirePSO;
-
-   extern GraphicsPSO postProcessBasePSO;
-   extern GraphicsPSO skyboxPSO;
+    extern HGraphicsPSO postProcessBasePSO;
+    extern HGraphicsPSO skyboxPSO;
 
    void InitStates(ComPtr<ID3D11Device>& device);
 
@@ -86,7 +77,5 @@ namespace States {
    void InitVertexShaders(ComPtr<ID3D11Device>& device);
 
    void InitPixelShaders(ComPtr<ID3D11Device>& device);
-
-   void InitInputLayouts(ComPtr<ID3D11Device>& device);
 
 };
