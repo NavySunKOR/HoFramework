@@ -1,6 +1,6 @@
 #include "ImageFilter.h"
 
-void HImageFilter::Initialize(HBaseRenderModule* ParentModule, const wstring vertexShaderName, const wstring pixelShaderName, int width, int height)
+void HImageFilter::Initialize(HBaseRenderModule* ParentModule, int width, int height)
 {
     m_mesh = make_shared<MeshObject>();
     HRenderingLibrary::MakeSquare(&m_mesh->mesh);

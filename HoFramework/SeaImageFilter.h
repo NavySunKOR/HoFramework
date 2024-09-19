@@ -5,7 +5,7 @@
 class HSeaImageFilter : public HImageFilter
 {
 public:
-	virtual void Initialize(HBaseRenderModule* ParentModule, const wstring vertexShaderName, const wstring pixelShaderName,int width, int height);
+	virtual void Initialize(HBaseRenderModule* ParentModule,int width, int height) override;
 	virtual void Update() override;
 	virtual void Render() override;
 

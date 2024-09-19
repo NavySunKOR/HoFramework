@@ -1,9 +1,9 @@
 #include "SeaImageFilter.h"
 #include "RenderingLibrary.h"
 
-void HSeaImageFilter::Initialize(HBaseRenderModule* ParentModule, const wstring vertexShaderName, const wstring pixelShaderName, int width, int height)
+void HSeaImageFilter::Initialize(HBaseRenderModule* ParentModule, int width, int height)
 {
-	HImageFilter::Initialize(ParentModule, vertexShaderName, pixelShaderName, width, height);
+	HImageFilter::Initialize(ParentModule, width, height);
 
 	HRenderingLibrary::CreateConstantBuffer<SeaPixelConstantBuffer>(m_parentRenderModule->GetDevice(), Sea, m_SeaPixelConstantBuffer);
 }

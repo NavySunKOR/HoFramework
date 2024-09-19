@@ -26,6 +26,7 @@
     <ClCompile Include="CustomRenderModule.cpp" />
     <ClCompile Include="DefaultRenderingObject.cpp" />
     <ClCompile Include="FBXRenderingObject.cpp" />
+    <ClCompile Include="GraphicsCommon.cpp" />
     <ClCompile Include="ImageFilter.cpp" />
     <ClCompile Include="ImGUIRenderSubModule.cpp" />
     <ClCompile Include="InputModule.cpp" />
@@ -44,6 +45,7 @@
     <ClInclude Include="DefaultRenderingObject.h" />
     <ClInclude Include="Define.h" />
     <ClInclude Include="FBXRenderingObject.h" />
+    <ClInclude Include="GraphicsCommon.h" />
     <ClInclude Include="ImageFilter.h" />
     <ClInclude Include="ImGUIRenderSubModule.h" />
     <ClInclude Include="InputModule.h" />
