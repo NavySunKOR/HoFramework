@@ -19,23 +19,13 @@ bool HBaseRenderModule::Initialize(Application* pAppContext)
     if (!InitDeviceAndContext())
         return false;
 
-
     if (!InitSwapChain())
-        return false;
-
-    if (!InitRasterizerState())
         return false;
 
     if (!InitRenderTargetView())
         return false;
 
     if (!InitDepthBuffer())
-        return false;
-
-    if (!InitDepthStencil())
-        return false;
-
-    if (!InitSampler())
         return false;
 
     SetViewport();
@@ -51,11 +41,6 @@ bool HBaseRenderModule::Initialize(Application* pAppContext)
 }
 
 void HBaseRenderModule::Update() {
-    if (m_PrevIsWireframe != m_CurrentIsWireframe)
-    {
-        m_PrevIsWireframe = m_CurrentIsWireframe;
-        InitRasterizerState();
-    }
 
 };
 void HBaseRenderModule::Render() {
@@ -64,6 +49,7 @@ void HBaseRenderModule::Render() {
 void HBaseRenderModule::SetPSO(const HGraphicsPSO& InPSO)
 {
     m_context->IASetPrimitiveTopology(InPSO.m_primitiveTopology);
+    m_context->IASetInputLayout(InPSO.m_inputLayout.Get());
     m_context->OMSetBlendState(InPSO.m_blendState.Get(),InPSO.m_blendFactor, 0xffffffff);
 
     m_context->OMSetDepthStencilState(InPSO.m_depthStencilState.Get(), 0);
@@ -71,30 +57,13 @@ void HBaseRenderModule::SetPSO(const HGraphicsPSO& InPSO)
     m_context->DSSetShader(InPSO.m_domainShader.Get(), nullptr, 0);
     m_context->GSSetShader(InPSO.m_geometryShader.Get(), nullptr, 0);
     m_context->HSSetShader(InPSO.m_hullShader.Get(), nullptr, 0);
-    m_context->VSSetShader( InPSO.m_vertexShader.Get(), 0, 0);
+    m_context->VSSetShader(InPSO.m_vertexShader.Get(), 0, 0);
     m_context->PSSetShader(InPSO.m_pixelShader.Get(),0,0);
-    m_context->RSSetState( InPSO.m_rasterizerState.Get());
+    m_context->RSSetState(InPSO.m_rasterizerState.Get());
     if(InPSO.m_samplerState)
         m_context->PSSetSamplers(0,1,InPSO.m_samplerState.GetAddressOf()); //TODO : 나중에 Samplers도 Resource 취급하여 스태틱으로 만들고 각 오브젝트 별로 넣는 파라미터로 취급할것. 지금은 파라미터 하나만 사용하므로 패스
 
 };
-
-bool HBaseRenderModule::InitSampler()
-{
-    D3D11_SAMPLER_DESC sampDesc;
-    ZeroMemory(&sampDesc, sizeof(sampDesc));
-    sampDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
-    sampDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
-    sampDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
-    sampDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
-    sampDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
-    sampDesc.MinLOD = 0;
-    sampDesc.MaxLOD = D3D11_FLOAT32_MAX;
-
-    // Create the Sample State
-    m_device->CreateSamplerState(&sampDesc, m_SamplerState.GetAddressOf());
-    return (m_SamplerState.Get()) ? true : false;
-}
 
 bool HBaseRenderModule::InitDeviceAndContext()
 {
@@ -199,29 +168,7 @@ bool HBaseRenderModule::InitSwapChain()
     }
     return true;
 }
-bool HBaseRenderModule::InitRasterizerState()
-{
-    D3D11_RASTERIZER_DESC baseRastDessc;
-    ZeroMemory(&baseRastDessc, sizeof(D3D11_RASTERIZER_DESC)); // Need this
-    baseRastDessc.FillMode = (m_CurrentIsWireframe)? D3D11_FILL_MODE::D3D11_FILL_WIREFRAME : D3D11_FILL_MODE::D3D11_FILL_SOLID;
-    baseRastDessc.CullMode = D3D11_CULL_MODE::D3D11_CULL_NONE;
-    baseRastDessc.FrontCounterClockwise = false;
-    baseRastDessc.DepthClipEnable = true; // <- zNear, zFar 확인에 필요
 
-    D3D11_RASTERIZER_DESC solidRastDessc = baseRastDessc;
-
-    m_device->CreateRasterizerState(&solidRastDessc, m_RasterizerState.GetAddressOf());
-
-    if ((m_RasterizerState.Get()))
-    {
-        m_context->RSSetState(m_RasterizerState.Get());
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-}
 bool HBaseRenderModule::InitRenderTargetView()
 {
 
@@ -291,28 +238,6 @@ bool HBaseRenderModule::InitDepthBuffer()
 
     return true;
 }
-bool HBaseRenderModule::InitDepthStencil()
-{
-    ///다시 호출 될 일이 있으므로 여기서 리셋한다.
-    if (m_depthStencilState)
-        m_depthStencilState.Reset();
-
-    //// Create depth stencil state
-    D3D11_DEPTH_STENCIL_DESC depthStencilDesc;
-    ZeroMemory(&depthStencilDesc, sizeof(D3D11_DEPTH_STENCIL_DESC));
-    depthStencilDesc.DepthEnable = true; // false
-    depthStencilDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK::D3D11_DEPTH_WRITE_MASK_ALL;
-    depthStencilDesc.DepthFunc = D3D11_COMPARISON_FUNC::D3D11_COMPARISON_LESS_EQUAL;
-    if (FAILED(m_device->CreateDepthStencilState(&depthStencilDesc, m_depthStencilState.GetAddressOf()))) {
-        cout << "CreateDepthStencilState() failed." << endl;
-        return false;
-    }
-
-    //스텐실을 사용한다면 스텐실 버퍼 초기화
-    m_context->OMSetDepthStencilState(m_depthStencilState.Get(), 0);
- 
-    return true;
-}
 void HBaseRenderModule::SetViewport()
 {
     ZeroMemory(&m_screenViewport, sizeof(D3D11_VIEWPORT));
@@ -332,7 +257,6 @@ void HBaseRenderModule::ResizeWindow()
         m_swapChain->ResizeBuffers(0, m_AppContext->GetScreenWidth(), m_AppContext->GetScreenHeight(), DXGI_FORMAT_UNKNOWN, 0);
         InitRenderTargetView();
         InitDepthBuffer();
-        InitDepthStencil();
         SetViewport();
     }
 

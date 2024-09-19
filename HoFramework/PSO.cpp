@@ -72,7 +72,7 @@ void States::InitStates(ComPtr<ID3D11Device>& device)
     basicSolidPSO.m_primitiveTopology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
     basicSolidPSO.m_rasterizerState = solidRS;
     basicSolidPSO.m_depthStencilState = depthStencilState;
-    basicSolidPSO.m_samplerState = linearClampSS;
+    basicSolidPSO.m_samplerState = linearWrapSS;
 
     basicWirePSO = basicSolidPSO;
     basicWirePSO.m_rasterizerState = wireRS;
@@ -88,7 +88,7 @@ void States::InitStates(ComPtr<ID3D11Device>& device)
     skyboxPSO.m_primitiveTopology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
     skyboxPSO.m_rasterizerState = solidRS;
     skyboxPSO.m_depthStencilState = depthStencilState;
-    skyboxPSO.m_samplerState = linearWrapSS;
+    skyboxPSO.m_samplerState = linearClampSS;
 
     postProcessBasePSO = basicSolidPSO;
     postProcessBasePSO.m_vertexShader = postProcessBaseVS;

@@ -59,12 +59,6 @@ protected:
 
     HBaseRenderModule* m_parentRenderModule = nullptr;
 
-    ComPtr<ID3D11VertexShader> m_vertexShader;
-    ComPtr<ID3D11PixelShader> m_pixelShader;
-    ComPtr<ID3D11InputLayout> m_inputLayout;
-    ComPtr<ID3D11SamplerState> m_samplerState;
-    ComPtr<ID3D11RasterizerState> m_rasterizerSate;
-
     D3D11_VIEWPORT m_viewport;
 
     // Do not delete pointers

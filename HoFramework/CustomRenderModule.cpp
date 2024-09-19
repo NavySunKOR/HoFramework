@@ -28,15 +28,11 @@ bool HCustomRenderModule::Initialize(Application* pAppContext)
 
 	SkyBoxObject->ApplyMesh(EPrimitiveType::Sphere);
 	SkyBoxObject->SetSkyboxResources(L"./skybox/ForestWall/ForestWallEnvHDR.dds",L"./skybox/ForestWall/ForestWallDiffuseHDR.dds", L"./skybox/ForestWall/ForestWallSpecularHDR.dds", L"./skybox/ForestWall/ForestWallBrdf.dds");
-	SkyBoxObject->SetVertexShader(L"./Shaders/Skybox/VertexShaderSkybox.hlsl", "main");
-	SkyBoxObject->SetPixelShader(L"./Shaders/Skybox/PixelShaderSkybox.hlsl", "main");
 	SkyBoxObject->Scale(Vector3(10.f, 10.f, 10.f));
 
 
 	//std::shared_ptr<HFBXRenderingObject> ZeldaObject = std::make_shared<HFBXRenderingObject>(this);
 	//ZeldaObject->ApplyMesh("./Meshes/zeldaPosed001/", "zeldaPosed001.fbx");
-	//ZeldaObject->SetVertexShader(L"./Shaders/Lit/LitVertexShader.hlsl", "main");
-	//ZeldaObject->SetPixelShader(L"./Shaders/Lit/LitPixelShader.hlsl", "main");
 	//ZeldaObject->Scale(Vector3(0.01f, 0.01f, 0.01f));
 	//ZeldaObject->Translate(Vector3(0.f, -1.f, 0.f));
 
@@ -49,8 +45,6 @@ bool HCustomRenderModule::Initialize(Application* pAppContext)
 	SphereObject->SetExternalResource(0, EModelTexture2DType::Metallic, string("./SampleTexture/brick-wall/brick-wall_metallic.png"));
 	SphereObject->SetExternalResource(0, EModelTexture2DType::Roughness, string("./SampleTexture/brick-wall/brick-wall_roughness.png"));
 	SphereObject->SetSkyboxSRVs(SkyBoxObject->GetSkyboxDiffuse(), SkyBoxObject->GetSkyboxSpecular(),SkyBoxObject->GetSkyboxBRDF());
-	SphereObject->SetVertexShader(L"./Shaders/Lit/LitVertexShader.hlsl", "main");
-	SphereObject->SetPixelShader(L"./Shaders/Lit/LitPixelShader.hlsl", "main");
 	SphereObject->Scale(Vector3(1.f, 1.f, 1.f));
 	SphereObject->Translate(Vector3(0.f, -1.f, -2.f));
 

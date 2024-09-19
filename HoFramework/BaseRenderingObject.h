@@ -29,8 +29,6 @@ public:
 	inline vector<MeshObject>& GetDrawingMeshes() { return m_meshObjects; };
 	inline BasicVSConstantBuffer* GetVSConstBuffer(){return &m_basicVertexConstBufferData;}
 
-	void SetVertexShader(const LPCWSTR InShaderLoc, const LPCSTR InShaderMainName);
-	void SetPixelShader(const LPCWSTR InShaderLoc, const LPCSTR InShaderMainName);
 
 	//Primitive Type으로 생성 하면 무조건 외부에서 스케일을 키워줘야함.
 	void ApplyMesh(EPrimitiveType InPrimitiveType);
@@ -54,10 +52,6 @@ protected:
 	void UpdateBuffer(HCamera InCamera);
 
 	vector<MeshObject> m_meshObjects;
-	ComPtr<ID3D11VertexShader> m_vertexShader;
-	ComPtr<ID3D11InputLayout> m_vertexInputLayout;
-	ComPtr<ID3D11PixelShader> m_pixelShader;
-
 
 	ComPtr<ID3D11Buffer> m_basicVertexConstBuffer;
 	ComPtr<ID3D11Buffer> m_viewConstBuffer;
@@ -78,16 +72,10 @@ protected:
 
 	//오브젝트 별 FOV 설정(FPS게임에서 건 카메라 같은 역할)
 	bool m_IsUsingCustomView = false;
-
 	HCamera m_CustomViewport;
-
-	bool m_CustomIsPerspective = true;
-	float m_CustomFOVInDeg = 70.f;
 
 	Matrix TranslationMatrix;
 	Matrix ScaleMatrix;
 	Matrix RotationMatrix;
-
-	D3D11_PRIMITIVE_TOPOLOGY PrimitiveTopology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 
 };

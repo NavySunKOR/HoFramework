@@ -28,12 +28,8 @@ protected:
 private:
 	bool InitDeviceAndContext();
 	bool InitSwapChain();
-	bool InitRasterizerState();
 	bool InitRenderTargetView();
 	bool InitDepthBuffer();
-	bool InitDepthStencil();
-	bool InitSampler();
-
 
 	void SetViewport();
 
@@ -83,37 +79,9 @@ public:
 		return m_screenViewport;
 	};
 
-	inline bool IsPerspective() {
-		return m_IsPersepective;
-	};
-
-	inline float GetFOVInDeg() {
-		return m_FOVInDeg;
-	};
-
-	inline ComPtr<ID3D11SamplerState>& GetSampler()
-	{
-		return m_SamplerState;
-	}
-
 	inline vector<std::shared_ptr<class HBaseRenderingObject>>& GetRenderingObjects()
 	{
 		return RenderingObjects;
-	}
-
-	inline Vector3& GetGlobalCameraPosition()
-	{
-		return GlobalCameraPosition;
-	}
-
-	inline Vector3& GetGlobalCameraRotation()
-	{
-		return GlobalCameraRotation;
-	}
-
-	inline Vector3& GetGlobalCameraForward()
-	{
-		return GlobalCameraForward;
 	}
 
 	inline bool& GetIsWireframe()
@@ -164,10 +132,6 @@ protected:
 	//DepthStencil
 	ComPtr<ID3D11Texture2D> m_depthStencilBuffer;
 	ComPtr<ID3D11DepthStencilView> m_depthStencilView;
-	ComPtr<ID3D11DepthStencilState> m_depthStencilState; //뎁스 스텐실 스테이트
-
-	//Sampler
-	ComPtr<ID3D11SamplerState> m_SamplerState;
 
 	//RenderingObjects
 	std::shared_ptr<class HSkyBoxRenderingObject> SkyBoxObject;
@@ -205,16 +169,6 @@ private:
 	D3D_FEATURE_LEVEL m_UsingFeatureLevel;
 
 	bool m_IsInitialized = false;
-
-	
-	//View 관련
-	bool m_IsPersepective = true;
-	float m_FOVInDeg = 70.f;
-
-	Vector3 GlobalCameraPosition = Vector3(0.f, 0.f, 2.f);
-	Vector3 GlobalCameraRotation = Vector3(0.f, 0.f, 0.f);
-	Vector3 GlobalCameraForward = Vector3(0.f, 0.f, 1.f);
-
 
 	//Wireframe관련
 	bool m_PrevIsWireframe = false;

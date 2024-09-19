@@ -5,8 +5,6 @@
 
 void HFBXRenderingObject::Initialize()
 {
-	PrimitiveTopology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
-
 	InitializeInternal();
 }
 

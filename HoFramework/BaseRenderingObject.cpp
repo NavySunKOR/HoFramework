@@ -1,16 +1,6 @@
 #include "Application.h"
 #include "BaseRenderingObject.h"
 
-void HBaseRenderingObject::SetVertexShader(const LPCWSTR InShaderLoc, const LPCSTR InShaderMainName)
-{
-	HRenderingLibrary::CreateVertexShader(m_ParentRenderModule->GetDevice(), m_vertexShader, m_vertexInputLayout, InShaderLoc, InShaderMainName,HRenderingLibrary::GetVSInputLayout());
-}
-
-void HBaseRenderingObject::SetPixelShader(const LPCWSTR InShaderLoc, const LPCSTR InShaderMainName)
-{
-	HRenderingLibrary::CreatePixelShader(m_ParentRenderModule->GetDevice(), m_pixelShader, InShaderLoc, InShaderMainName);
-}
-
 void HBaseRenderingObject::ApplyMesh(EPrimitiveType InPrimitiveType)
 {
 	Mesh mesh;
@@ -214,18 +204,13 @@ void HBaseRenderingObject::RenderInternal(HCamera InCamera)
 	{
 		UINT stride = sizeof(Vertex);
 		UINT offset = 0;
-		context->IASetInputLayout(m_vertexInputLayout.Get());
 		context->IASetVertexBuffers(0, 1, meshObj.vertexBuffer.GetAddressOf(), &stride, &offset);
 		context->IASetIndexBuffer(meshObj.indexBuffer.Get(), DXGI_FORMAT_R32_UINT, 0);
-		context->IASetPrimitiveTopology(PrimitiveTopology);
-
 
 		HRenderingLibrary::UpdateConstantBuffer(meshObj.materialPSConstantData, m_materialConstBuffer, m_ParentRenderModule->GetContext());
 
 		// 어떤 쉐이더를 사용할지 설정
-		context->VSSetShader(m_vertexShader.Get(), 0, 0);
 		context->VSSetConstantBuffers(0, 1, meshObj.vertexConstantBuffer.GetAddressOf());
-		context->PSSetShader(m_pixelShader.Get(), 0, 0);
 
 		ID3D11ShaderResourceView* pixelResources[9] = 
 		{ meshObj.textureResourceViews[0].Get() ,meshObj.textureResourceViews[1].Get() ,meshObj.textureResourceViews[2].Get(), 

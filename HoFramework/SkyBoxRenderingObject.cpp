@@ -25,18 +25,12 @@ void HSkyBoxRenderingObject::Render(HCamera InCamera)
 	ComPtr<ID3D11DeviceContext> Context = m_ParentRenderModule->GetContext();
 	ID3D11ShaderResourceView* resources[1] = { m_SkyboxOriginalResourceView.Get()};
 	Context->PSSetShaderResources(0, 1, resources);
-	Context->PSSetSamplers(0, 1, m_ParentRenderModule->GetSampler().GetAddressOf());
 
-
-	Context->IASetInputLayout(m_vertexInputLayout.Get());
 	Context->IASetVertexBuffers(0, 1, m_meshObjects[0].vertexBuffer.GetAddressOf(), &stride, &offset);
 	Context->IASetIndexBuffer(m_meshObjects[0].indexBuffer.Get(), DXGI_FORMAT_R32_UINT, 0);
-	Context->IASetPrimitiveTopology(PrimitiveTopology);
 
 	// 어떤 쉐이더를 사용할지 설정
-	Context->VSSetShader(m_vertexShader.Get(), 0, 0);
 	Context->VSSetConstantBuffers(0, 1, m_meshObjects[0].vertexConstantBuffer.GetAddressOf());
-	Context->PSSetShader(m_pixelShader.Get(), 0, 0);
 
 
 	Context->PSSetConstantBuffers(0, 1, m_meshObjects[0].materialPSConstantBuffer.GetAddressOf());

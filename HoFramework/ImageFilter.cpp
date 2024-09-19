@@ -12,42 +12,11 @@ void HImageFilter::Initialize(HBaseRenderModule* ParentModule, const wstring ver
     HRenderingLibrary::CreateIndexBuffer(device, &m_mesh->mesh, m_mesh->indexBuffer);
 
 
-    HRenderingLibrary::CreateVertexShader(device, m_vertexShader, m_inputLayout, vertexShaderName.c_str(), "main",  HRenderingLibrary::GetVSInputLayout());
-    HRenderingLibrary::CreatePixelShader(device, m_pixelShader, pixelShaderName.c_str(), "main");
-
-
     m_pixelConstData.dx = 1.0f / width;
     m_pixelConstData.dy = 1.0f / height;
     //TODO : 포스트 프로세스 전용 픽셀 ConstantBuffer 슬롯 따로 만들것.
     HRenderingLibrary::CreateConstantBuffer(device, m_pixelConstData,
         m_mesh->materialPSConstantBuffer); 
-
-
-    // Texture sampler
-    D3D11_SAMPLER_DESC sampDesc;
-    ZeroMemory(&sampDesc, sizeof(sampDesc));
-    sampDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
-    sampDesc.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
-    sampDesc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
-    sampDesc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
-    sampDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
-    sampDesc.MinLOD = 0;
-    sampDesc.MaxLOD = D3D11_FLOAT32_MAX;
-
-    // Create the Sample State
-    device->CreateSamplerState(&sampDesc, m_samplerState.GetAddressOf());
-
-
-    // Create a rasterizer state
-    D3D11_RASTERIZER_DESC rastDesc;
-    ZeroMemory(&rastDesc, sizeof(D3D11_RASTERIZER_DESC)); // Need this
-    rastDesc.FillMode = D3D11_FILL_MODE::D3D11_FILL_SOLID;
-    rastDesc.CullMode = D3D11_CULL_MODE::D3D11_CULL_NONE;
-    rastDesc.FrontCounterClockwise = false;
-    rastDesc.DepthClipEnable = true;
-
-    device->CreateRasterizerState(&rastDesc,
-        m_rasterizerSate.GetAddressOf());
 
     // Set the viewport
     ZeroMemory(&m_viewport, sizeof(D3D11_VIEWPORT));
@@ -105,25 +74,19 @@ void HImageFilter::Render()
     //// 어디에 렌더링 할지를 지정
     context->OMSetRenderTargets(UINT(m_renderTargets.size()),
         m_renderTargets.data(), nullptr);
-    context->RSSetState(m_rasterizerSate.Get());
     context->RSSetViewports(1, &m_viewport);
 
     UINT stride = sizeof(Vertex);
     UINT offset = 0;
 
-    context->IASetInputLayout(m_inputLayout.Get());
     context->IASetVertexBuffers(0, 1, m_mesh->vertexBuffer.GetAddressOf(),
         &stride, &offset);
     context->IASetIndexBuffer(m_mesh->indexBuffer.Get(),
         DXGI_FORMAT_R32_UINT, 0);
-    context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-    context->VSSetShader(m_vertexShader.Get(), 0, 0);
-    context->PSSetShader(m_pixelShader.Get(), 0, 0);
     context->PSSetShaderResources(0, UINT(m_shaderResources.size()),
         m_shaderResources.data());
     context->PSSetConstantBuffers(
         0, 1, m_mesh->materialPSConstantBuffer.GetAddressOf());
-    context->PSSetSamplers(0, 1, m_samplerState.GetAddressOf());
 
     context->DrawIndexed(m_mesh->mesh.indices.size(), 0, 0);
 }
