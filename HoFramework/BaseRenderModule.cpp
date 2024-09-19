@@ -28,12 +28,11 @@ bool HBaseRenderModule::Initialize(Application* pAppContext)
     if (!InitDepthBuffer())
         return false;
 
-    SetViewport();
-
 
     m_MainView.SetApplication(m_AppContext);
 
-    States::InitStates(m_device);
+    Graphics::States::InitStates(m_device);
+    Graphics::Defines::InitDefines(m_AppContext);
 
     m_IsInitialized = true;
 
@@ -63,7 +62,12 @@ void HBaseRenderModule::SetPSO(const HGraphicsPSO& InPSO)
     if(InPSO.m_samplerState)
         m_context->PSSetSamplers(0,1,InPSO.m_samplerState.GetAddressOf()); //TODO : 나중에 Samplers도 Resource 취급하여 스태틱으로 만들고 각 오브젝트 별로 넣는 파라미터로 취급할것. 지금은 파라미터 하나만 사용하므로 패스
 
-};
+}
+void HBaseRenderModule::SetViewport(D3D11_VIEWPORT* InViewport)
+{
+    m_context->RSSetViewports(1, InViewport);
+}
+;
 
 bool HBaseRenderModule::InitDeviceAndContext()
 {
@@ -238,17 +242,6 @@ bool HBaseRenderModule::InitDepthBuffer()
 
     return true;
 }
-void HBaseRenderModule::SetViewport()
-{
-    ZeroMemory(&m_screenViewport, sizeof(D3D11_VIEWPORT));
-    m_screenViewport.TopLeftX = 0;
-    m_screenViewport.TopLeftY = 0;
-    m_screenViewport.Width = float(m_AppContext->GetScreenWidth());
-    m_screenViewport.Height = float(m_AppContext->GetScreenHeight());
-    m_screenViewport.MinDepth = 0.0f;
-    m_screenViewport.MaxDepth = 1.0f; // Note: important for depth buffering
-
-}
 
 void HBaseRenderModule::ResizeWindow()
 {
@@ -257,7 +250,6 @@ void HBaseRenderModule::ResizeWindow()
         m_swapChain->ResizeBuffers(0, m_AppContext->GetScreenWidth(), m_AppContext->GetScreenHeight(), DXGI_FORMAT_UNKNOWN, 0);
         InitRenderTargetView();
         InitDepthBuffer();
-        SetViewport();
     }
 
 }

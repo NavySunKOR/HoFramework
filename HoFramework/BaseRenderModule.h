@@ -31,7 +31,6 @@ private:
 	bool InitRenderTargetView();
 	bool InitDepthBuffer();
 
-	void SetViewport();
 
 #pragma endregion
 
@@ -48,6 +47,7 @@ protected:
 	virtual void Render();
 
 	void SetPSO(const class HGraphicsPSO& InPSO);
+	void SetViewport(D3D11_VIEWPORT* InViewport);
 
 #pragma endregion 
 
@@ -75,9 +75,6 @@ public:
 		return m_renderTargetView;
 	};
 
-	inline D3D11_VIEWPORT& GetScreenViewport() {
-		return m_screenViewport;
-	};
 
 	inline vector<std::shared_ptr<class HBaseRenderingObject>>& GetRenderingObjects()
 	{
@@ -123,11 +120,6 @@ protected:
 	ComPtr<ID3D11Texture2D> m_tempTexture;// 렌더타겟의 Texture2DMS를 복사할 임시 텍스춰
 	
 	ComPtr<IDXGISwapChain> m_swapChain; //스왑체인
-
-	D3D11_VIEWPORT m_screenViewport; //뷰포트
-	
-	//Rasterizer
-	ComPtr<ID3D11RasterizerState> m_RasterizerState; //래스터라이저
 
 	//DepthStencil
 	ComPtr<ID3D11Texture2D> m_depthStencilBuffer;

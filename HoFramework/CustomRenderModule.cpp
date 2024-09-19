@@ -151,7 +151,8 @@ void HCustomRenderModule::Update()
 
 void HCustomRenderModule::RenderFinalColor()
 {
-	m_context->RSSetViewports(1, &m_screenViewport);
+	SetViewport(&Graphics::Defines::screenViewport);
+
 	float clearColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
 	m_context->ClearRenderTargetView(m_renderTargetView.Get(), clearColor);
 	m_context->ClearDepthStencilView(m_depthStencilView.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
@@ -163,12 +164,12 @@ void HCustomRenderModule::RenderFinalColor()
 		m_context->OMSetRenderTargets(1, m_renderTargetView.GetAddressOf(), nullptr);
 
 
-	SetPSO(States::skyboxPSO);
+	SetPSO(Graphics::States::skyboxPSO);
 	if (SkyBoxObject)
 		SkyBoxObject->Render(m_MainView);
 
 
-	SetPSO((GetIsWireframe()) ? States::basicWirePSO : States::basicSolidPSO);
+	SetPSO((GetIsWireframe()) ? Graphics::States::basicWirePSO : Graphics::States::basicSolidPSO);
 	for (size_t i = 0; i < RenderingObjects.size(); ++i)
 	{
 		RenderingObjects[i]->Render(m_MainView);
@@ -181,7 +182,7 @@ void HCustomRenderModule::RenderFinalColor()
 
 
 	//TODO: 여기에 Blur나 Bloom 섞으면 조절필요.
-	SetPSO(States::postProcessBasePSO);
+	SetPSO(Graphics::States::postProcessBasePSO);
 	for (size_t i = 0; i < ImageFilters.size(); ++i)
 	{
 		ImageFilters[i]->Render();

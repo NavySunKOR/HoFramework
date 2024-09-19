@@ -1,8 +1,9 @@
 #include "GraphicsCommon.h"
 #include "RenderingLibrary.h"
+#include "Application.h"
 
 
-namespace States {
+namespace Graphics::States {
 
     ComPtr<ID3D11SamplerState> linearWrapSS;
     ComPtr<ID3D11SamplerState> linearClampSS;
@@ -42,11 +43,36 @@ namespace States {
     HGraphicsPSO skyboxPSO;
 };
 
+namespace Graphics::Defines {
+    D3D11_VIEWPORT screenViewport;
+    D3D11_VIEWPORT shadowViewport;
+};
+
+
+void Graphics::Defines::InitDefines(Application* InAppContext)
+{
+    ZeroMemory(&screenViewport, sizeof(D3D11_VIEWPORT));
+    screenViewport.TopLeftX = 0;
+    screenViewport.TopLeftY = 0;
+    screenViewport.Width = float(InAppContext->GetScreenWidth());
+    screenViewport.Height = float(InAppContext->GetScreenHeight());
+    screenViewport.MinDepth = 0.0f;
+    screenViewport.MaxDepth = 1.0f; // Note: important for depth buffering
+
+
+    ZeroMemory(&shadowViewport, sizeof(D3D11_VIEWPORT));
+    shadowViewport.TopLeftX = 0;
+    shadowViewport.TopLeftY = 0;
+    shadowViewport.Width = 256.f;
+    shadowViewport.Height = 256.f;
+    shadowViewport.MinDepth = 0.0f;
+    shadowViewport.MaxDepth = 1.0f; // Note: important for depth buffering
+}
 
 //PSO를 캐싱한다면 여기서 캐싱함.
 //언리얼 엔진같이 매우 Versatile 하게 사용할려면 DX12의 Sample을 보고 만들어야 되며, 쉐이더 또한 머터리얼 만든 것에다가 입혀서 사용해야함.
 //두번째로 머터리얼 생성 시, 거기에 들어갈 쉐이더 패스나 이런것 또한 파일로 관리해야 되는데 그 작업하다가 그래픽 구현을 못하는 수가 있음.
-void States::InitStates(ComPtr<ID3D11Device>& device)
+void Graphics::States::InitStates(ComPtr<ID3D11Device>& device)
 {
     InitSamplerStates(device);
     InitRasterizerState(device);
@@ -95,26 +121,7 @@ void States::InitStates(ComPtr<ID3D11Device>& device)
 }
 
 
-void HGraphicsPSO::operator=(const HGraphicsPSO& pso) {
-
-    m_vertexShader = pso.m_vertexShader;
-    m_pixelShader = pso.m_pixelShader;
-    m_hullShader = pso.m_hullShader;
-    m_domainShader = pso.m_domainShader;
-    m_geometryShader = pso.m_geometryShader;
-    m_inputLayout = pso.m_inputLayout;
-    m_blendState = pso.m_blendState;
-    m_depthStencilState = pso.m_depthStencilState;
-    m_rasterizerState = pso.m_rasterizerState;
-
-    for (int i = 0; i < 4; i++)
-        m_blendFactor[i] = pso.m_blendFactor[i];
-    m_primitiveTopology = pso.m_primitiveTopology;
-
-    m_stencilRef = pso.m_stencilRef;
-}
-
-void States::InitSamplerStates(ComPtr<ID3D11Device>& device)
+void Graphics::States::InitSamplerStates(ComPtr<ID3D11Device>& device)
 {
     //Linear
     D3D11_SAMPLER_DESC linearClampSampDesc;
@@ -143,7 +150,7 @@ void States::InitSamplerStates(ComPtr<ID3D11Device>& device)
 
 }
 
-void States::InitRasterizerState(ComPtr<ID3D11Device>& device)
+void Graphics::States::InitRasterizerState(ComPtr<ID3D11Device>& device)
 {
 
     D3D11_RASTERIZER_DESC rastSolidDesc;
@@ -185,7 +192,7 @@ void States::InitRasterizerState(ComPtr<ID3D11Device>& device)
     }
 }
 
-void States::InitBlendStates(ComPtr<ID3D11Device>& device)
+void Graphics::States::InitBlendStates(ComPtr<ID3D11Device>& device)
 {
     //Translucent 처리
     D3D11_BLEND_DESC blendDesc;
@@ -210,7 +217,7 @@ void States::InitBlendStates(ComPtr<ID3D11Device>& device)
 }
 
 //쉐이더에 사용할 
-void States::InitVertexShaders(ComPtr<ID3D11Device>& device)
+void Graphics::States::InitVertexShaders(ComPtr<ID3D11Device>& device)
 {
 
     //basicVS
@@ -223,7 +230,7 @@ void States::InitVertexShaders(ComPtr<ID3D11Device>& device)
 
 }
 
-void States::InitPixelShaders(ComPtr<ID3D11Device>& device)
+void Graphics::States::InitPixelShaders(ComPtr<ID3D11Device>& device)
 {
     HRenderingLibrary::CreatePixelShader(device, basicPS, L"./Shaders/Lit/LitPixelShader.hlsl", "main");
     HRenderingLibrary::CreatePixelShader(device, skyboxPS, L"./Shaders/Skybox/PixelShaderSkybox.hlsl", "main");
