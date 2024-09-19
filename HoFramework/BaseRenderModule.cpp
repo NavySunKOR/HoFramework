@@ -16,23 +16,22 @@ bool HBaseRenderModule::Initialize(Application* pAppContext)
     if (m_AppContext == nullptr)
         return false;
 
+    Graphics::Defines::InitDefines(m_AppContext);
+    m_MainView.SetApplication(m_AppContext);
+
     if (!InitDeviceAndContext())
         return false;
 
     if (!InitSwapChain())
         return false;
 
+    Graphics::States::InitStates(m_device);
+
     if (!InitRenderTargetView())
         return false;
 
     if (!InitDepthBuffer())
         return false;
-
-
-    m_MainView.SetApplication(m_AppContext);
-
-    Graphics::States::InitStates(m_device);
-    Graphics::Defines::InitDefines(m_AppContext);
 
     m_IsInitialized = true;
 
@@ -42,6 +41,7 @@ bool HBaseRenderModule::Initialize(Application* pAppContext)
 void HBaseRenderModule::Update() {
 
 };
+
 void HBaseRenderModule::Render() {
 
 }
