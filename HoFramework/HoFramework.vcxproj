@@ -30,6 +30,7 @@
     <ClCompile Include="ImageFilter.cpp" />
     <ClCompile Include="ImGUIRenderSubModule.cpp" />
     <ClCompile Include="InputModule.cpp" />
+    <ClCompile Include="LightDefine.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PSO.cpp" />
     <ClCompile Include="RenderingLibrary.cpp" />

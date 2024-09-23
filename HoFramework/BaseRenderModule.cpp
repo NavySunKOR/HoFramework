@@ -4,6 +4,7 @@
 #include "GraphicsCommon.h"
 
 using namespace std;
+using namespace DirectX;
 #pragma comment(lib,"d3d11.lib")
 
 
@@ -47,7 +48,19 @@ void HBaseRenderModule::UpdateLightConstantData()
 {
     for (int i = 0; i < 3; ++i)
     {
-        //TODO: 카메라 뷰 데이터를 ConstantData로 옮김.
+        //TODO: 카메라 뷰 데이터를 ConstantData로 옮김.            
+        Vector3 up = Vector3(0.0f, 1.0f, 0.0f);
+        if (abs(up.Dot(m_Lights[i].ConstantData.LightDir) + 1.0f) < 1e-5)
+            up = Vector3(1.0f, 0.0f, 0.0f);
+
+        Matrix ViewMat = XMMatrixLookAtLH(
+            m_Lights[i].ConstantData.LightPos, m_Lights[i].ConstantData.LightPos + m_Lights[i].ConstantData.LightDir, up);
+
+        Matrix ProjMat = XMMatrixPerspectiveFovLH(
+            XMConvertToRadians(120.0f), 1.0f, 0.01f, 100.0f);
+
+        m_Lights[i].ConstantData.LightViewProjectionMat = (ViewMat * ProjMat).Transpose();
+
         m_LightPSConstant.Lights[i] = m_Lights[i].ConstantData;
     }
 }
