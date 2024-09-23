@@ -26,11 +26,11 @@ PSInput main(VSInput Input)
     Position += float4(Input.Normal * sin(SinAngle) * Amplitue, 1);
     
 
-    Position = mul(Position, ModelTransform);
+    Position = mul(Position, WorldTransform);
     Output.WorldPosition = Position.xyz;
     
     Position = mul(Position, ViewTransform);
-    Position = mul(Position, ProjectionTransform);
+    Position = mul(Position, ProjTransform);
     Output.ScreenPosition = Position;
     
     

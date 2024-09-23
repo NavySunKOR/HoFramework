@@ -127,6 +127,8 @@
     <FxCompile Include="Shaders\ImageFilters\ShaderToy\SeaPixelShader.hlsl" />
     <FxCompile Include="Shaders\Lit\LitPixelShader.hlsl" />
     <FxCompile Include="Shaders\Lit\LitVertexShader.hlsl" />
+    <FxCompile Include="Shaders\Depths\DepthOnlyVS.hlsl" />
+    <FxCompile Include="Shaders\Depths\DepthOnlyPS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\Cores\Core.hlsli" />

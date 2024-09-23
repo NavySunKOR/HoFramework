@@ -1,8 +1,12 @@
 
 cbuffer TransformConstBuffer : register(b0)
 {
-    matrix ModelTransform;
+    matrix WorldTransform;
     matrix InverseTransform;
     matrix ViewTransform;
-    matrix ProjectionTransform;
+    matrix InvViewTransform;
+    matrix ProjTransform;
+    matrix InvProjTransform;
+    matrix ViewProjTransform;
+    matrix InvViewProjTransform;
 }

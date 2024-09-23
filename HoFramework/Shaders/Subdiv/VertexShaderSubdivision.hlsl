@@ -7,12 +7,12 @@ PSInput main(VSInput Input)
     float4 Position = float4(Input.Position, 1.f);
     Output.ModelPosition = Position;
 
-    Position = mul(Position, ModelTransform);
+    Position = mul(Position, WorldTransform);
 
     Output.WorldPosition = Position.xyz;
 
     Position = mul(Position, ViewTransform);
-    Position = mul(Position, ProjectionTransform);
+    Position = mul(Position, ProjTransform);
     Output.ScreenPosition = Position;
 
     Output.Color = Input.Color;

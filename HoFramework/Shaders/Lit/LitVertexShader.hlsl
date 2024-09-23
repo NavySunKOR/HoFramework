@@ -6,11 +6,11 @@ PSInput main(VSInput Input)
     PSInput Output;
     float4 Position = float4(Input.Position, 1.f);
 
-    Position = mul(Position, ModelTransform);
+    Position = mul(Position, WorldTransform);
     Output.WorldPosition = Position.xyz;
 
     Position = mul(Position, ViewTransform);
-    Position = mul(Position, ProjectionTransform);
+    Position = mul(Position, ProjTransform);
     Output.ScreenPosition = Position;
 
     Output.Color = Input.Color;
@@ -18,7 +18,7 @@ PSInput main(VSInput Input)
     Output.Normal = mul(float4(Input.Normal, 0), InverseTransform).xyz;
     Output.Normal = normalize(Output.Normal);
     
-    Output.Tangent = mul(float4(Input.Tangent, 1), ModelTransform).xyz;
+    Output.Tangent = mul(float4(Input.Tangent, 1), WorldTransform).xyz;
     
     return Output;
 }

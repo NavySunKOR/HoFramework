@@ -103,9 +103,9 @@ void HBaseRenderingObject::SetSkyboxSRVs(ComPtr<ID3D11ShaderResourceView> InDiff
 
 void HBaseRenderingObject::UpdateBuffer(HCamera InCamera)
 {
-	m_basicVertexConstBufferData.ModelTransform = (ScaleMatrix * RotationMatrix * TranslationMatrix);
-	m_basicVertexConstBufferData.ModelTransform = m_basicVertexConstBufferData.ModelTransform.Transpose();
-	m_basicVertexConstBufferData.InverseTransform = m_basicVertexConstBufferData.ModelTransform;
+	m_basicVertexConstBufferData.WorldTransform = (ScaleMatrix * RotationMatrix * TranslationMatrix);
+	m_basicVertexConstBufferData.WorldTransform = m_basicVertexConstBufferData.WorldTransform.Transpose();
+	m_basicVertexConstBufferData.InverseTransform = m_basicVertexConstBufferData.WorldTransform;
 	m_basicVertexConstBufferData.InverseTransform.Translation(Vector3(0.0f));
 	m_basicVertexConstBufferData.InverseTransform = m_basicVertexConstBufferData.InverseTransform.Transpose().Invert();
 
@@ -113,14 +113,22 @@ void HBaseRenderingObject::UpdateBuffer(HCamera InCamera)
 	if (m_IsUsingCustomView == false)
 	{
 		m_basicVertexConstBufferData.ViewTransform = InCamera.GetViewMatrix();
-		m_basicVertexConstBufferData.ProjectionTransform = InCamera.GetProjectionMatrix();
-		m_viewConstBufferData.UsingViewPosition = Vector3::Transform(Vector3(0.f, 0.f, 0.f), m_basicVertexConstBufferData.ViewTransform.Transpose().Invert());
+		m_basicVertexConstBufferData.InvViewTransform = m_basicVertexConstBufferData.ViewTransform.Invert();
+		m_basicVertexConstBufferData.ProjTransform = InCamera.GetProjectionMatrix();
+		m_basicVertexConstBufferData.InvProjTransform = m_basicVertexConstBufferData.ProjTransform.Invert();
+		m_basicVertexConstBufferData.ViewProjTransform = (m_basicVertexConstBufferData.ViewTransform * m_basicVertexConstBufferData.ProjTransform).Transpose();
+		m_basicVertexConstBufferData.InvViewProjTransform = m_basicVertexConstBufferData.ViewProjTransform.Invert();
+		m_viewConstBufferData.UsingViewPosition = Vector3::Transform(Vector3(0.f, 0.f, 0.f), m_basicVertexConstBufferData.ViewTransform.Invert());
 	}
 	else
 	{
 		m_basicVertexConstBufferData.ViewTransform = m_CustomViewport.GetViewMatrix();
-		m_basicVertexConstBufferData.ProjectionTransform = m_CustomViewport.GetProjectionMatrix();
-		m_viewConstBufferData.UsingViewPosition = Vector3::Transform(Vector3(0.f, 0.f, 0.f), m_basicVertexConstBufferData.ViewTransform.Transpose().Invert());
+		m_basicVertexConstBufferData.InvViewTransform = m_basicVertexConstBufferData.ViewTransform.Invert();
+		m_basicVertexConstBufferData.ProjTransform = m_CustomViewport.GetProjectionMatrix();
+		m_basicVertexConstBufferData.InvProjTransform = m_basicVertexConstBufferData.ProjTransform.Invert();
+		m_basicVertexConstBufferData.ViewProjTransform = (m_basicVertexConstBufferData.ViewTransform * m_basicVertexConstBufferData.ProjTransform).Transpose();
+		m_basicVertexConstBufferData.InvViewProjTransform = m_basicVertexConstBufferData.ViewProjTransform.Invert();
+		m_viewConstBufferData.UsingViewPosition = Vector3::Transform(Vector3(0.f, 0.f, 0.f), m_basicVertexConstBufferData.ViewTransform.Invert());
 	}
 
 	HRenderingLibrary::UpdateConstantBuffer(m_basicVertexConstBufferData, m_basicVertexConstBuffer, m_ParentRenderModule->GetContext());

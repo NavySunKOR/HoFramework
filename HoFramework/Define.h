@@ -33,17 +33,25 @@ struct Vertex
 
 struct BasicVSConstantBuffer
 {
-	Matrix ModelTransform;
+	Matrix WorldTransform;
 	Matrix InverseTransform;
 	Matrix ViewTransform;
-	Matrix ProjectionTransform;
+	Matrix InvViewTransform;
+	Matrix ProjTransform;
+	Matrix InvProjTransform;
+	Matrix ViewProjTransform;
+	Matrix InvViewProjTransform;
 
 	BasicVSConstantBuffer()
 	{
-		ModelTransform = Matrix();
+		WorldTransform = Matrix();
 		InverseTransform = Matrix();
 		ViewTransform = Matrix();
-		ProjectionTransform = Matrix();
+		InvViewTransform = Matrix();
+		ProjTransform = Matrix();
+		InvProjTransform = Matrix();
+		ViewProjTransform = Matrix();
+		InvViewProjTransform = Matrix();
 	}
 };
 
