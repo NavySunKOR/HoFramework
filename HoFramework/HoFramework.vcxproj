@@ -49,6 +49,7 @@
     <ClInclude Include="ImageFilter.h" />
     <ClInclude Include="ImGUIRenderSubModule.h" />
     <ClInclude Include="InputModule.h" />
+    <ClInclude Include="LightDefine.h" />
     <ClInclude Include="PSO.h" />
     <ClInclude Include="RenderingLibrary.h" />
     <ClInclude Include="SeaImageFilter.h" />

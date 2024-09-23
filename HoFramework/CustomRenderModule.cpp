@@ -24,7 +24,9 @@ bool HCustomRenderModule::Initialize(Application* pAppContext)
 
 	//Light setting
 
-	m_LightPSConstant.Lights[1].LightIntensity = 2.f;
+	m_Lights[1].ConstantData.LightIntensity = 2.f;
+
+
 	HRenderingLibrary::CreateConstantBuffer<LightingPSConstantBuffer>(GetDevice(), m_LightPSConstant, m_LightPSConstantBuffer);
 
 

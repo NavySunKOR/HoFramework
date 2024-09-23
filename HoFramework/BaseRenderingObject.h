@@ -47,7 +47,6 @@ public:
 
 protected:
 	void InitializeInternal();
-	void UpdateInternal();
 	void RenderInternal(HCamera InCamera);
 	void UpdateBuffer(HCamera InCamera);
 

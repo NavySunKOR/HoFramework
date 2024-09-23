@@ -13,7 +13,7 @@ void HSkyBoxRenderingObject::Initialize()
 
 void HSkyBoxRenderingObject::Update()
 {
-	UpdateInternal();
+
 }
 
 void HSkyBoxRenderingObject::Render(HCamera InCamera)
@@ -35,7 +35,7 @@ void HSkyBoxRenderingObject::Render(HCamera InCamera)
 
 	Context->PSSetConstantBuffers(0, 1, m_meshObjects[0].materialPSConstantBuffer.GetAddressOf());
 	Context->PSSetConstantBuffers(1, 1, m_viewConstBuffer.GetAddressOf());
-	Context->PSSetConstantBuffers(2, 1, m_ParentRenderModule->m_LightPSConstantBuffer.GetAddressOf());
+	Context->PSSetConstantBuffers(2, 1, m_ParentRenderModule->GetLightPSConstantBuffer().GetAddressOf());
 	Context->DrawIndexed((UINT)m_meshObjects[0].mesh.indices.size(), 0, 0);
 }
 

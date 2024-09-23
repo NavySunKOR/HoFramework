@@ -39,8 +39,19 @@ bool HBaseRenderModule::Initialize(Application* pAppContext)
 }
 
 void HBaseRenderModule::Update() {
-
+    UpdateLightConstantData();
 };
+
+
+void HBaseRenderModule::UpdateLightConstantData()
+{
+    for (int i = 0; i < 3; ++i)
+    {
+        //TODO: 카메라 뷰 데이터를 ConstantData로 옮김.
+        m_LightPSConstant.Lights[i] = m_Lights[i].ConstantData;
+    }
+}
+
 
 void HBaseRenderModule::Render() {
 
@@ -242,6 +253,7 @@ bool HBaseRenderModule::InitDepthBuffer()
 
     return true;
 }
+
 
 void HBaseRenderModule::ResizeWindow()
 {

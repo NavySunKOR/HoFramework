@@ -7,6 +7,7 @@
 #include <wrl.h> // ComPtr
 #include "Define.h"
 #include "Camera.h"
+#include "LightDefine.h"
 
 class Application;
 
@@ -48,6 +49,9 @@ protected:
 
 	void SetPSO(const class HGraphicsPSO& InPSO);
 	void SetViewport(D3D11_VIEWPORT* InViewport);
+
+
+	void UpdateLightConstantData();
 
 #pragma endregion 
 
@@ -106,8 +110,13 @@ public:
 		return &Exposure;
 	}
 
-	ComPtr<ID3D11Buffer> m_LightPSConstantBuffer;
-	LightingPSConstantBuffer m_LightPSConstant;
+	inline ComPtr<ID3D11Buffer> GetLightPSConstantBuffer()
+	{
+		return m_LightPSConstantBuffer;
+	}
+
+
+	Light m_Lights[3];
 
 protected:
 	Application* m_AppContext = nullptr;
@@ -129,6 +138,10 @@ protected:
 	std::shared_ptr<class HSkyBoxRenderingObject> SkyBoxObject;
 	vector<std::shared_ptr<class HBaseRenderingObject>> RenderingObjects;
 	vector< std::shared_ptr<class HImageFilter>> ImageFilters;
+
+	//Light
+	ComPtr<ID3D11Buffer> m_LightPSConstantBuffer;
+	LightingPSConstantBuffer m_LightPSConstant;
 
 
 	//Camera

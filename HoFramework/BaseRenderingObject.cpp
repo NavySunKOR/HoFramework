@@ -135,6 +135,7 @@ void HBaseRenderingObject::UpdateBuffer(HCamera InCamera)
 	HRenderingLibrary::UpdateConstantBuffer(m_viewConstBufferData, m_viewConstBuffer, m_ParentRenderModule->GetContext());
 }
 
+
 void HBaseRenderingObject::InitializeInternal()
 {
 	ComPtr<ID3D11Device>& device = m_ParentRenderModule->GetDevice();
@@ -199,11 +200,7 @@ void HBaseRenderingObject::InitializeInternal()
 	}
 
 }
-void HBaseRenderingObject::UpdateInternal()
-{
-	using namespace DirectX;
-	
-}
+
 void HBaseRenderingObject::RenderInternal(HCamera InCamera)
 {
 	UpdateBuffer(InCamera);
@@ -230,7 +227,7 @@ void HBaseRenderingObject::RenderInternal(HCamera InCamera)
 
 		context->PSSetConstantBuffers(0, 1, meshObj.materialPSConstantBuffer.GetAddressOf());
 		context->PSSetConstantBuffers(1, 1, m_viewConstBuffer.GetAddressOf());
-		context->PSSetConstantBuffers(2, 1, m_ParentRenderModule->m_LightPSConstantBuffer.GetAddressOf());
+		context->PSSetConstantBuffers(2, 1, m_ParentRenderModule->GetLightPSConstantBuffer().GetAddressOf());
 		context->DrawIndexed((UINT)meshObj.mesh.indices.size(), 0, 0);
 	}
 

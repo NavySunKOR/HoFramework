@@ -59,23 +59,6 @@ struct BasicVSConstantBuffer
 static_assert((sizeof(BasicVSConstantBuffer) % 16) == 0,
 	"Constant Buffer size must be 16-byte aligned");
 
-//48bytes
-struct Light
-{
-	Vector3 LightPos = Vector3(0.f, 0.f, 0.f); 
-	float LightIntensity = 0.f; 
-	Vector3 LightDir = Vector3(0.f, 0.f, 1.f);
-	float FalloffStart = 0.f;
-	float FalloffEnd = 5.f;
-	float SpotFactor = 0.f;
-
-	float Dummy1;
-	float Dummy2;
-
-	Vector3 LightColor = Vector3(1.f, 1.f, 1.f);
-	float Dummy3;
-};
-
 //48
 struct Material
 {
@@ -108,10 +91,6 @@ public:
 	string textureNames[6];
 };
 
-struct LightingPSConstantBuffer
-{
-	Light Lights[3];
-};
 
 struct MaterialPSConstantBuffer
 {
@@ -124,8 +103,6 @@ struct ViewPSConstantBuffer
 	float Dummy;
 };
 
-static_assert((sizeof(LightingPSConstantBuffer) % 16) == 0,
-	"Constant Buffer size must be 16-byte aligned");
 
 static_assert((sizeof(MaterialPSConstantBuffer) % 16) == 0,
 	"Constant Buffer size must be 16-byte aligned");

@@ -67,32 +67,32 @@ void HImGUIRenderSubModule::Render()
 
 	if (ImGui::TreeNode("Lights")) {
 		if (ImGui::TreeNode("Directional Light")) {
-			ImGui::SliderFloat("Directional Light LightIntensity ", &m_ParentRenderModule->m_LightPSConstant.Lights[0].LightIntensity, 0.f, 10.f);
-			ImGui::SliderFloat3("Point Light Light Color ", &m_ParentRenderModule->m_LightPSConstant.Lights[0].LightColor.x, 0.f, 1.f);
-			ImGui::SliderFloat3("Directional Light Light Dir ", &m_ParentRenderModule->m_LightPSConstant.Lights[0].LightDir.x, -1.f, 1.f);
+			ImGui::SliderFloat("Directional Light LightIntensity ", &m_ParentRenderModule->m_Lights[0].ConstantData.LightIntensity, 0.f, 10.f);
+			ImGui::SliderFloat3("Point Light Light Color ", &m_ParentRenderModule->m_Lights[0].ConstantData.LightColor.x, 0.f, 1.f);
+			ImGui::SliderFloat3("Directional Light Light Dir ", &m_ParentRenderModule->m_Lights[0].ConstantData.LightDir.x, -1.f, 1.f);
 
 			ImGui::TreePop();
 		}
 
 		if (ImGui::TreeNode("Point Light")) {
-			ImGui::SliderFloat3("Point Light Light Pos ", &m_ParentRenderModule->m_LightPSConstant.Lights[1].LightPos.x, -10.f, 10.f);
-			ImGui::SliderFloat3("Point Light Light Color ", &m_ParentRenderModule->m_LightPSConstant.Lights[1].LightColor.x, 0.f, 1.f);
-			ImGui::SliderFloat("Point Light LightIntensity ", &m_ParentRenderModule->m_LightPSConstant.Lights[1].LightIntensity, 0.f, 10.f);
-			ImGui::SliderFloat("Point Light Falloff Start ", &m_ParentRenderModule->m_LightPSConstant.Lights[1].FalloffStart, 0.f, 5.f);
-			ImGui::SliderFloat("Point Light Falloff End ", &m_ParentRenderModule->m_LightPSConstant.Lights[1].FalloffEnd, 0.f, 20.f);
-			ImGui::SliderFloat("Point Light Spot Factor ", &m_ParentRenderModule->m_LightPSConstant.Lights[1].SpotFactor, 0.f, 5.f);
+			ImGui::SliderFloat3("Point Light Light Pos ", &m_ParentRenderModule->m_Lights[1].ConstantData.LightPos.x, -10.f, 10.f);
+			ImGui::SliderFloat3("Point Light Light Color ", &m_ParentRenderModule->m_Lights[1].ConstantData.LightColor.x, 0.f, 1.f);
+			ImGui::SliderFloat("Point Light LightIntensity ", &m_ParentRenderModule->m_Lights[1].ConstantData.LightIntensity, 0.f, 10.f);
+			ImGui::SliderFloat("Point Light Falloff Start ", &m_ParentRenderModule->m_Lights[1].ConstantData.FalloffStart, 0.f, 5.f);
+			ImGui::SliderFloat("Point Light Falloff End ", &m_ParentRenderModule->m_Lights[1].ConstantData.FalloffEnd, 0.f, 20.f);
+			ImGui::SliderFloat("Point Light Spot Factor ", &m_ParentRenderModule->m_Lights[1].ConstantData.SpotFactor, 0.f, 5.f);
 
 			ImGui::TreePop();
 		}
 
 		if (ImGui::TreeNode("Spot Light")) {
-			ImGui::SliderFloat("Spot Light LightIntensity ", &m_ParentRenderModule->m_LightPSConstant.Lights[2].LightIntensity, 0.f, 10.f);
-			ImGui::SliderFloat3("Spot Light Light Pos ", &m_ParentRenderModule->m_LightPSConstant.Lights[2].LightPos.x, -10.f, 10.f);
-			ImGui::SliderFloat3("Point Light Light Color ", &m_ParentRenderModule->m_LightPSConstant.Lights[2].LightColor.x, 0.f, 1.f);
-			ImGui::SliderFloat3("Spot Light Light Dir ", &m_ParentRenderModule->m_LightPSConstant.Lights[2].LightDir.x, -1.f, 1.f);
-			ImGui::SliderFloat("Spot Light Falloff Start ", &m_ParentRenderModule->m_LightPSConstant.Lights[2].FalloffStart, 0.f, 5.f);
-			ImGui::SliderFloat("Spot Light Falloff End ", &m_ParentRenderModule->m_LightPSConstant.Lights[2].FalloffEnd, 0.f, 20.f);
-			ImGui::SliderFloat("Spot Light Spot Factor ", &m_ParentRenderModule->m_LightPSConstant.Lights[2].SpotFactor, 0.f, 5.f);
+			ImGui::SliderFloat("Spot Light LightIntensity ", &m_ParentRenderModule->m_Lights[2].ConstantData.LightIntensity, 0.f, 10.f);
+			ImGui::SliderFloat3("Spot Light Light Pos ", &m_ParentRenderModule->m_Lights[2].ConstantData.LightPos.x, -10.f, 10.f);
+			ImGui::SliderFloat3("Point Light Light Color ", &m_ParentRenderModule->m_Lights[2].ConstantData.LightColor.x, 0.f, 1.f);
+			ImGui::SliderFloat3("Spot Light Light Dir ", &m_ParentRenderModule->m_Lights[2].ConstantData.LightDir.x, -1.f, 1.f);
+			ImGui::SliderFloat("Spot Light Falloff Start ", &m_ParentRenderModule->m_Lights[2].ConstantData.FalloffStart, 0.f, 5.f);
+			ImGui::SliderFloat("Spot Light Falloff End ", &m_ParentRenderModule->m_Lights[2].ConstantData.FalloffEnd, 0.f, 20.f);
+			ImGui::SliderFloat("Spot Light Spot Factor ", &m_ParentRenderModule->m_Lights[2].ConstantData.SpotFactor, 0.f, 5.f);
 
 			ImGui::TreePop();
 		}

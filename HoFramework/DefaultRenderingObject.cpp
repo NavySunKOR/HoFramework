@@ -10,7 +10,7 @@ void HDefaultRenderingObject::Initialize()
 
 void HDefaultRenderingObject::Update()
 {
-	UpdateInternal();
+
 }
 
 void HDefaultRenderingObject::Render(HCamera InCamera)
