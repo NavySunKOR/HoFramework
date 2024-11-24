@@ -19,9 +19,6 @@ struct LightPSConstantData
 	Vector3 LightColor = Vector3(1.f, 1.f, 1.f);
 	float Dummy3;
 
-	Matrix LightViewProjectionMat;
-
-
 };
 
 
@@ -29,7 +26,7 @@ struct LightPSConstantData
 struct Light
 {
 	LightPSConstantData ConstantData;
-
+	HCamera LightView;
 };
 
 

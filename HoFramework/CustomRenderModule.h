@@ -29,7 +29,7 @@ protected:
 
 
 private:
-
+	void RenderShadowDepths();
 	void RenderFinalColor();
 
 	void UpdateInput();

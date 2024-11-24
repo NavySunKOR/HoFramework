@@ -16,6 +16,8 @@ using std::shared_ptr;
 using std::vector;
 using std::wstring;
 
+#define LIGHT_COUNTS 3
+
 class HBaseRenderModule
 {
 #pragma region Init
@@ -47,6 +49,7 @@ protected:
 	virtual void Update();
 	virtual void Render();
 
+	void GenerateShadowMaps();
 	void SetPSO(const class HGraphicsPSO& InPSO);
 	void SetViewport(D3D11_VIEWPORT* InViewport);
 
@@ -116,7 +119,7 @@ public:
 	}
 
 
-	Light m_Lights[3];
+	Light m_Lights[LIGHT_COUNTS];
 
 protected:
 	Application* m_AppContext = nullptr;
@@ -138,6 +141,10 @@ protected:
 	std::shared_ptr<class HSkyBoxRenderingObject> SkyBoxObject;
 	vector<std::shared_ptr<class HBaseRenderingObject>> RenderingObjects;
 	vector< std::shared_ptr<class HImageFilter>> ImageFilters;
+
+	//ShadowMaps
+	ComPtr<ID3D11Texture2D> shadowMapTextures[LIGHT_COUNTS];
+	ComPtr<ID3D11ShaderResourceView> shadowMapRVs[LIGHT_COUNTS];
 
 	//Light
 	ComPtr<ID3D11Buffer> m_LightPSConstantBuffer;

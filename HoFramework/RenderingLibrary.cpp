@@ -856,6 +856,16 @@ Matrix HRenderingLibrary::GLMatrixToDXMatrix(aiMatrix4x4 InMatrix)
 	return Return;
 }
 
+Vector3 HRenderingLibrary::DirToPitchYawRoll(Vector3 InDir)
+{
+	Vector3 result;
+	result.x = XMConvertToDegrees(atan2(InDir.y,InDir.x)) ; // pitch
+	result.y = XMConvertToDegrees(atan2(InDir.z, sqrt(InDir.x * InDir.x + InDir.y * InDir.y))); // yaw
+	result.z = 0.f; //roll
+
+	return result;
+}
+
 void HRenderingLibrary::ProjectVertexToSphereSurface(Vertex& InVertex, const float InRadius)
 {
 	InVertex.normal = InVertex.position;

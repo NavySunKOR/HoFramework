@@ -17,8 +17,7 @@ struct Light
     
     float3 LightColor;
     float Dummy3;
-    
-    matrix LightViewProjectionMat;
+   
 };
 
 

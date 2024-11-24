@@ -61,6 +61,7 @@ namespace Graphics
     namespace Defines
     {
         extern D3D11_VIEWPORT screenViewport;
+        extern D3D11_VIEWPORT shadowViewport;
 
         void InitDefines(Application* InAppContext);
     }

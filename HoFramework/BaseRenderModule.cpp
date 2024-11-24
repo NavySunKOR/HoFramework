@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "imgui.h"
 #include "GraphicsCommon.h"
+#include "RenderingLibrary.h"
 
 using namespace std;
 using namespace DirectX;
@@ -34,6 +35,9 @@ bool HBaseRenderModule::Initialize(Application* pAppContext)
     if (!InitDepthBuffer())
         return false;
 
+
+    GenerateShadowMaps();
+
     m_IsInitialized = true;
 
     return true;
@@ -53,13 +57,20 @@ void HBaseRenderModule::UpdateLightConstantData()
         if (abs(up.Dot(m_Lights[i].ConstantData.LightDir) + 1.0f) < 1e-5)
             up = Vector3(1.0f, 0.0f, 0.0f);
 
-        Matrix ViewMat = XMMatrixLookAtLH(
-            m_Lights[i].ConstantData.LightPos, m_Lights[i].ConstantData.LightPos + m_Lights[i].ConstantData.LightDir, up);
 
-        Matrix ProjMat = XMMatrixPerspectiveFovLH(
-            XMConvertToRadians(120.0f), 1.0f, 0.01f, 100.0f);
+        HCamera cam;
+        cam.Translate(m_Lights[i].ConstantData.LightPos);
 
-        m_Lights[i].ConstantData.LightViewProjectionMat = (ViewMat * ProjMat).Transpose();
+        
+        cam.Rotate(HRenderingLibrary::DirToPitchYawRoll(m_Lights[i].ConstantData.LightDir));
+
+        cam.SetFOVDeg(120.0f);
+
+     /*   Matrix ViewMat = XMMatrixLookAtLH(
+            m_Lights[i].ConstantData.LightPos, m_Lights[i].ConstantData.LightPos + m_Lights[i].ConstantData.LightDir, up);*/
+
+        cam.SetFOVDeg(120.0f);
+        m_Lights[i].LightView = cam;
 
         m_LightPSConstant.Lights[i] = m_Lights[i].ConstantData;
     }
@@ -68,6 +79,10 @@ void HBaseRenderModule::UpdateLightConstantData()
 
 void HBaseRenderModule::Render() {
 
+}
+void HBaseRenderModule::GenerateShadowMaps()
+{
+    //TODO: 라이트에 맞는 뷰 텍스쳐 생성 (3개)
 }
 void HBaseRenderModule::SetPSO(const HGraphicsPSO& InPSO)
 {

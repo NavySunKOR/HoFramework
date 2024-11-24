@@ -81,12 +81,6 @@ void HCustomRenderModule::InitImageFilters()
 	AfterOM->SetShaderResources({ m_renderTargetResourceView });
 	ImageFilters.push_back(AfterOM);
 
-
-	//블러 비활성화
-	//InitBlurFilter();
-
-
-
 	//필터 처리 된 화면을 다시 렌더 타겟 뷰 에 적용
 	ComPtr<ID3D11ShaderResourceView> Prev = ImageFilters.back()->m_shaderResourceView;
 	shared_ptr<HImageFilter> FinalRendering = make_shared<HImageFilter>();	
@@ -94,15 +88,6 @@ void HCustomRenderModule::InitImageFilters()
 	FinalRendering->SetShaderResources({ Prev });
 	FinalRendering->SetRenderTargets({ m_renderTargetView });
 	ImageFilters.push_back(FinalRendering);
-
-
-	//ShaderToy 비활성화
-	//shared_ptr<HSeaImageFilter> FinalRendering = make_shared<HSeaImageFilter>();
-	//FinalRendering->Initialize(this, L"./Shaders/ImageFilters/Base/ImageVertexShader.hlsl", L"./Shaders/ImageFilters/ShaderToy/SeaPixelShader.hlsl", m_AppContext->GetScreenWidth(), m_AppContext->GetScreenHeight());
-	//FinalRendering->SetShaderResources({ m_renderTargetResourceView });
-	//FinalRendering->SetRenderTargets({ m_renderTargetView });
-	//ImageFilters.push_back(FinalRendering);
-
 
 }
 
@@ -152,6 +137,22 @@ void HCustomRenderModule::Update()
 }
 
 
+void HCustomRenderModule::RenderShadowDepths()
+{
+	for (int i = 0; i < LIGHT_COUNTS; ++i)
+	{
+
+		
+		SetViewport(&Graphics::Defines::shadowViewport);
+
+		//SetPSO(Graphics::States::shadowDepth);
+
+		for (size_t i = 0; i < RenderingObjects.size(); ++i)
+		{
+			RenderingObjects[i]->Render(m_Lights[i].LightView);
+		}
+	}
+}
 
 void HCustomRenderModule::RenderFinalColor()
 {

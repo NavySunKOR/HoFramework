@@ -76,7 +76,7 @@ public:
 	static bool CreateTexture(ComPtr<ID3D11Device> pDevice, ComPtr<ID3D11DeviceContext> pDeviceContext, string pTextureFileLocation, ComPtr<ID3D11Texture2D>& OutTexture, ComPtr<ID3D11ShaderResourceView>& OutResourceView,DXGI_FORMAT Format = DXGI_FORMAT_R8G8B8A8_UNORM);
 
 	static Matrix GLMatrixToDXMatrix(aiMatrix4x4 InMatrix);
-
+	static Vector3 DirToPitchYawRoll(Vector3 InDir);
 private:
 	static void ProjectVertexToSphereSurface(Vertex& InVertex,const float InRadius);
 	static void ProcessAINode(vector<Mesh>& OutMesh, aiNode* InNode, const aiScene* InScene,Matrix InMatrix,string InDir);

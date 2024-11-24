@@ -20,12 +20,12 @@ Matrix HCamera::GetProjectionMatrix()
 	{
 
 		const float usingFOVAngle = m_FOVInDeg * (XM_PI / 180.f);
-		Result = XMMatrixPerspectiveFovLH(usingFOVAngle, m_ParentApp->GetAspectRatio(), 0.01f, 100.0f);
+		Result = XMMatrixPerspectiveFovLH(usingFOVAngle, (m_ParentApp)?m_ParentApp->GetAspectRatio() : 1.f, 0.01f, 100.0f);
 
 	}
 	else
 	{
-		Result = XMMatrixOrthographicLH(m_ParentApp->GetAspectRatio(), 0.f, 0.01f, 100.0f);
+		Result = XMMatrixOrthographicLH((m_ParentApp)?m_ParentApp->GetAspectRatio():1.f, 0.f, 0.01f, 100.0f);
 	}
 
 	return Result.Transpose();

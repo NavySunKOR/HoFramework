@@ -17,7 +17,7 @@ public:
 		GlobalCameraRotation = InRotateEuler;
 
 		ForwardVector = Vector3::Transform(Vector3(0,0,1), Matrix::CreateRotationY(GlobalCameraRotation.y));
-		//UpVector = Vector3::Transform(Vector3(0, 1, 0), Matrix::CreateRotationX(GlobalCameraRotation.x));
+		UpVector = Vector3::Transform(ForwardVector, Matrix::CreateRotationX(GlobalCameraRotation.x));
 		RightVector = UpVector.Cross(ForwardVector);
 	}
 	inline void Translate(Vector3 InTranslate)
@@ -33,15 +33,25 @@ public:
 	Vector3 GetForward() { return ForwardVector; };
 	Vector3 GetRight() { return RightVector; };
 	Vector3 GetUp() { return UpVector; };
+
+	void SetClipPlane(const float& InNear, const float& InFar) { 
+		m_nearClip = InNear;
+		m_farClip = InFar;
+	};
+
+	inline void SetPerspective(const bool& InIsPerspective) { m_IsPersepective = InIsPerspective; };
+	inline void SetFOVDeg(const float& InFOVInDeg) { m_FOVInDeg = InFOVInDeg; };
 	
 
 protected:
 	bool m_IsPersepective = true;
 	float m_FOVInDeg = 70.f;
+	float m_nearClip = 0.01f;
+	float m_farClip = 100.f;
 
 	class Application* m_ParentApp = nullptr;
 
-	Vector3 GlobalCameraPosition = Vector3(0.f, 0.f, 2.f);
+	Vector3 GlobalCameraPosition = Vector3(0.f, 0.f, 0.f);
 	Vector3 GlobalCameraRotation = Vector3(0.f, 0.f, 0.f);
 
 	//TODO: 회전 시 방향 벡터 또한 전환 되게끔 변경 필요
