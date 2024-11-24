@@ -39,7 +39,6 @@ float4 main(PSInput input) : SV_TARGET
     }
     else 
     { 
-        float3 AmbientColor = textureColor.rgb * Mat.ambientStrength;
         float4 LightColor = float4(0, 0, 0, 1);
         
         LightColor += float4(Lighting::ComputeDirectionalLightPhongModel(Lights[0], toViewDirection, input.Normal, Mat), 1.f);

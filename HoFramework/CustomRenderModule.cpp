@@ -82,6 +82,7 @@ void HCustomRenderModule::InitImageFilters()
 	ImageFilters.push_back(AfterOM);
 
 
+	//블러 비활성화
 	//InitBlurFilter();
 
 
@@ -95,6 +96,7 @@ void HCustomRenderModule::InitImageFilters()
 	ImageFilters.push_back(FinalRendering);
 
 
+	//ShaderToy 비활성화
 	//shared_ptr<HSeaImageFilter> FinalRendering = make_shared<HSeaImageFilter>();
 	//FinalRendering->Initialize(this, L"./Shaders/ImageFilters/Base/ImageVertexShader.hlsl", L"./Shaders/ImageFilters/ShaderToy/SeaPixelShader.hlsl", m_AppContext->GetScreenWidth(), m_AppContext->GetScreenHeight());
 	//FinalRendering->SetShaderResources({ m_renderTargetResourceView });
