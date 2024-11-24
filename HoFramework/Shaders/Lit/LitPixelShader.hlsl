@@ -25,17 +25,38 @@ float4 main(PSInput input) : SV_TARGET
     {
         float roughness = (Mat.useRoughnessMap) ? g_textureRoughness.Sample(g_sampler, input.TexCoord).r : Mat.roughness;
         float metalic = (Mat.useMetallicMap) ? g_textureMetallic.Sample(g_sampler, input.TexCoord).r : Mat.metalic;
-        
-        
-        
         float3 ambientColor = (Mat.useIBL)? IBLUsingBRDF(textureColor, input.Normal, toViewDirection, metalic, roughness) : Mat.ambientStrength * textureColor;
         
+        FinalColor.rgb = ambientColor;
         
-        float3 lightVec = Lights[1].LightPos - input.WorldPosition;
-        float3 radiance = GetFallOffAttenutation(length(lightVec), Lights[1].FalloffStart, Lights[1].FalloffEnd) * Lights[1].LightColor * Lights[1].LightIntensity;
-        //float3 radiance = 1.f / (length(lightVec) * length(lightVec)) *Lights[1].LightColor;
-        FinalColor.rgb = ambientColor + Shading::PBR::PBR(normalize(lightVec), toViewDirection, input.Normal, textureColor.rgb, metalic, roughness, radiance);
-        //FinalColor = clamp(FinalColor, 0, 1000.f);
+        //Directional Light
+        //Half way vector 계산 때문에 역수를 취함.
+        float3 lightVec = -Lights[0].LightDir;
+        float3 radiance = Lights[0].LightColor * Lights[0].LightIntensity;
+        FinalColor.rgb += Shading::PBR::PBR(normalize(lightVec), toViewDirection, input.Normal, textureColor.rgb, metalic, roughness, radiance);
+        
+        
+        
+        int i = 1;
+        [unroll]
+        for (i = 1; i < 1 + NUM_POINT_LIGHT; ++i)
+        {
+            //Half way vector 계산 때문에 역수를 취함.
+            float3 lightVec = -(input.WorldPosition - Lights[i].LightPos);
+            float3 radiance = GetFallOffAttenutation(length(lightVec), Lights[i].FalloffStart, Lights[i].FalloffEnd) * Lights[i].LightColor * Lights[i].LightIntensity;
+            FinalColor.rgb += Shading::PBR::PBR(normalize(lightVec), toViewDirection, input.Normal, textureColor.rgb, metalic, roughness, radiance);
+        }
+        
+        [unroll]
+        for (i = 1 + NUM_POINT_LIGHT; i < 1 + NUM_POINT_LIGHT + NUM_SPOTLIGHT; ++i)
+        {
+            //Half way vector 계산 때문에 역수를 취함.
+            float3 lightVec = -(input.WorldPosition - Lights[i].LightPos);
+            float spotFactor = pow(max(dot(-lightVec, Lights[i].LightDir), 0.f), Lights[i].SpotFactor);
+            float3 radiance = GetFallOffAttenutation(length(lightVec), Lights[i].FalloffStart, Lights[i].FalloffEnd) * spotFactor * Lights[i].LightColor * Lights[i].LightIntensity;
+            FinalColor.rgb += Shading::PBR::PBR(normalize(lightVec), toViewDirection, input.Normal, textureColor.rgb, metalic, roughness, radiance);
+        }
+        
     }
     else 
     { 
